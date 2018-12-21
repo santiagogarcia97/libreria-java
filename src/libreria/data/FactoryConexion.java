@@ -28,6 +28,7 @@ public class FactoryConexion {
 		return FactoryConexion.instancia;		
 	}
 	
+	
 	private Connection conn;
 	private int cantConn=0;
 	public Connection getConn() throws Exception{
