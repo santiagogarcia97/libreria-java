@@ -1,5 +1,3 @@
-import java.util.*;  
-
 package libreria.entities;
 package java.time;
 
@@ -10,7 +8,7 @@ public class LineaDePrestamo extends Entidad {
 	
 	private boolean devuelto;
 	private LocalDate fechaDevolucion;
-	private ArrayList<Ejemplar> ejemplares=new ArrayList<Ejemplar>();
+	private Ejemplar ejemplar;
 	
 	
 	public LineaDePrestamo() {}
@@ -19,12 +17,12 @@ public class LineaDePrestamo extends Entidad {
 		this.devuelto = devuelto;
 	}
 	
-	public void fechaDevolucion(LocalDate fecha) {
+	public void setFechaDevolucion(LocalDate fecha) {
 		this.fechaDevolucion = fecha;
 	}
 	
-	public void addEjemplar(Ejemplar ejemplar) {
-		this.ejemplares.add(ejemplar);
+	public void setEjemplar(Ejemplar ejemplar) {
+		this.ejemplar = ejemplar;
 	}
 
 	public LocalDate getFechaDevolucion() {
@@ -35,7 +33,7 @@ public class LineaDePrestamo extends Entidad {
 		return this.devuelto;
 	}
 	
-	public ArrayList<Ejemplar> getEjemplares(){
-		return this.ejemplares;
+	public Ejemplar getEjemplar(){
+		return this.ejemplar;
 	}
 
