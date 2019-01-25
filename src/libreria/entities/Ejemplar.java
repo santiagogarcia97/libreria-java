@@ -15,4 +15,5 @@ public class Ejemplar extends Entidad {
 	public Libro getLibro() {
 		return this.libro;
 	}
+}
 

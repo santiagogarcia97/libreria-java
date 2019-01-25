@@ -1,5 +1,6 @@
 package libreria.entities;
-package java.time;
+
+import java.time.*;
 
 
 public class Sancion extends Entidad {
@@ -28,6 +29,6 @@ public class Sancion extends Entidad {
 	public int getDiasSancion() {
 		return this.diasSancion;
 	}
-	
+}
 
 

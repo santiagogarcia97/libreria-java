@@ -1,5 +1,5 @@
 package libreria.entities;
-package java.time;
+import java.time.LocalDate;;
 
 
 public class LineaDePrestamo extends Entidad {
@@ -36,4 +36,4 @@ public class LineaDePrestamo extends Entidad {
 	public Ejemplar getEjemplar(){
 		return this.ejemplar;
 	}
-
+}

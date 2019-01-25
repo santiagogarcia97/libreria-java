@@ -1,17 +1,20 @@
-import java.util.ArrayList
 package libreria.entities;
-package java.time;
+
+import java.util.ArrayList;
 
 public class Socio extends Entidad {
 	
 	private static final long serialVersionUID = 1L;
 	
+	
 	private String nombre; 
 	private String apellido;
 	private String email;
 	private String estado;
-	ArrayList<Prestamo> prestamos = new ArrayList<Prestamo>();
-	ArrayList<Sancion> sanciones = new ArrayList<Sancion>();
+	private String username;
+	private String password;
+	private ArrayList<Prestamo> prestamos = new ArrayList<Prestamo>();
+	private ArrayList<Sancion> sanciones = new ArrayList<Sancion>();
 	
 	public Socio() {}
 	
@@ -29,6 +32,14 @@ public class Socio extends Entidad {
 	
 	public void setEstado(String estado) {
 		this.estado = estado;
+	}
+	
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	
 	public void addPrestamo(Prestamo prestamo) {
@@ -56,6 +67,14 @@ public class Socio extends Entidad {
 		return this.estado;
 	}
 	
+	public String getUsername() {
+		return this.username;
+	}
+	
+	public String getPassword() {
+		return this.password;
+	}
+	
 	public ArrayList<Prestamo> getPrestamos() {
 		return this.prestamos;
 	}
@@ -63,3 +82,4 @@ public class Socio extends Entidad {
 	public ArrayList<Sancion> getSanciones() {
 		return this.sanciones;
 	}
+}

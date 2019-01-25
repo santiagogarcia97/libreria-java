@@ -1,6 +1,7 @@
-import java.util.ArrayList
 package libreria.entities;
-package java.time;
+
+import java.time.*;
+import java.util.ArrayList;
 
 public class Prestamo extends Entidad {
 	
@@ -45,4 +46,4 @@ public class Prestamo extends Entidad {
 	public ArrayList<LineaDePrestamo> getLineasDePrestamo() {
 		return this.lineas;
 	}
-
+}

@@ -8,7 +8,9 @@ import libreria.utils.Configuracion;
 public class FactoryConexion {
 	
 	private static FactoryConexion instancia;
-		
+	private Connection conn;
+	private int cantConn=0;
+	
 	private FactoryConexion(){
 		try {
 			
@@ -28,9 +30,6 @@ public class FactoryConexion {
 		return FactoryConexion.instancia;		
 	}
 	
-	
-	private Connection conn;
-	private int cantConn=0;
 	public Connection getConn() throws Exception{
 		
 		try {

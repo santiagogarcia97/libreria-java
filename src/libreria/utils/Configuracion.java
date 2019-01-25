@@ -1,6 +1,5 @@
 package libreria.utils;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
@@ -21,7 +20,7 @@ public class Configuracion {
 		Properties prop = new Properties();
 		
         try {
-        	prop.load(new FileInputStream("WEB-INF/config/configuracion.cfg"));
+        	prop.load(getClass().getResourceAsStream("config.cfg"));
 			
 			dbHost = prop.getProperty("HOST").toString();
 			dbPort = prop.getProperty("PORT").toString();
