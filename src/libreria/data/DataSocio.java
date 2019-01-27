@@ -13,7 +13,7 @@ public class DataSocio {
 		ArrayList<Socio> socios= new ArrayList<Socio>();
 		try {
 			stmt = FactoryConexion.getInstancia().getConn().createStatement();
-			rs = stmt.executeQuery("select * from socio");
+			rs = stmt.executeQuery("select * from socios");
 			
 			if(rs!=null){
 				while(rs.next()){

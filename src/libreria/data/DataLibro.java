@@ -13,11 +13,12 @@ public class DataLibro {
 			ArrayList<Libro> libros= new ArrayList<Libro>();
 			try {
 				stmt = FactoryConexion.getInstancia().getConn().createStatement();
-				rs = stmt.executeQuery("select * from libro");
+				rs = stmt.executeQuery("select * from libros");
 				
 				if(rs!=null){
 					while(rs.next()){
 						Libro l=new Libro();
+						l.setId(rs.getInt("id_libro"));
 						l.setTitulo(rs.getString("titulo"));
 						l.setAutor(rs.getString("autor"));
 						l.setDesc(rs.getString("descripcion"));

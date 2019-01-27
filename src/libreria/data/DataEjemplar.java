@@ -15,7 +15,7 @@ public class DataEjemplar {
 			ArrayList<Ejemplar> ejemplares= new ArrayList<Ejemplar>();
 			try {
 				stmt = FactoryConexion.getInstancia().getConn().createStatement();
-				rs = stmt.executeQuery("select * from ejemplar");
+				rs = stmt.executeQuery("select * from ejemplares");
 				
 				if(rs!=null){
 					while(rs.next()){
@@ -24,7 +24,8 @@ public class DataEjemplar {
 						int id = rs.getInt("id_libro");
 						DataLibro dl = DataLibro();
 						Libro l = dl.getOne(id);
-
+						
+						e.setId(rs.getInt("id_ejemplar"));
 						e.setLibro(l);
 					
 						ejemplares.add(e);
@@ -49,5 +50,21 @@ public class DataEjemplar {
 			return libros;
 			
 		}
+	
+	public Ejemplar getOne(int id) throws Exception{
+		Ejemplar e = new Ejemplar();
+		Statement stmt=null;
+		ResultSet rs=null;
+		stmt = con.prepareStatement("SELECT * from ejemplar WHERE  id_ejemplar = ?");
+		stmt.setString(1, id);
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()) {
+			int idl = rs.getInt("id_libro");
+			DataLibro dl = DataLibro();
+			Libro l = dl.getOne(idl);
+			e.setLibro(l);
+		}
+		return e;
+	}
 	
 }
