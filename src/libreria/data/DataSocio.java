@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import libreria.entities.Socio;
 
 public class DataSocio {
+	
+	//TODO: agregar array de sanciones
+
 	public ArrayList<Socio> getAll() throws Exception{
 		
 		Statement stmt=null;

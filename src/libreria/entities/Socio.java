@@ -18,6 +18,8 @@ public class Socio extends Entidad {
 	
 	public Socio() {}
 	
+	//TODO: agregar array de sanciones
+	
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
