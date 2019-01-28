@@ -10,6 +10,9 @@ public class Socio extends Entidad {
 	private String nombre; 
 	private String apellido;
 	private String email;
+	private String domicilio;
+	private String telefono;
+	private String dni;
 	private String estado;
 	private String username;
 	private String password;
@@ -17,8 +20,6 @@ public class Socio extends Entidad {
 	private ArrayList<Sancion> sanciones = new ArrayList<Sancion>();
 	
 	public Socio() {}
-	
-	//TODO: agregar array de sanciones
 	
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
@@ -30,6 +31,15 @@ public class Socio extends Entidad {
 	
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	public void setDomicilio(String domicilio) {
+		this.domicilio = domicilio;
+	}
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
+	}
+	public void setDni(String dni) {
+		this.dni = dni;
 	}
 	
 	public void setEstado(String estado) {
@@ -64,7 +74,15 @@ public class Socio extends Entidad {
 	public String getEmail() {
 		return this.email;
 	}
-	
+	public String getDomicilio() {
+		return domicilio;
+	}
+	public String getTelefono() {
+		return telefono;
+	}
+	public String getDni() {
+		return dni;
+	}
 	public String getEstado() {
 		return this.estado;
 	}
@@ -84,4 +102,5 @@ public class Socio extends Entidad {
 	public ArrayList<Sancion> getSanciones() {
 		return this.sanciones;
 	}
+
 }

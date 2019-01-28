@@ -41,7 +41,9 @@ public class FactoryConexion {
 				String password = Configuracion.getInstancia().getDbPassword();
 				String db = Configuracion.getInstancia().getDbName();
 				
-				conn = DriverManager.getConnection(host+":"+port+"/"+db+"?user="+user+"&password="+password);
+				String connString = "jdbc:mysql://"+host+":"+port+"/"+db+"?user="+user+"&password="+password;
+				
+				conn = DriverManager.getConnection(connString);
 			}
 		} catch (Exception e) {
 			throw new Exception("Error al conectar a la base de datos");
