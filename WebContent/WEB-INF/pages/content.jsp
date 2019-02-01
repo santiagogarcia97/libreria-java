@@ -1,3 +1,4 @@
+<div class="container text-justify">
 Lorem ipsum dolor sit amet, in qui populo accusata, aeque qualisque scripserit te mei. An timeam recteque usu. Homero sadipscing reprehendunt ea usu, etiam latine nam eu. Solet accommodare mei et.
 
 Aliquip viderer nominavi sit te. Exerci antiopam ut eum, cum ut duis eius essent. Qui animal vivendum ne. Ea eum facer definitionem signiferumque, qui id volutpat urbanitas voluptaria. Ut harum iisque labores quo.
@@ -13,3 +14,4 @@ Ea his mucius legimus. No antiopam torquatos ius. Ne pri tota laboramus efficien
 No eum hendrerit interpretaris. His cu tractatos scripserit. No agam novum tractatos vim, ius at nostrud omittam, sed at perfecto singulis platonem. Mei sonet albucius convenire no.
 
 Feugait suscipit urbanitas mea an, vis nostrud alienum indoctum ad, vim id legere signiferumque. Debet omnesque necessitatibus cu vel. Sed habeo ignota ea, elit utinam offendit ad eum. Et solet repudiare argumentum quo, in sea efficiendi scriptorem. Mei utinam molestie pertinacia ea, no quo oblique rationibus consequuntur.
+</div>

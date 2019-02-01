@@ -28,7 +28,25 @@ public class ServletUserAuth extends HttpServlet {
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.sendRedirect(request.getContextPath() + "/index.jsp");
+		try {
+			switch (request.getPathInfo()) {
+			case "/signup":
+				request.getRequestDispatcher( "/WEB-INF/pages/signup.jsp" ).forward( request, response );
+				break;				
+			case "/login":
+				request.getRequestDispatcher( "/WEB-INF/pages/login.jsp" ).forward( request, response );
+				break;				
+			case "/logout":
+				this.logOut(request,response);
+				break;	
+			default:
+				this.error(request,response);
+				break;
+			}
+		} catch (CustomException e) {
+		request.getSession().setAttribute("errorMsg", e.getMessage());
+		request.getRequestDispatcher( "/WEB-INF/pages/error.jsp" ).forward( request, response );
+		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, CustomException, ServletException {	
@@ -38,8 +56,8 @@ public class ServletUserAuth extends HttpServlet {
 				this.signUp(request,response);
 				break;
 				
-			case "/signin":
-				this.signIn(request,response);
+			case "/login":
+				this.logIn(request,response);
 				break;
 				
 			case "/logout":
@@ -72,16 +90,17 @@ public class ServletUserAuth extends HttpServlet {
 
 		if(ctrl.getByUsername(s) == null) { //El username está disponible
 			ctrl.add(s);		
-			request.getSession().setAttribute("loggedUser", s);
+			request.getSession().setAttribute("loggedType", "socio");
+			request.getSession().setAttribute("loggedUsername", s.getUsername());
 			response.sendRedirect(request.getContextPath() + "/index.jsp");
 		}
 		else {
 			request.getSession().setAttribute("errorMsg", "El nombre de usuario no se encuentra disponible");
-			response.sendRedirect(request.getContextPath() + "/signup.jsp");
+			response.sendRedirect("signup");
 		}
 	}
 	
-	private void signIn(HttpServletRequest request, HttpServletResponse response) throws CustomException, IOException {		
+	private void logIn(HttpServletRequest request, HttpServletResponse response) throws CustomException, IOException {		
 		Socio loginSocio = new Socio();
 		loginSocio.setUsername(request.getParameter("inputUsername"));
 		loginSocio.setPassword(request.getParameter("inputPassword"));
@@ -90,10 +109,12 @@ public class ServletUserAuth extends HttpServlet {
 
 			if(ctrl.validateLogin(loginSocio).getId() == -1) {
 				request.getSession().setAttribute("errorMsg", "El usuario no existe o la contraseña es incorrecta");
-				response.sendRedirect(request.getContextPath() + "/signin.jsp");
+				response.sendRedirect("login");
 			}
 			else {
-				request.getSession().setAttribute("loggedUser", loginSocio);
+				loginSocio = ctrl.getByUsername(loginSocio);
+				request.getSession().setAttribute("loggedType", loginSocio.getTipoUsuario());
+				request.getSession().setAttribute("loggedUsername", loginSocio.getUsername());
 				response.sendRedirect(request.getContextPath() + "/index.jsp");
 			}
 

@@ -10,13 +10,13 @@
 
         <title>Librería - Ingresar</title>
 
-        <link href="resources/css/bootstrap/bootstrap.min.css" rel="stylesheet">
-        <link href="resources/css/signup.css" rel="stylesheet">
+        <link href="../resources/css/bootstrap/bootstrap.min.css" rel="stylesheet">
+        <link href="../resources/css/signup.css" rel="stylesheet">
 	</head>
 
     <body>
         <div class="signup-form">
-            <form action="auth/signin" method="post">
+            <form id="mainForm" action="login" method="post">
                 <h2>Ingresar</h2>
                 <p class="hint-text">Ingrese su usuario y contraseña.</p>
                 <div class="form-group">
@@ -26,7 +26,7 @@
                     <input type="password" class="form-control" name="inputPassword" placeholder="Contraseña" required="required">
                 </div>
                 <div>
-                    <button type="submit" class="btn btn-success btn-lg btn-block">Ingresar</button>
+                    <button type="submit" id="btnSubmit" class="btn btn-success btn-lg btn-block">Ingresar</button>
                 </div>
               	
               	<c:if test="${sessionScope.errorMsg != null && sessionScope.errorMsg !='' }">
@@ -38,7 +38,10 @@
             	</c:if>
             	
             </form>
-            <div class="text-center">No tiene una cuenta? <a href="signup.jsp">Registrarse</a></div>
+            <div class="text-center">No tiene una cuenta? <a href="signup">Registrarse</a></div>
         </div>
+        
+        <script src="../resources/js/jquery/jquery-3.3.1.min.js"></script>
+  		<script src="../resources/js/auth.js"></script>        
     </body>
 </html>

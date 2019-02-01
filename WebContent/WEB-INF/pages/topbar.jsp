@@ -11,40 +11,60 @@
 
         <div class="dropdown-menu-style collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
+                
                 <li class="nav-item">
                     <a class="nav-link" href="index.jsp">Inicio</a>
-                </li>                        
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" 
-                        data-toggle="dropdown">Administrar</a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">Socios</a>
-                        <a class="dropdown-item" href="#">Libros</a>
-                    </div>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink2" 
-                        data-toggle="dropdown">Prestamos</a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">asdasd</a>
-                        <a class="dropdown-item" href="#">asdasdads</a>
-                    </div>
-                </li>
+                </li>      
+                
+				<c:choose>		
+					<c:when test="${sessionScope.loggedType eq 'admin'}">
+		                <li class="nav-item dropdown">
+		                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" 
+		                        data-toggle="dropdown">Prestamos</a>
+		                    <div class="dropdown-menu">
+		                        <a class="dropdown-item" href="#">En preparación</a>
+		                        <a class="dropdown-item" href="#">Pendientes de retiro</a>
+		                        <a class="dropdown-item" href="#">Pendientes de devolución</a>
+		                        <a class="dropdown-item" href="#">Buscar</a>
+		                    </div>
+		                </li>
+		                <li class="nav-item">
+		                    <a class="nav-link" href="#">Socios</a>
+		                </li>
+		                <li class="nav-item">
+		                    <a class="nav-link" href="#">Libros</a>
+		                </li>                
+		                <li class="nav-item">
+		                    <a class="nav-link" href="#">Reportes</a>
+		                </li>			   				   		   
+					</c:when>				
+
+					<c:when test="${sessionScope.loggedType eq 'socio'}">
+		                <li class="nav-item dropdown">
+		                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" 
+		                        data-toggle="dropdown">Mis Prestamos</a>
+		                    <div class="dropdown-menu">
+		                        <a class="dropdown-item" href="#">Pendientes de retiro</a>
+		                        <a class="dropdown-item" href="#">Pendientes de devolución</a>
+		                        <a class="dropdown-item" href="#">Historial</a>
+		                    </div>
+		                </li>	   				   		   
+					</c:when>	
+				</c:choose>       
+                
                 <li class="nav-item">
-                    <a class="nav-link" href="#">sadasd</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Reportes</a>
+                    <a class="nav-link" href="#">Acerca de</a>
                 </li>
             </ul>
             
 			<c:choose>		
-				<c:when test="${sessionScope.loggedUser != null}">
+				<c:when test="${sessionScope.loggedType != null}">
 		            <ul class="navbar-nav ">
 		                <li class="nav-item dropdown">
 		                    <a href="#" class="nav-link dropdown-toggle" id="navDropDownLink" 
 		                        data-toggle="dropdown">
-		                       Username</a>
+		                    	<c:out value="${sessionScope.loggedUsername}"></c:out>   
+							</a>
 		                    <div class="dropdown-menu dropdown-menu-right">
 		                        <a class="dropdown-item" href="#">Perfil</a>
 		                        <div class="dropdown-divider"></div>
@@ -57,8 +77,8 @@
 				</c:when>				
 				
 				<c:otherwise>		
-                    <a class="btn btn-outline-primary mr-1" href="signin.jsp">Ingresar</a>
-                    <a class="btn btn-primary" href="signup.jsp">Registrarse</a>
+                    <a class="btn btn-outline-primary mr-1" href="auth/login">Ingresar</a>
+                    <a class="btn btn-primary" href="auth/signup">Registrarse</a>
 				</c:otherwise>
 			</c:choose>            
 

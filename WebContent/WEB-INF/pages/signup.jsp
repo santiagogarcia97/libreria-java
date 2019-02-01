@@ -9,14 +9,14 @@
 
         <title>Librería - Registrarse</title>
 
-        <link href="resources/css/bootstrap/bootstrap.min.css" rel="stylesheet">
-        <link href="resources/css/signup.css" rel="stylesheet">
+        <link href="../resources/css/bootstrap/bootstrap.min.css" rel="stylesheet">
+        <link href="../resources/css/signup.css" rel="stylesheet">
        
 	</head>
 
     <body>
         <div class="signup-form">
-            <form name="registration" action="auth/signup" method="post">
+            <form name="mainForm" action="signup" method="post">
                 <h2>Registrarse</h2>
                 <p class="hint-text">Complete los datos para poder crear su cuenta.</p>
                 <div class="form-group">
@@ -48,7 +48,7 @@
                     <input type="password" class="form-control" id="2" name="confirm_password" placeholder="Confirmar Contraseña" required="required">
                 </div>        
                 <div>
-                    <button type="submit" class="btn btn-success btn-lg btn-block" disabled="disabled">Crear Cuenta</button>
+                    <button type="submit" id="btnSubmit" class="btn btn-success btn-lg btn-block" disabled="disabled">Crear Cuenta</button>
                 </div>
                 
 				<c:if test="${sessionScope.errorMsg != null && sessionScope.errorMsg !='' }">
@@ -60,10 +60,10 @@
             	</c:if>
 
             </form>
-            <div class="text-center">Ya tiene una cuenta? <a href="signin.jsp">Ingresar</a></div>      
+            <div class="text-center">Ya tiene una cuenta? <a href="login">Ingresar</a></div>      
             
-            <script src="resources/js/jquery/jquery-3.3.1.min.js"></script>
-       		<script src="resources/js/signup-validation.js"></script>
+            <script src="../resources/js/jquery/jquery-3.3.1.min.js"></script>
+       		<script src="../resources/js/auth.js"></script>
        </div>
     </body>
 </html>
