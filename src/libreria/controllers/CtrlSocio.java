@@ -15,10 +15,10 @@ public class CtrlSocio {
 		dataSocio = new DataSocio();
 	}
 	
-	public void add(Socio s) throws CustomException{
+	public Socio add(Socio s) throws CustomException{
 		String hashedPass = BCrypt.hashpw(s.getPassword(), BCrypt.gensalt(10));
 		s.setPassword(hashedPass);
-		dataSocio.add(s);
+		return dataSocio.add(s);
 	}
 	
 	public Socio getByUsername(Socio s) throws CustomException{

@@ -74,6 +74,9 @@ public class ServletUserAuth extends HttpServlet {
 		}
 	}
 	
+	//////////////////////
+	// SIGN UP LOGIC
+	//////////////////////
 	private void signUp(HttpServletRequest request, HttpServletResponse response) throws CustomException, IOException {
 		
 		Socio s = new Socio();
@@ -89,9 +92,11 @@ public class ServletUserAuth extends HttpServlet {
 		CtrlSocio ctrl = new CtrlSocio();
 
 		if(ctrl.getByUsername(s) == null) { //El username está disponible
-			ctrl.add(s);		
-			request.getSession().setAttribute("loggedType", "socio");
-			request.getSession().setAttribute("loggedUsername", s.getUsername());
+			
+			Socio newSocio = ctrl.add(s);		
+			request.getSession().setAttribute("loggedType", newSocio.getTipoUsuario());
+			request.getSession().setAttribute("loggedUsername", newSocio.getUsername());
+			
 			response.sendRedirect(request.getContextPath() + "/index.jsp");
 		}
 		else {
@@ -100,6 +105,9 @@ public class ServletUserAuth extends HttpServlet {
 		}
 	}
 	
+	//////////////////////
+	// LOG IN LOGIC
+	//////////////////////
 	private void logIn(HttpServletRequest request, HttpServletResponse response) throws CustomException, IOException {		
 		Socio loginSocio = new Socio();
 		loginSocio.setUsername(request.getParameter("inputUsername"));
@@ -120,11 +128,19 @@ public class ServletUserAuth extends HttpServlet {
 
 	}
 	
+	
+	//////////////////////
+	// LOG OUT LOGIC
+	//////////////////////
 	private void logOut(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		request.getSession().invalidate();
 		response.sendRedirect(request.getContextPath() + "/index.jsp");
 	}
 	
+	
+	//////////////////////
+	// ERROR LOGIC
+	//////////////////////
 	private void error(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		response.setStatus(404);
 	}

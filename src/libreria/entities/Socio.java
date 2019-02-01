@@ -7,7 +7,8 @@ public class Socio extends Entidad {
 	private static final long serialVersionUID = 1L;
 	
 	
-	private String nombre,apellido,email,domicilio,telefono,dni,estado,username,password,tipoUsuario;
+	private String nombre,apellido,email,domicilio,telefono,dni,username,password;
+	private String tipoUsuario = "socio";
 	private ArrayList<Prestamo> prestamos = new ArrayList<Prestamo>();
 	private ArrayList<Sancion> sanciones = new ArrayList<Sancion>();
 	
@@ -32,9 +33,6 @@ public class Socio extends Entidad {
 	}
 	public void setDni(String dni) {
 		this.dni = dni;
-	}	
-	public void setEstado(String estado) {
-		this.estado = estado;
 	}	
 	public void setUsername(String username) {
 		this.username = username;
@@ -71,9 +69,6 @@ public class Socio extends Entidad {
 	}
 	public String getDni() {
 		return dni;
-	}
-	public String getEstado() {
-		return this.estado;
 	}	
 	public String getUsername() {
 		return this.username;
