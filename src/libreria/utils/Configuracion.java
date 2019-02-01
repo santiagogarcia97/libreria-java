@@ -15,7 +15,7 @@ public class Configuracion {
 	private static String dbPass = "";
 	private static String dbDriver = "";
 
-	private Configuracion() throws Exception{
+	private Configuracion() throws CustomException{
 		
 		Properties prop = new Properties();
 		
@@ -30,14 +30,14 @@ public class Configuracion {
 	        dbDriver = prop.getProperty("DRIVER").toString();
 
 	        
-		} catch (FileNotFoundException e1) {
-			throw new Exception("El archivo de configuracion no fue encontrado", e1);
-		} catch (IOException e2) {
-			throw new Exception("Error al cargar el archivo de configuracion o al leer una propiedad", e2);
+		} catch (FileNotFoundException e) {
+			throw new CustomException("El archivo de configuracion no fue encontrado", "Utils.Configuracion", e);
+		} catch (IOException e) {
+			throw new CustomException("Error al cargar el archivo de configuracion o al leer una propiedad", "Utils.Configuracion", e);
 		}
 	}
 	
-	public static Configuracion getInstancia() throws Exception{
+	public static Configuracion getInstancia() throws CustomException{
 		if (instancia == null) {
 			instancia = new Configuracion();
 		}

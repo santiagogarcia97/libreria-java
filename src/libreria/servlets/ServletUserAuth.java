@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import libreria.controllers.CtrlSocio;
 import libreria.entities.Socio;
+import libreria.utils.CustomException;
 
 /**
  * Servlet implementation class ServletUserAuth
@@ -25,38 +26,38 @@ public class ServletUserAuth extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		response.sendRedirect(request.getContextPath() + "/index.jsp");
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
-		switch (request.getPathInfo()) {
-		case "/signup":
-			this.signUp(request,response);
-			break;
-			
-		case "/signin":
-			this.signIn(request,response);
-			break;
-			
-		case "/logout":
-			this.logOut(request,response);
-			break;
-
-		default:
-			this.error(request,response);
-			break;
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, CustomException, ServletException {	
+		try {
+			switch (request.getPathInfo()) {
+			case "/signup":
+				this.signUp(request,response);
+				break;
+				
+			case "/signin":
+				this.signIn(request,response);
+				break;
+				
+			case "/logout":
+				this.logOut(request,response);
+				break;
+		
+			default:
+				this.error(request,response);
+				break;
+			}
+		} catch (CustomException e) {
+		request.getSession().setAttribute("errorMsg", e.getMessage());
+		request.getRequestDispatcher( "/WEB-INF/pages/error.jsp" ).forward( request, response );
 		}
 	}
 	
-	private void signUp(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	private void signUp(HttpServletRequest request, HttpServletResponse response) throws CustomException, IOException {
+		
 		Socio s = new Socio();
 		s.setNombre(request.getParameter("inputNombre"));
 		s.setApellido(request.getParameter("inputApellido"));
@@ -66,41 +67,43 @@ public class ServletUserAuth extends HttpServlet {
 		s.setDni(request.getParameter("inputDni"));
 		s.setUsername(request.getParameter("inputUsername"));
 		s.setPassword(request.getParameter("inputPassword"));
-		
-		
+				
 		CtrlSocio ctrl = new CtrlSocio();
-		try {
-			ctrl.add(s);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
+		if(ctrl.getByUsername(s) == null) { //El username está disponible
+			ctrl.add(s);		
+			request.getSession().setAttribute("loggedUser", s);
+			response.sendRedirect(request.getContextPath() + "/index.jsp");
 		}
-		request.getSession().setAttribute("loggedUser", s);
-		response.sendRedirect(request.getContextPath() + "/index.jsp");
+		else {
+			request.getSession().setAttribute("errorMsg", "El nombre de usuario no se encuentra disponible");
+			response.sendRedirect(request.getContextPath() + "/signup.jsp");
+		}
 	}
-	private void signIn(HttpServletRequest request, HttpServletResponse response) throws IOException {		
+	
+	private void signIn(HttpServletRequest request, HttpServletResponse response) throws CustomException, IOException {		
 		Socio loginSocio = new Socio();
 		loginSocio.setUsername(request.getParameter("inputUsername"));
 		loginSocio.setPassword(request.getParameter("inputPassword"));
 		
 		CtrlSocio ctrl = new CtrlSocio();
-		try {
-			if(ctrl.validateUser(loginSocio).getId() == -1) {
+
+			if(ctrl.validateLogin(loginSocio).getId() == -1) {
+				request.getSession().setAttribute("errorMsg", "El usuario no existe o la contraseña es incorrecta");
 				response.sendRedirect(request.getContextPath() + "/signin.jsp");
 			}
 			else {
 				request.getSession().setAttribute("loggedUser", loginSocio);
 				response.sendRedirect(request.getContextPath() + "/index.jsp");
 			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
 	}
+	
 	private void logOut(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		request.getSession().invalidate();
 		response.sendRedirect(request.getContextPath() + "/index.jsp");
 	}
+	
 	private void error(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		response.setStatus(404);
 	}

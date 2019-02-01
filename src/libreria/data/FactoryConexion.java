@@ -3,6 +3,7 @@ package libreria.data;
 import java.sql.*;
 
 import libreria.utils.Configuracion;
+import libreria.utils.CustomException;
 
 
 public class FactoryConexion {
@@ -11,26 +12,29 @@ public class FactoryConexion {
 	private Connection conn;
 	private int cantConn=0;
 	
-	private FactoryConexion(){
+	private FactoryConexion() throws CustomException{
 		try {
 			
 			String driver = Configuracion.getInstancia().getDbDriver();
 			Class.forName(driver);
 			
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			throw new CustomException("No se pudo cargar el driver de conexion", "FactoryConexion", e);
+		} catch (CustomException e) {
+			throw e;
+		} catch(Exception e) {
+			throw new CustomException("Error al instanciar", "FactoryConexion", e);
 		}
-		
 	}
 	
-	public static FactoryConexion getInstancia(){
+	public static FactoryConexion getInstancia() throws CustomException{
 		if (FactoryConexion.instancia == null){		
 			FactoryConexion.instancia = new FactoryConexion();
 		}
 		return FactoryConexion.instancia;		
 	}
 	
-	public Connection getConn() throws Exception{
+	public Connection getConn() throws CustomException{
 		
 		try {
 			if(conn==null || conn.isClosed()){	
@@ -45,21 +49,21 @@ public class FactoryConexion {
 				
 				conn = DriverManager.getConnection(connString);
 			}
-		} catch (Exception e) {
-			throw new Exception("Error al conectar a la base de datos");
+		} catch (SQLException e) {
+			throw new CustomException("No se pudó conectar a la BD", "FactoryConexion", e);
 		}
 		cantConn++;
 		return conn;
 	}
 	
-	public void releaseConn() throws SQLException{
+	public void releaseConn() throws CustomException{
 		try {
 			cantConn--;
 			if(cantConn==0){
 				conn.close();
 			}
 		} catch (SQLException e) {
-			throw e;
+			throw new CustomException("Error al intentar cerrar la conexion", "FactoryConexion", e); 
 		}
 	}
 	

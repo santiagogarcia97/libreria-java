@@ -1,5 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+
 
 <!DOCTYPE html>
 <html>
@@ -7,9 +8,9 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">    
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        <title>Librería - Ingresar</title>
+        <title>LibrerÃ­a - Ingresar</title>
 
-        <link href="resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link href="resources/css/bootstrap/bootstrap.min.css" rel="stylesheet">
         <link href="resources/css/signup.css" rel="stylesheet">
 	</head>
 
@@ -17,16 +18,25 @@
         <div class="signup-form">
             <form action="auth/signin" method="post">
                 <h2>Ingresar</h2>
-                <p class="hint-text">Ingrese su usuario y contraseña.</p>
+                <p class="hint-text">Ingrese su usuario y contraseÃ±a.</p>
                 <div class="form-group">
                     <input type="text" class="form-control" name="inputUsername" placeholder="Nombre de Usuario" required="required">
                 </div>
                 <div class="form-group">
-                    <input type="password" class="form-control" name="inputPassword" placeholder="Contraseña" required="required">
+                    <input type="password" class="form-control" name="inputPassword" placeholder="ContraseÃ±a" required="required">
                 </div>
                 <div>
                     <button type="submit" class="btn btn-success btn-lg btn-block">Ingresar</button>
                 </div>
+              	
+              	<c:if test="${sessionScope.errorMsg != null && sessionScope.errorMsg !='' }">
+              	<br>
+            	<div class="text-center text-danger">
+            		<c:out value="${sessionScope.errorMsg}"></c:out>
+            		<c:set var="errorMsg" value="" scope="session"  />
+            	</div>            
+            	</c:if>
+            	
             </form>
             <div class="text-center">No tiene una cuenta? <a href="signup.jsp">Registrarse</a></div>
         </div>

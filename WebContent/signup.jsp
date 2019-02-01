@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
     
 <!DOCTYPE html>
 <html>
@@ -7,15 +7,16 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">    
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        <title>Librería - Registrarse</title>
+        <title>LibrerÃ­a - Registrarse</title>
 
-        <link href="resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link href="resources/css/bootstrap/bootstrap.min.css" rel="stylesheet">
         <link href="resources/css/signup.css" rel="stylesheet">
+       
 	</head>
 
     <body>
         <div class="signup-form">
-            <form action="auth/signup" method="post">
+            <form name="registration" action="auth/signup" method="post">
                 <h2>Registrarse</h2>
                 <p class="hint-text">Complete los datos para poder crear su cuenta.</p>
                 <div class="form-group">
@@ -41,16 +42,28 @@
                     <input type="text" class="form-control" name="inputUsername" placeholder="Nombre de Usuario" required="required">
                 </div>
                 <div class="form-group">
-                    <input type="password" class="form-control" name="inputPassword" placeholder="Contraseña" required="required">
+                    <input type="password" class="form-control" id="1" name="inputPassword" placeholder="ContraseÃ±a" required="required">
                 </div>
                 <div class="form-group">
-                    <input type="password" class="form-control" name="confirm_password" placeholder="Confirmar Contraseña" required="required">
+                    <input type="password" class="form-control" id="2" name="confirm_password" placeholder="Confirmar ContraseÃ±a" required="required">
                 </div>        
                 <div>
-                    <button type="submit" class="btn btn-success btn-lg btn-block">Crear Cuenta</button>
+                    <button type="submit" class="btn btn-success btn-lg btn-block" disabled="disabled">Crear Cuenta</button>
                 </div>
+                
+				<c:if test="${sessionScope.errorMsg != null && sessionScope.errorMsg !='' }">
+	              	<br>
+	            	<div class="text-center text-danger">
+	            		<c:out value="${sessionScope.errorMsg}"></c:out>
+	            		<c:set var="errorMsg" value="" scope="session"  />
+	            	</div>            
+            	</c:if>
+
             </form>
-            <div class="text-center">Ya tiene una cuenta? <a href="signin.jsp">Ingresar</a></div>
-        </div>
+            <div class="text-center">Ya tiene una cuenta? <a href="signin.jsp">Ingresar</a></div>      
+            
+            <script src="resources/js/jquery/jquery-3.3.1.min.js"></script>
+       		<script src="resources/js/signup-validation.js"></script>
+       </div>
     </body>
 </html>
