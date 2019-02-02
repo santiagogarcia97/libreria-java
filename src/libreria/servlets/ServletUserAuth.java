@@ -97,7 +97,7 @@ public class ServletUserAuth extends HttpServlet {
 			request.getSession().setAttribute("loggedType", newSocio.getTipoUsuario());
 			request.getSession().setAttribute("loggedUsername", newSocio.getUsername());
 			
-			response.sendRedirect(request.getContextPath() + "/index.jsp");
+			response.sendRedirect("/libreria-java/home");
 		}
 		else {
 			request.getSession().setAttribute("errorMsg", "El nombre de usuario no se encuentra disponible");
@@ -123,7 +123,7 @@ public class ServletUserAuth extends HttpServlet {
 				loginSocio = ctrl.getByUsername(loginSocio);
 				request.getSession().setAttribute("loggedType", loginSocio.getTipoUsuario());
 				request.getSession().setAttribute("loggedUsername", loginSocio.getUsername());
-				response.sendRedirect(request.getContextPath() + "/index.jsp");
+				response.sendRedirect("/libreria-java/home");
 			}
 
 	}
@@ -134,7 +134,7 @@ public class ServletUserAuth extends HttpServlet {
 	//////////////////////
 	private void logOut(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		request.getSession().invalidate();
-		response.sendRedirect(request.getContextPath() + "/index.jsp");
+		response.sendRedirect("/libreria-java/home");
 	}
 	
 	

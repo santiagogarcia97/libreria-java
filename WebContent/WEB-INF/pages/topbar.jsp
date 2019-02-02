@@ -3,18 +3,14 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-        <a class="navbar-brand mb-0 h1" href="#">Libreria UTN</a>
+        <a class="navbar-brand mb-0 h1" href="home">Libreria UTN</a>
         <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" 
             data-target="#navbarCollapse" >
             <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="dropdown-menu-style collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav mr-auto">
-                
-                <li class="nav-item">
-                    <a class="nav-link" href="index.jsp">Inicio</a>
-                </li>      
+            <ul class="navbar-nav mr-auto"> 
                 
 				<c:choose>		
 					<c:when test="${sessionScope.loggedType eq 'admin'}">

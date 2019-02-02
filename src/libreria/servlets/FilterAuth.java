@@ -45,7 +45,7 @@ public class FilterAuth implements Filter {
 					chain.doFilter(request, response);
 				}
 				else {
-					res.sendRedirect(req.getContextPath() + "/index.jsp");			
+					res.sendRedirect("/libreria-java/home");			
 				}
 				break;								
 			case "/logout":
