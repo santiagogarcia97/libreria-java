@@ -14,13 +14,16 @@
 	</head>
 	
 	<body>
-		<jsp:include page="topbar.jsp" />
+		<jsp:include page="/WEB-INF/pages/topbar.jsp" />
 		
-		<div class="container">
-			<div class="row">
-				<jsp:include page="sidebar.jsp" />
-				
-				<jsp:include page="content.jsp" />
+		<c:if test="${sessionScope.adminPage == null}" >
+			<c:set scope="session" var="adminPage" value="altaLibro" />
+		</c:if>
+		
+		<div class="container h-100">
+			<div class="row h-100">
+				<jsp:include page="/WEB-INF/pages/admin/adminSidebar.jsp" />
+				<jsp:include page="/WEB-INF/pages/admin/${sessionScope.adminPage}.jsp" />
 			</div>
 		</div>
 

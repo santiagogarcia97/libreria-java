@@ -9,14 +9,14 @@
 
         <title>Librería - Registrarse</title>
 
-        <link href="../resources/css/bootstrap/bootstrap.min.css" rel="stylesheet">
-        <link href="../resources/css/signup.css" rel="stylesheet">
+        <link href="/libreria-java/resources/css/bootstrap/bootstrap.min.css" rel="stylesheet">
+        <link href="/libreria-java/resources/css/signup.css" rel="stylesheet">
        
 	</head>
 
     <body>
         <div class="signup-form">
-            <form name="mainForm" action="signup" method="post">
+            <form name="mainForm" action="/libreria-java/auth/signup" method="post">
                 <h2>Registrarse</h2>
                 <p class="hint-text">Complete los datos para poder crear su cuenta.</p>
                 <div class="form-group">
@@ -60,10 +60,10 @@
             	</c:if>
 
             </form>
-            <div class="text-center">Ya tiene una cuenta? <a href="login">Ingresar</a></div>      
+            <div class="text-center">Ya tiene una cuenta? <a href="/libreria-java/auth/login">Ingresar</a></div>      
             
-            <script src="../resources/js/jquery/jquery-3.3.1.min.js"></script>
-       		<script src="../resources/js/auth.js"></script>
+            <script src="/libreria-java/resources/js/jquery/jquery-3.3.1.min.js"></script>
+       		<script src="/libreria-java/resources/js/auth.js"></script>
        </div>
     </body>
 </html>

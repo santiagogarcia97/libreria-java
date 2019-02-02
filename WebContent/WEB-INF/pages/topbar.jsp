@@ -3,7 +3,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-        <a class="navbar-brand mb-0 h1" href="home">Libreria UTN</a>
+        <a class="navbar-brand mb-0 h1" href="/libreria-java/home">Libreria UTN</a>
         <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" 
             data-target="#navbarCollapse" >
             <span class="navbar-toggler-icon"></span>
@@ -13,38 +13,16 @@
             <ul class="navbar-nav mr-auto"> 
                 
 				<c:choose>		
-					<c:when test="${sessionScope.loggedType eq 'admin'}">
-		                <li class="nav-item dropdown">
-		                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" 
-		                        data-toggle="dropdown">Prestamos</a>
-		                    <div class="dropdown-menu">
-		                        <a class="dropdown-item" href="#">En preparación</a>
-		                        <a class="dropdown-item" href="#">Pendientes de retiro</a>
-		                        <a class="dropdown-item" href="#">Pendientes de devolución</a>
-		                        <a class="dropdown-item" href="#">Buscar</a>
-		                    </div>
-		                </li>
+					<c:when test="${sessionScope.loggedType eq 'admin'}">             
 		                <li class="nav-item">
-		                    <a class="nav-link" href="#">Socios</a>
-		                </li>
-		                <li class="nav-item">
-		                    <a class="nav-link" href="#">Libros</a>
-		                </li>                
-		                <li class="nav-item">
-		                    <a class="nav-link" href="#">Reportes</a>
+		                    <a class="nav-link" href="/libreria-java/admin/panel">Panel Administrador</a>
 		                </li>			   				   		   
 					</c:when>				
 
 					<c:when test="${sessionScope.loggedType eq 'socio'}">
-		                <li class="nav-item dropdown">
-		                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" 
-		                        data-toggle="dropdown">Mis Prestamos</a>
-		                    <div class="dropdown-menu">
-		                        <a class="dropdown-item" href="#">Pendientes de retiro</a>
-		                        <a class="dropdown-item" href="#">Pendientes de devolución</a>
-		                        <a class="dropdown-item" href="#">Historial</a>
-		                    </div>
-		                </li>	   				   		   
+		                <li class="nav-item">
+		                    <a class="nav-link" href="#">Mis Prestamos</a>
+		                </li>				   		   
 					</c:when>	
 				</c:choose>       
                 
@@ -64,7 +42,7 @@
 		                    <div class="dropdown-menu dropdown-menu-right">
 		                        <a class="dropdown-item" href="#">Perfil</a>
 		                        <div class="dropdown-divider"></div>
-		                        <form action="auth/logout" method="post">
+		                        <form action="/libreria-java/auth/logout" method="post">
 		                        	<button type="submit" class="dropdown-item">Log Out</button>
 		                        </form>
 		                    </div>
@@ -73,8 +51,8 @@
 				</c:when>				
 				
 				<c:otherwise>		
-                    <a class="btn btn-outline-primary mr-1" href="auth/login">Ingresar</a>
-                    <a class="btn btn-primary" href="auth/signup">Registrarse</a>
+                    <a class="btn btn-outline-primary mr-1" href="/libreria-java/auth/login">Ingresar</a>
+                    <a class="btn btn-primary" href="/libreria-java/auth/signup">Registrarse</a>
 				</c:otherwise>
 			</c:choose>            
 

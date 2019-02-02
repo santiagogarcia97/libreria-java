@@ -6,8 +6,8 @@
 <html>
 	<head>
 		<title>Librería - Error</title>
-        <link href="../resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-        <link href="../resources/css/error-page.css" rel="stylesheet">
+        <link href="/libreria-java/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/libreria-java/resources/css/error-page.css" rel="stylesheet">
 	</head>
 	
 	<body>
