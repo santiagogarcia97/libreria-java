@@ -1,17 +1,135 @@
-<div class="container text-justify">
-Lorem ipsum dolor sit amet, in qui populo accusata, aeque qualisque scripserit te mei. An timeam recteque usu. Homero sadipscing reprehendunt ea usu, etiam latine nam eu. Solet accommodare mei et.
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 
-Aliquip viderer nominavi sit te. Exerci antiopam ut eum, cum ut duis eius essent. Qui animal vivendum ne. Ea eum facer definitionem signiferumque, qui id volutpat urbanitas voluptaria. Ut harum iisque labores quo.
+<div class="col-lg-9">
 
-Usu iisque tincidunt id, quis petentium et per. Nam ea meis dictas pertinax. Ex unum facilisi qualisque his, vocibus ullamcorper eu sed. In cum viris dolore fabellas.
+  <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
+    <ol class="carousel-indicators">
+      <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+      <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+      <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner" role="listbox">
+      <div class="carousel-item active">
+        <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="First slide">
+      </div>
+      <div class="carousel-item">
+        <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Second slide">
+      </div>
+      <div class="carousel-item">
+        <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Third slide">
+      </div>
+    </div>
+    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
 
-In utroque nonumes usu, at fuisset tacimates omittantur ius. Ut quem amet augue nam, delenit complectitur an sea. Te omnis ubique alterum eos, ei explicari rationibus sed. Ut dolore graecis vis. Ut exerci nostrum omittantur eos. Ea duo periculis percipitur persequeris, usu ipsum minimum conclusionemque ut.
+  <div class="row">
 
-Vero nostro aeterno no nam, vix an summo gloriatur. In eam dolore voluptatum, duo ea offendit delicata definitionem. Suas dicta his te. Vis an doming fierent pertinacia. Eu mei eirmod corrumpit, eu qui dolor recteque. Pri saperet consectetuer ex. At has mundi dicunt.
+    <div class="col-lg-4 col-md-6 mb-4">
+      <div class="card h-100">
+        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+        <div class="card-body">
+          <h4 class="card-title">
+            <a href="#">Item One</a>
+          </h4>
+          <h5>$24.99</h5>
+          <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
+        </div>
+        <div class="card-footer">
+          <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+        </div>
+      </div>
+    </div>
 
-Ea his mucius legimus. No antiopam torquatos ius. Ne pri tota laboramus efficiendi, ne salutandi conceptam mea, pericula inciderint sea in. Ornatus accommodare eum ei. Ubique senserit ut mel, nec omnes oratio tollit te, pri eu viris clita ancillae. No eruditi instructior vix, vix unum iriure maluisset ne.
+    <div class="col-lg-4 col-md-6 mb-4">
+      <div class="card h-100">
+        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+        <div class="card-body">
+          <h4 class="card-title">
+            <a href="#">Item Two</a>
+          </h4>
+          <h5>$24.99</h5>
+          <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor sit amet.</p>
+        </div>
+        <div class="card-footer">
+          <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+        </div>
+      </div>
+    </div>
 
-No eum hendrerit interpretaris. His cu tractatos scripserit. No agam novum tractatos vim, ius at nostrud omittam, sed at perfecto singulis platonem. Mei sonet albucius convenire no.
+    <div class="col-lg-4 col-md-6 mb-4">
+      <div class="card h-100">
+        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+        <div class="card-body">
+          <h4 class="card-title">
+            <a href="#">Item Three</a>
+          </h4>
+          <h5>$24.99</h5>
+          <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
+        </div>
+        <div class="card-footer">
+          <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+        </div>
+      </div>
+    </div>
 
-Feugait suscipit urbanitas mea an, vis nostrud alienum indoctum ad, vim id legere signiferumque. Debet omnesque necessitatibus cu vel. Sed habeo ignota ea, elit utinam offendit ad eum. Et solet repudiare argumentum quo, in sea efficiendi scriptorem. Mei utinam molestie pertinacia ea, no quo oblique rationibus consequuntur.
+    <div class="col-lg-4 col-md-6 mb-4">
+      <div class="card h-100">
+        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+        <div class="card-body">
+          <h4 class="card-title">
+            <a href="#">Item Four</a>
+          </h4>
+          <h5>$24.99</h5>
+          <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
+        </div>
+        <div class="card-footer">
+          <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4 col-md-6 mb-4">
+      <div class="card h-100">
+        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+        <div class="card-body">
+          <h4 class="card-title">
+            <a href="#">Item Five</a>
+          </h4>
+          <h5>$24.99</h5>
+          <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor sit amet.</p>
+        </div>
+        <div class="card-footer">
+          <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4 col-md-6 mb-4">
+      <div class="card h-100">
+        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+        <div class="card-body">
+          <h4 class="card-title">
+            <a href="#">Item Six</a>
+          </h4>
+          <h5>$24.99</h5>
+          <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
+        </div>
+        <div class="card-footer">
+          <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <!-- /.row -->
+
 </div>
+<!-- /.col-lg-9 -->
