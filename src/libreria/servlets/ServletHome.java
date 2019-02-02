@@ -1,8 +1,6 @@
 package libreria.servlets;
 
 import java.io.IOException;
-import java.sql.Date;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,10 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.mysql.cj.result.LocalDateTimeValueFactory;
-
-import libreria.data.DataLibro;
-import libreria.entities.Libro;
+import libreria.controllers.CtrlLibro;
 
 /**
  * Servlet implementation class ServletHome
@@ -34,22 +29,9 @@ public class ServletHome extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		DataLibro dl = new DataLibro();
-/*		for(int i =0; i<50;i++) {
-			Libro l = new Libro();
-			l.setTitulo("Titulo "+i);
-			l.setAutor("autor " + i);
-			l.setIsbn(Integer.toString(i));
-			l.setDiasMaxPrestamo(i);
-			l.setEdicion(Integer.toString(i));
-			l.setEstado("d");
-			l.setFechaEdicion(Date.valueOf("2000-10-02"));
-			dl.add(l);
-		}*/
-		
-		List<Libro> libros	= dl.getAll();
-		request.setAttribute("libros", libros);
+
+		CtrlLibro ctrl = new CtrlLibro();
+		request.setAttribute("libros", ctrl.getAll());
 		
 		request.getRequestDispatcher( "/WEB-INF/pages/index.jsp" ).forward( request, response );
 	}

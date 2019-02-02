@@ -31,10 +31,20 @@ public class ServletUserAuth extends HttpServlet {
 		try {
 			switch (request.getPathInfo()) {
 			case "/signup":
-				request.getRequestDispatcher( "/WEB-INF/pages/signup.jsp" ).forward( request, response );
+				if(request.getSession().getAttribute("loggedType") == null) {
+					request.getRequestDispatcher( "/WEB-INF/pages/signup.jsp" ).forward( request, response );
+				}
+				else {
+					response.sendRedirect("/libreria-java/home");			
+				}
 				break;				
 			case "/login":
-				request.getRequestDispatcher( "/WEB-INF/pages/login.jsp" ).forward( request, response );
+				if(request.getSession().getAttribute("loggedType") == null) {
+					request.getRequestDispatcher( "/WEB-INF/pages/login.jsp" ).forward( request, response );
+				}
+				else {
+					response.sendRedirect("/libreria-java/home");			
+				}
 				break;				
 			case "/logout":
 				this.logOut(request,response);

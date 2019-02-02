@@ -6,7 +6,7 @@
 
   <h1 class="my-4">Bienvenido!</h1>
   <h5 class="">Categorias</h5>
-  <div class="list-group">
+  <div class="list-group list-group-flush">
     <a href="#" class="list-group-item">Historia</a>
     <a href="#" class="list-group-item">Terror</a>
     <a href="#" class="list-group-item">Ciencia Ficción</a>
