@@ -35,6 +35,14 @@
         </div>
         
         <br>
+        <h5 class="">Categorias Libros</h5>
+        <div class="list-group list-group-flush">
+          <div class="list-group-item d-flex justify-content-between align-items-center">
+            <a href="/libreria-java/admin/alta-cat-libro" class="text-dark">Agregar</a>
+          </div>         
+        </div>
+                
+        <br>
         <h5 class="">Socios</h5>
         <div class="list-group list-group-flush">
           <div class="list-group-item d-flex justify-content-between align-items-center">

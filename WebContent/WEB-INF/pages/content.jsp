@@ -32,20 +32,22 @@
 
   <div class="row">
 
-	<c:if test="${requestScope != null }">
+	<c:if test="${requestScope.libros != null }">
 	  <c:forEach var="libro" begin="0" items="${requestScope.libros}">
 
-	      <div class="col-lg-4 col-md-6 mb-4">
+	      <div class="col-lg-3 col-md-4 col-6 mb-4">
 		    <div class="card h-100">
-  		      <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+  		      <a href="#">
+  		      	<img class="card-img-top img-fluid" height="200" src="/libreria-java/resources/images/bookcovers/${libro.getTapa()}.jpg" alt="img">
+  		      </a>
         	  <div class="card-body">
-          	    <h4 class="card-title">
+          	    <h6 class="card-title">
                   <a href="#">
                 	<c:out value="${libro.getTitulo()}"></c:out>
                   </a>
-                </h4>
-                <h5><c:out value="${libro.getAutor()}"></c:out></h5>
-                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
+                </h6>
+                <h6><c:out value="${libro.getAutor()}"></c:out></h6>
+                <p class="card-text">${libro.getCat().getDesc()}</p>
               </div>
             </div>
           </div>

@@ -3,14 +3,15 @@ package libreria.data;
 import java.sql.*;
 import java.util.ArrayList;
 
+import libreria.entities.Categoria;
 import libreria.entities.Libro;
 import libreria.utils.CustomException;
 
 public class DataLibro {
 	
-	private final String _GET_BY_ID = "select * from libros where id_libro=? and estado!='eliminado'"; 
+	private final String _GET_BY_ID = "select * from libros l left join categorias_libros cl on l.id_categoria=cl.id_cl where id_libro=? and l.estado!='eliminado'"; 
 	
-	private final String _GET_ALL = "select * from libros where estado!='eliminado'"; 
+	private final String _GET_ALL = "select * from libros l left join categorias_libros cl on l.id_categoria=cl.id_cl where l.estado!='eliminado'"; 
 	
 	private final String _ADD = "insert into libros(isbn,titulo,autor,edicion,fecha_edicion,cant_dias_max,estado) "
 									+ "values (?,?,?,?,?,?,?)"; 
@@ -36,6 +37,7 @@ public class DataLibro {
 			if(rs!=null){
 				while(rs.next()){
 					Libro l=new Libro();
+					Categoria cat = new Categoria();
 
 					l.setId(rs.getInt("id_libro"));
 					l.setIsbn(rs.getString("isbn"));
@@ -45,6 +47,11 @@ public class DataLibro {
 					l.setFechaEdicion(rs.getDate("fecha_edicion"));
 					l.setDiasMaxPrestamo(rs.getInt("cant_dias_max"));
 					l.setEstado(rs.getString("estado"));
+					l.setTapa(rs.getString("imagen_tapa"));
+					
+					cat.setId(rs.getInt("id_cl"));
+					cat.setDesc(rs.getString("desc"));
+					l.setCat(cat);
 					
 					libros.add(l);
 				}

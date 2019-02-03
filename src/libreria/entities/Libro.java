@@ -6,9 +6,10 @@ public class Libro extends Entidad {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private String titulo, autor, isbn, edicion;
+	private String titulo, autor, isbn, edicion, tapa;
 	private Date fechaEdicion;
 	private int diasMaxPrestamo;
+	private Categoria cat;
 	
 	public Libro() {}
 	
@@ -31,6 +32,12 @@ public class Libro extends Entidad {
 	public void setDiasMaxPrestamo(int diasMaxPrestamo) {
 		this.diasMaxPrestamo = diasMaxPrestamo;
 	}	
+	public void setCat(Categoria cat) {
+		this.cat = cat;
+	}
+	public void setTapa(String tapa) {
+		this.tapa = tapa;
+	}
 	
 	//Getters
 	public String getTitulo() {
@@ -52,5 +59,13 @@ public class Libro extends Entidad {
 	public int getDiasMaxPrestamo() {
 		return diasMaxPrestamo;
 	}
+	public Categoria getCat() {
+		return cat;
+	}
+	public String getTapa() {
+		return tapa;
+	}
+
+
 
 }
