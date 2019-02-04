@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import libreria.controllers.CtrlLibro;
-import libreria.entities.Libro;
+import libreria.controllers.*;
+import libreria.entities.*;
 import libreria.utils.CustomException;
 import java.sql.Date;
 
@@ -33,22 +33,25 @@ public class ServletAdmin extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(isAdmin(request)) {
 			try {
-				switch (request.getPathInfo()) {
-				case "/panel":
-					request.getRequestDispatcher( "/WEB-INF/pages/admin/adminPanel.jsp" ).forward( request, response );
-					break;				
+				switch (request.getPathInfo()) {			
 				case "/alta-libro":
-					request.getSession().setAttribute("adminPage", "altaLibro");
-					request.getRequestDispatcher( "/WEB-INF/pages/admin/adminPanel.jsp" ).forward( request, response );
+					request.setAttribute("adminPage", "altaLibro");
 					break;
 				case "/alta-cat-libro":
-					request.getSession().setAttribute("adminPage", "altaCatLibro");
-					request.getRequestDispatcher( "/WEB-INF/pages/admin/adminPanel.jsp" ).forward( request, response );
-					break;				
+					CtrlCategoria ctrl = new CtrlCategoria();
+					request.setAttribute("categorias", ctrl.getAll());
+					request.setAttribute("adminPage", "altaCatLibro");
+					break;	
+				default:
+					request.setAttribute("adminPage", "stats");
+					break;
 				}
+				
+				request.getRequestDispatcher( "/WEB-INF/pages/admin/adminPanel.jsp" ).forward( request, response );
+			
 			} catch (CustomException e) {
-			request.getSession().setAttribute("errorMsg", e.getMessage());
-			request.getRequestDispatcher( "/WEB-INF/pages/error.jsp" ).forward( request, response );
+				request.getSession().setAttribute("errorMsg", e.getMessage());
+				request.getRequestDispatcher( "/WEB-INF/pages/error.jsp" ).forward( request, response );
 			}	
 		}
 		else {
@@ -60,20 +63,33 @@ public class ServletAdmin extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if(isAdmin(request)) {
-			try {
+		
+		try {
+			
+			if(isAdmin(request)) {
 				switch (request.getPathInfo()) {		
 				case "/alta-libro":
 					this.altaLibro(request, response);
-					break;				
+					response.sendRedirect("/libreria-java/admin/alta-libro");
+					break;	
+				case "/alta-cat-libro":
+					this.altaCatLibro(request, response);
+					response.sendRedirect("/libreria-java/admin/alta-cat-libro");
+					break;	
 				}
-			} catch (CustomException e) {
+				
+			} else {
+				response.sendRedirect("/libreria-java/home");
+			}	
+			
+			
+		} catch (CustomException e) {
 			request.getSession().setAttribute("errorMsg", e.getMessage());
 			request.getRequestDispatcher( "/WEB-INF/pages/error.jsp" ).forward( request, response );
-			}
-		}
-		else {
-			response.sendRedirect("/libreria-java/home");
+		} catch (Exception ex) {
+			CustomException e = new CustomException("Error desconocido", "ServletAdmin", ex);
+			request.getSession().setAttribute("errorMsg", e.getMessage());
+			request.getRequestDispatcher( "/WEB-INF/pages/error.jsp" ).forward( request, response );
 		}
 	}
 	
@@ -94,23 +110,34 @@ public class ServletAdmin extends HttpServlet {
 	//////////////////////
 	// ALTA LIBRO LOGIC
 	//////////////////////
-	private void altaLibro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private void altaLibro(HttpServletRequest req, HttpServletResponse res) throws CustomException, ServletException, IOException {
 		Libro l = new Libro();
 		
-		l.setAutor(request.getParameter("inputAutor"));
-		l.setTitulo(request.getParameter("inputTitulo"));
-		l.setEdicion(request.getParameter("inputEdicion"));
-		l.setFechaEdicion(Date.valueOf(request.getParameter("inputFechaEdicion")));
-		l.setIsbn(request.getParameter("inputISBN"));
-		l.setDiasMaxPrestamo(Integer.parseInt(request.getParameter("inputMaxDias")));
+		l.setAutor(req.getParameter("inputAutor"));
+		l.setTitulo(req.getParameter("inputTitulo"));
+		l.setEdicion(req.getParameter("inputEdicion"));
+		l.setFechaEdicion(Date.valueOf(req.getParameter("inputFechaEdicion")));
+		l.setIsbn(req.getParameter("inputISBN"));
+		l.setDiasMaxPrestamo(Integer.parseInt(req.getParameter("inputMaxDias")));
 		l.setEstado("disponible");
 		
 		CtrlLibro ctrl = new CtrlLibro();
 		l = ctrl.add(l);
-		request.getRequestDispatcher("/libreria-java/admin/panel").forward( request, response );
+		
 	}
-	
-	
+	//////////////////////
+	// ALTA CATEGORIA LOGIC
+	//////////////////////
+	private void altaCatLibro(HttpServletRequest req, HttpServletResponse res) {
+		Categoria c = new Categoria();
+		
+		c.setDesc(req.getParameter("inputDesc"));
+		c.setEstado("habilitado");
+		
+		CtrlCategoria ctrl = new CtrlCategoria();
+		c = ctrl.add(c);
+		
+	}
 	
 	
 	

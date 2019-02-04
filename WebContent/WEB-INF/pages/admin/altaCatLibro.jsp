@@ -11,9 +11,9 @@
 	<form action="/libreria-java/admin/alta-cat-libro" method="post">
 		
 		<div class="form-group row">
-    		<label for="inputDescripcion" class="col-sm-3 col-form-label">Descripción</label>
+    		<label for="inputDesc" class="col-sm-3 col-form-label">Descripción</label>
    			 <div class="col-sm-9">
-      			<input type="text" class="form-control" id="inputDescripcion" name="inputDescripcion" placeholder="Descripción" required="required">
+      			<input type="text" class="form-control" id="inputDesc" name="inputDesc" placeholder="Descripción" required="required">
     		</div>
   		</div>				
   	    <div class="form-group row">
@@ -25,30 +25,28 @@
 	</form>
 	
 	<br>
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">ID</th>
-      <th scope="col">Descripcion</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Otto</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-
-      <td>Thornton</td>
-    </tr>
-    <tr>
-
-      <th scope="row">3</th>
-      <td>the Bird</td>
-    </tr>
-  </tbody>
-</table>
+	<table class="table">
+	  <thead>
+	    <tr>
+	      <th scope="col">ID</th>
+	      <th scope="col">Descripcion</th>
+		  <th scope="col">Estado</th>
+	    </tr>
+	  </thead>
+	  
+	  <tbody>
+	  	<c:if test="${requestScope.categorias != null }">
+		  <c:forEach var="cat" begin="0" items="${requestScope.categorias}">
+		      <tr>
+	      <th scope="row">${cat.getId()}</th>
+	      <td>${cat.getDesc()}</td>
+	      <td>${cat.getEstado()}</td>
+	    </tr>
+	    	</c:forEach>	
+		</c:if>	
+	
+	  </tbody>
+	</table>
 
 
 </div>

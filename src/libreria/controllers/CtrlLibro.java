@@ -3,6 +3,7 @@ package libreria.controllers;
 import java.util.ArrayList;
 
 import libreria.data.DataLibro;
+import libreria.entities.Categoria;
 import libreria.entities.Libro;
 import libreria.utils.CustomException;
 
@@ -24,6 +25,9 @@ public class CtrlLibro {
 	
 	public ArrayList<Libro> getAll() throws CustomException{
 		return dataLibro.getAll();
+	}
+	public ArrayList<Libro> getByCat(Categoria c) throws CustomException{
+		return dataLibro.getByCat(c);
 	}
 	public void update(Libro l) throws CustomException{
 		this.dataLibro.update(l);

@@ -30,30 +30,41 @@
     </a>
   </div>
 
+	<div class="form-group">
+		<h2>Libros</h2>
+	</div>
+	<hr>
+	
   <div class="row">
-
-	<c:if test="${requestScope.libros != null }">
-	  <c:forEach var="libro" begin="0" items="${requestScope.libros}">
-
-	      <div class="col-lg-3 col-md-4 col-6 mb-4">
-		    <div class="card h-100">
-  		      <a href="#">
-  		      	<img class="card-img-top img-fluid" height="200" src="/libreria-java/resources/images/bookcovers/${libro.getTapa()}.jpg" alt="img">
-  		      </a>
-        	  <div class="card-body">
-          	    <h6 class="card-title">
-                  <a href="#">
-                	<c:out value="${libro.getTitulo()}"></c:out>
-                  </a>
-                </h6>
-                <h6><c:out value="${libro.getAutor()}"></c:out></h6>
-                <p class="card-text">${libro.getCat().getDesc()}</p>
-              </div>
-            </div>
-          </div>
-			
-    	</c:forEach>	
-	</c:if>	
+	
+	<c:choose>
+		<c:when test="${requestScope.libros != null && requestScope.libros.size() !=0}">
+		  <c:forEach var="libro" begin="0" items="${requestScope.libros}">
+	
+		      <div class="col-lg-3 col-md-4 col-6 mb-4">
+			    <div class="card h-100">
+	  		      <a href="#">
+	  		      	<img class="card-img-top img-fluid" height="200" src="/libreria-java/resources/images/bookcovers/${libro.getTapa()}.jpg" alt="img">
+	  		      </a>
+	        	  <div class="card-body">
+	          	    <h6 class="card-title">
+	                  <a href="#">
+	                	<c:out value="${libro.getTitulo()}"></c:out>
+	                  </a>
+	                </h6>
+	                <h6><c:out value="${libro.getAutor()}"></c:out></h6>
+	                <p class="card-text">${libro.getCat().getDesc()}</p>
+	              </div>
+	            </div>
+	          </div>				
+	    	</c:forEach>		
+		</c:when>
+		<c:otherwise>
+		<div class="col">
+			<h4>No hay resultados.</h4>
+		</div>
+		</c:otherwise>
+	</c:choose>
 
   </div>
   <!-- /.row -->

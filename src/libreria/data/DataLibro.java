@@ -9,7 +9,9 @@ import libreria.utils.CustomException;
 
 public class DataLibro {
 	
-	private final String _GET_BY_ID = "select * from libros l left join categorias_libros cl on l.id_categoria=cl.id_cl where id_libro=? and l.estado!='eliminado'"; 
+	private final String _GET_BY_ID = "select * from libros l left join categorias_libros cl on l.id_categoria=cl.id_cl where id_libro=? and l.estado!='eliminado'";
+	
+	private final String _GET_BY_CAT = "select * from libros l left join categorias_libros cl on l.id_categoria=cl.id_cl where id_cl=? and l.estado!='eliminado'";
 	
 	private final String _GET_ALL = "select * from libros l left join categorias_libros cl on l.id_categoria=cl.id_cl where l.estado!='eliminado'"; 
 	
@@ -50,7 +52,7 @@ public class DataLibro {
 					l.setTapa(rs.getString("imagen_tapa"));
 					
 					cat.setId(rs.getInt("id_cl"));
-					cat.setDesc(rs.getString("desc"));
+					cat.setDesc(rs.getString("descripcion"));
 					l.setCat(cat);
 					
 					libros.add(l);
@@ -73,6 +75,60 @@ public class DataLibro {
 		}
 		return libros;
 	}
+
+	///////////////
+	// GET BY CAT
+	///////////////
+	public ArrayList<Libro> getByCat(Categoria c) throws CustomException{
+		
+		PreparedStatement stmt=null;
+		ResultSet rs=null;
+		ArrayList<Libro> libros= new ArrayList<Libro>();
+		
+		try {
+			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(_GET_BY_CAT);
+			stmt.setInt(1, c.getId());
+			rs=stmt.executeQuery();
+			
+			if(rs!=null){
+				while(rs.next()){
+					Libro l=new Libro();
+					Categoria cat = new Categoria();
+
+					l.setId(rs.getInt("id_libro"));
+					l.setIsbn(rs.getString("isbn"));
+					l.setTitulo(rs.getString("titulo"));
+					l.setAutor(rs.getString("autor"));
+					l.setEdicion(rs.getString("edicion"));			
+					l.setFechaEdicion(rs.getDate("fecha_edicion"));
+					l.setDiasMaxPrestamo(rs.getInt("cant_dias_max"));
+					l.setEstado(rs.getString("estado"));
+					l.setTapa(rs.getString("imagen_tapa"));
+					
+					cat.setId(rs.getInt("id_cl"));
+					cat.setDesc(rs.getString("descripcion"));
+					l.setCat(cat);
+					
+					libros.add(l);
+				}
+			}			
+		} catch (SQLException e) {
+			throw new CustomException("Error al ejecutar getByCat()", "DataLibro", e);		
+		} catch (CustomException e) {
+			throw e;					
+		} finally{
+			try {
+				if(rs!=null)rs.close();
+				if(stmt!=null)stmt.close();
+				FactoryConexion.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				throw new CustomException("Error al ejecutar getByCat()", "DataLibro", e);
+			} catch (CustomException e) {
+				throw e;					
+			} 
+		}
+		return libros;
+	}
 	
 	///////////////
 	// GET BY ID
@@ -87,16 +143,22 @@ public class DataLibro {
 			rs=stmt.executeQuery();
 			
 			if(rs!=null && rs.next()){
-					l=new Libro();
+				Categoria cat = new Categoria();
+				l=new Libro();
+				
+				l.setId(rs.getInt("id_libro"));
+				l.setIsbn(rs.getString("isbn"));
+				l.setTitulo(rs.getString("titulo"));
+				l.setAutor(rs.getString("autor"));
+				l.setEdicion(rs.getString("edicion"));			
+				l.setFechaEdicion(rs.getDate("fecha_edicion"));
+				l.setDiasMaxPrestamo(rs.getInt("cant_dias_max"));
+				l.setEstado(rs.getString("estado"));
+				
+				cat.setId(rs.getInt("id_cl"));
+				cat.setDesc(rs.getString("descripcion"));
+				l.setCat(cat);
 					
-					l.setId(rs.getInt("id_libro"));
-					l.setIsbn(rs.getString("isbn"));
-					l.setTitulo(rs.getString("titulo"));
-					l.setAutor(rs.getString("autor"));
-					l.setEdicion(rs.getString("edicion"));			
-					l.setFechaEdicion(rs.getDate("fecha_edicion"));
-					l.setDiasMaxPrestamo(rs.getInt("cant_dias_max"));
-					l.setEstado(rs.getString("estado"));
 			}			
 		} catch (SQLException e) {
 			throw new CustomException("Error al obtener Libro por id", "DataLibro", e);		

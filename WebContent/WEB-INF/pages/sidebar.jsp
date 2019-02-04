@@ -5,11 +5,16 @@
 <div class="col-lg-3">
 
   <h1 class="my-4">Bienvenido!</h1>
+  
   <h5 class="">Categorias</h5>
+  
   <div class="list-group list-group-flush">
-    <a href="#" class="list-group-item">Historia</a>
-    <a href="#" class="list-group-item">Terror</a>
-    <a href="#" class="list-group-item">Ciencia Ficción</a>
+	
+	<c:if test="${requestScope.categorias != null }">
+	  <c:forEach var="cat" begin="0" items="${requestScope.categorias}">
+	    <a href="/libreria-java/home?cat=${cat.getId()}" class="list-group-item">${cat.getDesc()}</a>
+    	</c:forEach>	
+	</c:if>	
   </div>
 
 </div>
