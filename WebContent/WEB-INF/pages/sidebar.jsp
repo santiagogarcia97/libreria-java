@@ -10,7 +10,7 @@
   
   <div class="list-group list-group-flush">
 	
-	<c:if test="${requestScope.categorias != null }">
+	<c:if test="${requestScope.categorias != null && requestScope.categorias.size() != 0}">
 	  <c:forEach var="cat" begin="0" items="${requestScope.categorias}">
 	    <a href="/libreria-java/home?cat=${cat.getId()}" class="list-group-item">${cat.getDesc()}</a>
     	</c:forEach>	

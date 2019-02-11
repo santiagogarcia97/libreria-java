@@ -31,20 +31,25 @@ public class ServletAdmin extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		if(isAdmin(request)) {
 			try {
+				CtrlCategoria ctrl;
+				
 				switch (request.getPathInfo()) {			
-				case "/alta-libro":
-					request.setAttribute("adminPage", "altaLibro");
-					break;
-				case "/alta-cat-libro":
-					CtrlCategoria ctrl = new CtrlCategoria();
-					request.setAttribute("categorias", ctrl.getAll());
-					request.setAttribute("adminPage", "altaCatLibro");
-					break;	
-				default:
-					request.setAttribute("adminPage", "stats");
-					break;
+					case "/alta-libro":
+						request.setAttribute("adminPage", "altaLibro");
+						ctrl = new CtrlCategoria();
+						request.setAttribute("categorias", ctrl.getAll());
+						break;
+					case "/alta-cat-libro":
+						ctrl = new CtrlCategoria();
+						request.setAttribute("categorias", ctrl.getAll());
+						request.setAttribute("adminPage", "altaCatLibro");
+						break;	
+					default:
+						request.setAttribute("adminPage", "stats");
+						break;
 				}
 				
 				request.getRequestDispatcher( "/WEB-INF/pages/admin/adminPanel.jsp" ).forward( request, response );
@@ -119,6 +124,11 @@ public class ServletAdmin extends HttpServlet {
 		l.setFechaEdicion(Date.valueOf(req.getParameter("inputFechaEdicion")));
 		l.setIsbn(req.getParameter("inputISBN"));
 		l.setDiasMaxPrestamo(Integer.parseInt(req.getParameter("inputMaxDias")));
+		l.setTapa(req.getParameter("inputTapa"));
+		
+		l.setCat(new Categoria());
+		l.getCat().setId(Integer.parseInt(req.getParameter("inputCategoria")));
+		
 		l.setEstado("disponible");
 		
 		CtrlLibro ctrl = new CtrlLibro();

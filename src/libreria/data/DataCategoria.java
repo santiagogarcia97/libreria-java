@@ -11,15 +11,15 @@ import libreria.utils.CustomException;
 
 public class DataCategoria {
 	
-	private final String _GET_BY_ID = "select * from categorias_libros where id_cl=? and estado!='eliminado'"; 
+	private final String _GET_BY_ID = "select * from categorias where id_cl=? and estado!='eliminado'"; 
 	
-	private final String _GET_ALL = "select * from categorias_libros where estado!='eliminado'"; 
+	private final String _GET_ALL = "select * from categorias where estado!='eliminado'"; 
 	
-	private final String _ADD = "insert into categorias_libros(descripcion, estado) values (?,?)"; 
+	private final String _ADD = "insert into categorias(descripcion, estado) values (?,?)"; 
 	
-	private final String _DELETE = 	"update categorias_libros set estado='eliminado' where id_cl=?"; 
+	private final String _DELETE = 	"update categorias set estado='eliminado' where id_cl=?"; 
 	
-	private final String _UPDATE = 	"update categorias_libros set descripcion=?, estado=? where id_cl=?"; 
+	private final String _UPDATE = 	"update categorias set descripcion=?, estado=? where id_cl=?"; 
 	
 	///////////////
 	// GET ALL

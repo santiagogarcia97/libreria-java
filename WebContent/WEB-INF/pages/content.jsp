@@ -44,7 +44,7 @@
 		      <div class="col-lg-3 col-md-4 col-6 mb-4">
 			    <div class="card h-100">
 	  		      <a href="#">
-	  		      	<img class="card-img-top img-fluid" height="200" src="/libreria-java/resources/images/bookcovers/${libro.getTapa()}.jpg" alt="img">
+	  		      	<img class="card-img-top img-fluid" src="${libro.getTapa()}" alt="img">
 	  		      </a>
 	        	  <div class="card-body">
 	          	    <h6 class="card-title">

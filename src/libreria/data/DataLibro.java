@@ -9,19 +9,19 @@ import libreria.utils.CustomException;
 
 public class DataLibro {
 	
-	private final String _GET_BY_ID = "select * from libros l left join categorias_libros cl on l.id_categoria=cl.id_cl where id_libro=? and l.estado!='eliminado'";
+	private final String _GET_BY_ID = "select * from libros l inner join categorias cl on l.id_categoria=cl.id_cl where id_libro=? and l.estado!='eliminado'";
 	
-	private final String _GET_BY_CAT = "select * from libros l left join categorias_libros cl on l.id_categoria=cl.id_cl where id_cl=? and l.estado!='eliminado'";
+	private final String _GET_BY_CAT = "select * from libros l inner join categorias cl on l.id_categoria=cl.id_cl where id_cl=? and l.estado!='eliminado'";
 	
-	private final String _GET_ALL = "select * from libros l left join categorias_libros cl on l.id_categoria=cl.id_cl where l.estado!='eliminado'"; 
+	private final String _GET_ALL = "select * from libros l inner join categorias cl on l.id_categoria=cl.id_cl where l.estado!='eliminado'"; 
 	
-	private final String _ADD = "insert into libros(isbn,titulo,autor,edicion,fecha_edicion,cant_dias_max,estado) "
-									+ "values (?,?,?,?,?,?,?)"; 
+	private final String _ADD = "insert into libros(isbn,titulo,autor,edicion,fecha_edicion,cant_dias_max,estado,id_categoria,imagen_tapa) "
+									+ "values (?,?,?,?,?,?,?,?,?)"; 
 	
 	private final String _DELETE = 	"update libros set estado='eliminado' where id_libro=?"; 
 	
 	private final String _UPDATE = 	"update libros set isbn=?, titulo=?,autor=?, edicion=?,"
-									+ "fecha_edicion=?, cant_dias_max=?, estado=? where id_libro=?"; 
+									+ "fecha_edicion=?, cant_dias_max=?, estado=?, id_categoria=?, imagen_tapa=? where id_libro=?"; 
 	
 	///////////////
 	// GET ALL
@@ -193,6 +193,8 @@ public class DataLibro {
 			stmt.setDate(5, l.getFechaEdicion());
 			stmt.setInt(6, l.getDiasMaxPrestamo());
 			stmt.setString(7, l.getEstado());
+			stmt.setInt(8, l.getCat().getId());
+			stmt.setString(9, l.getTapa());
 
 			stmt.executeUpdate();
 			keyResultSet=stmt.getGeneratedKeys();
@@ -252,7 +254,10 @@ public class DataLibro {
 			stmt.setDate(5, l.getFechaEdicion());
 			stmt.setInt(6, l.getDiasMaxPrestamo());
 			stmt.setString(7, l.getEstado());
-			stmt.setInt(8, l.getId());
+			stmt.setInt(8, l.getCat().getId());
+			stmt.setString(9, l.getTapa());
+			
+			stmt.setInt(10, l.getId());
 
 			stmt.executeUpdate();
 		} catch (SQLException e) {
