@@ -23,7 +23,7 @@ public class DataSancion {
 						s.setId(rs.getInt("id_Sancion"));
 						s.setFechaSancion(rs.getDate("fecha_Sancion"));
 						s.setDiasSancion(rs.getInt("dias_sancion"));
-						sanciones.add(p);
+						sanciones.add(s);
 					}
 				}
 			} catch (SQLException e) {

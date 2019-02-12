@@ -30,7 +30,6 @@ public class ServletHome extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		CtrlCategoria ctrlCat = new CtrlCategoria();
 		CtrlLibro ctrlLibro = new CtrlLibro();
 		
@@ -47,7 +46,6 @@ public class ServletHome extends HttpServlet {
 		}
 		
 
-		
 		request.getRequestDispatcher( "/WEB-INF/pages/index.jsp" ).forward( request, response );
 	}
 

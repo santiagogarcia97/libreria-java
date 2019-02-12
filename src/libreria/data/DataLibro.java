@@ -39,22 +39,7 @@ public class DataLibro {
 			if(rs!=null){
 				while(rs.next()){
 					Libro l=new Libro();
-					Categoria cat = new Categoria();
-
-					l.setId(rs.getInt("id_libro"));
-					l.setIsbn(rs.getString("isbn"));
-					l.setTitulo(rs.getString("titulo"));
-					l.setAutor(rs.getString("autor"));
-					l.setEdicion(rs.getString("edicion"));			
-					l.setFechaEdicion(rs.getDate("fecha_edicion"));
-					l.setDiasMaxPrestamo(rs.getInt("cant_dias_max"));
-					l.setEstado(rs.getString("estado"));
-					l.setTapa(rs.getString("imagen_tapa"));
-					
-					cat.setId(rs.getInt("id_cl"));
-					cat.setDesc(rs.getString("descripcion"));
-					l.setCat(cat);
-					
+					l = cargar_datos_a_entidad(l,rs);
 					libros.add(l);
 				}
 			}			
@@ -93,22 +78,7 @@ public class DataLibro {
 			if(rs!=null){
 				while(rs.next()){
 					Libro l=new Libro();
-					Categoria cat = new Categoria();
-
-					l.setId(rs.getInt("id_libro"));
-					l.setIsbn(rs.getString("isbn"));
-					l.setTitulo(rs.getString("titulo"));
-					l.setAutor(rs.getString("autor"));
-					l.setEdicion(rs.getString("edicion"));			
-					l.setFechaEdicion(rs.getDate("fecha_edicion"));
-					l.setDiasMaxPrestamo(rs.getInt("cant_dias_max"));
-					l.setEstado(rs.getString("estado"));
-					l.setTapa(rs.getString("imagen_tapa"));
-					
-					cat.setId(rs.getInt("id_cl"));
-					cat.setDesc(rs.getString("descripcion"));
-					l.setCat(cat);
-					
+					l = cargar_datos_a_entidad(l,rs);
 					libros.add(l);
 				}
 			}			
@@ -143,22 +113,8 @@ public class DataLibro {
 			rs=stmt.executeQuery();
 			
 			if(rs!=null && rs.next()){
-				Categoria cat = new Categoria();
-				l=new Libro();
-				
-				l.setId(rs.getInt("id_libro"));
-				l.setIsbn(rs.getString("isbn"));
-				l.setTitulo(rs.getString("titulo"));
-				l.setAutor(rs.getString("autor"));
-				l.setEdicion(rs.getString("edicion"));			
-				l.setFechaEdicion(rs.getDate("fecha_edicion"));
-				l.setDiasMaxPrestamo(rs.getInt("cant_dias_max"));
-				l.setEstado(rs.getString("estado"));
-				
-				cat.setId(rs.getInt("id_cl"));
-				cat.setDesc(rs.getString("descripcion"));
-				l.setCat(cat);
-					
+				l = new Libro();
+				l = cargar_datos_a_entidad(l,rs);
 			}			
 		} catch (SQLException e) {
 			throw new CustomException("Error al obtener Libro por id", "DataLibro", e);		
@@ -186,16 +142,7 @@ public class DataLibro {
 		ResultSet keyResultSet=null;
 		try {
 			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(_ADD, PreparedStatement.RETURN_GENERATED_KEYS);
-			stmt.setString(1, l.getIsbn());
-			stmt.setString(2, l.getTitulo());
-			stmt.setString(3, l.getAutor());
-			stmt.setString(4, l.getEdicion());
-			stmt.setDate(5, l.getFechaEdicion());
-			stmt.setInt(6, l.getDiasMaxPrestamo());
-			stmt.setString(7, l.getEstado());
-			stmt.setInt(8, l.getCat().getId());
-			stmt.setString(9, l.getTapa());
-
+			stmt = cargar_datos_a_bd(l,stmt);
 			stmt.executeUpdate();
 			keyResultSet=stmt.getGeneratedKeys();
 			if(keyResultSet!=null && keyResultSet.next()){
@@ -247,19 +194,9 @@ public class DataLibro {
 
 		try {
 			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(_UPDATE);
-			stmt.setString(1, l.getIsbn());
-			stmt.setString(2, l.getTitulo());
-			stmt.setString(3, l.getAutor());
-			stmt.setString(4, l.getEdicion());
-			stmt.setDate(5, l.getFechaEdicion());
-			stmt.setInt(6, l.getDiasMaxPrestamo());
-			stmt.setString(7, l.getEstado());
-			stmt.setInt(8, l.getCat().getId());
-			stmt.setString(9, l.getTapa());
-			
-			stmt.setInt(10, l.getId());
-
+			stmt = cargar_datos_a_bd(l,stmt);
 			stmt.executeUpdate();
+			
 		} catch (SQLException e) {
 			throw new CustomException("Error al actualizar Libro", "DataLibro", e);	
 		}
@@ -271,5 +208,48 @@ public class DataLibro {
 		} catch (CustomException e) {
 			throw e;					
 		} 
+	}
+	
+	public Libro cargar_datos_a_entidad(Libro l, ResultSet rs) {
+		Categoria cat = new Categoria();
+		try {
+			l.setId(rs.getInt("id_libro"));
+			l.setIsbn(rs.getString("isbn"));
+			l.setTitulo(rs.getString("titulo"));
+			l.setAutor(rs.getString("autor"));
+			l.setEdicion(rs.getString("edicion"));			
+			l.setFechaEdicion(rs.getDate("fecha_edicion"));
+			l.setDiasMaxPrestamo(rs.getInt("cant_dias_max"));
+			l.setEstado(rs.getString("estado"));
+			l.setTapa(rs.getString("imagen_tapa"));
+			cat.setId(rs.getInt("id_cl"));
+			cat.setDesc(rs.getString("descripcion"));
+		}
+		catch (SQLException e) {
+			throw new CustomException("Error al ejecutar recuperar datos.", "DataLibro", e);		
+		} catch (CustomException e) {
+			throw e;								
+		}
+		l.setCat(cat);
+		return l;
+	}
+	
+	public PreparedStatement cargar_datos_a_bd(Libro l, PreparedStatement stmt) throws SQLException{
+		
+		stmt.setString(1, l.getIsbn());
+		stmt.setString(2, l.getTitulo());
+		stmt.setString(3, l.getAutor());
+		stmt.setString(4, l.getEdicion());
+		stmt.setDate(5, l.getFechaEdicion());
+		stmt.setInt(6, l.getDiasMaxPrestamo());
+		stmt.setString(7, l.getEstado());
+		stmt.setInt(8, l.getCat().getId());
+		stmt.setString(9, l.getTapa());
+			
+		stmt.setInt(10, l.getId());
+	
+			
+		return stmt;
+
 	}
 }

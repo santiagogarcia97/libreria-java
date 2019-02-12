@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import libreria.entities.Categoria;
+import libreria.entities.Libro;
 import libreria.utils.CustomException;
 
 public class DataCategoria {
@@ -37,11 +38,7 @@ public class DataCategoria {
 			if(rs!=null){
 				while(rs.next()){
 					Categoria c = new Categoria();
-
-					c.setId(rs.getInt("id_cl"));
-					c.setDesc(rs.getString("descripcion"));
-					c.setEstado(rs.getString("estado"));
-					
+					c = cargar_datos_a_entidad(c,rs);
 					categorias.add(c);
 				}
 			}			
@@ -77,9 +74,7 @@ public class DataCategoria {
 			
 			if(rs!=null && rs.next()){
 					c = new Categoria();
-					c.setId(rs.getInt("id_cl"));
-					c.setDesc(rs.getString("descripcion"));
-					c.setEstado(rs.getString("estado"));
+					c = cargar_datos_a_entidad(c,rs);
 			}			
 		} catch (SQLException e) {
 			throw new CustomException("Error al ejecutar getById()", "DataCategoria", e);		
@@ -109,9 +104,7 @@ public class DataCategoria {
 		
 		try {
 			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(_ADD, PreparedStatement.RETURN_GENERATED_KEYS);
-			stmt.setString(1, c.getDesc());
-			stmt.setString(2, c.getEstado());
-
+			stmt = cargar_datos_a_bd(c,stmt);
 			stmt.executeUpdate();
 			
 			keyResultSet=stmt.getGeneratedKeys();
@@ -164,8 +157,7 @@ public class DataCategoria {
 
 		try {
 			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(_UPDATE);
-			stmt.setString(1, c.getDesc());
-			stmt.setString(2, c.getEstado());
+			stmt = cargar_datos_a_bd(c,stmt);
 			stmt.setInt(3, c.getId());
 
 			stmt.executeUpdate();
@@ -181,4 +173,27 @@ public class DataCategoria {
 			throw e;					
 		} 
 	}
+	
+	public Categoria cargar_datos_a_entidad(Categoria c, ResultSet rs) {
+		try {
+			c.setId(rs.getInt("id_cl"));
+			c.setDesc(rs.getString("descripcion"));
+			c.setEstado(rs.getString("estado"));
+		}
+		catch (SQLException e) {
+			throw new CustomException("Error al ejecutar recuperar datos.", "DataCategoria", e);		
+		} catch (CustomException e) {
+			throw e;								
+		}
+		return c;
+	}
+	
+	public PreparedStatement cargar_datos_a_bd(Categoria c, PreparedStatement stmt) throws SQLException{
+		stmt.setString(1, c.getDesc());
+		stmt.setString(2, c.getEstado());
+			
+		return stmt;
+
+	}
+	
 }

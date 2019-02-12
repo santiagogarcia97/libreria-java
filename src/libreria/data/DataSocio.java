@@ -3,6 +3,8 @@ package libreria.data;
 import java.sql.*;
 import java.util.ArrayList;
 
+import libreria.entities.Categoria;
+import libreria.entities.Libro;
 import libreria.entities.Socio;
 import libreria.utils.CustomException;
 
@@ -38,19 +40,7 @@ public class DataSocio {
 			if(rs!=null){
 				while(rs.next()){
 					Socio s=new Socio();
-
-					s.setId(rs.getInt("id_socio"));
-					s.setUsername(rs.getString("username"));
-					s.setPassword(rs.getString("password"));
-					s.setNombre(rs.getString("nombre"));
-					s.setApellido(rs.getString("apellido"));
-					s.setEmail(rs.getString("email"));
-					s.setDomicilio(rs.getString("domicilio"));
-					s.setTelefono(rs.getString("telefono"));
-					s.setDni(rs.getString("dni"));
-					s.setTipoUsuario(rs.getString("tipo"));
-					s.setEstado(rs.getString("estado"));
-					
+					s = cargar_datos_a_entidad(s,rs);
 					socios.add(s);
 				}
 			}			
@@ -86,17 +76,7 @@ public class DataSocio {
 			
 			if(rs!=null && rs.next()){
 					s=new Socio();
-					s.setId(rs.getInt("id_socio"));
-					s.setUsername(rs.getString("username"));
-					s.setPassword(rs.getString("password"));
-					s.setNombre(rs.getString("nombre"));
-					s.setApellido(rs.getString("apellido"));
-					s.setEmail(rs.getString("email"));
-					s.setDomicilio(rs.getString("domicilio"));
-					s.setTelefono(rs.getString("telefono"));
-					s.setDni(rs.getString("dni"));
-					s.setTipoUsuario(rs.getString("tipo"));
-					s.setEstado(rs.getString("estado"));
+					s = cargar_datos_a_entidad(s,rs);
 			}			
 		} catch (SQLException e) {
 			throw new CustomException("Error al obtener Socio por id", "DataSocio", e);		
@@ -130,17 +110,7 @@ public class DataSocio {
 			
 			if(rs!=null && rs.next()){
 					s=new Socio();
-					s.setId(rs.getInt("id_socio"));
-					s.setUsername(rs.getString("username"));
-					s.setPassword(rs.getString("password"));
-					s.setNombre(rs.getString("nombre"));
-					s.setApellido(rs.getString("apellido"));
-					s.setEmail(rs.getString("email"));
-					s.setDomicilio(rs.getString("domicilio"));
-					s.setTelefono(rs.getString("telefono"));
-					s.setDni(rs.getString("dni"));
-					s.setTipoUsuario(rs.getString("tipo"));
-					s.setEstado(rs.getString("estado"));
+					s = cargar_datos_a_entidad(s,rs);
 			}			
 		} catch (SQLException e) {
 			throw new CustomException("Error al obtener Socio por username", "DataSocio", e);		
@@ -168,15 +138,7 @@ public class DataSocio {
 		ResultSet keyResultSet=null;
 		try {
 			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(_ADD, PreparedStatement.RETURN_GENERATED_KEYS);
-			stmt.setString(1, s.getNombre());
-			stmt.setString(2, s.getApellido());
-			stmt.setString(3, s.getEmail());
-			stmt.setString(4, s.getDomicilio());
-			stmt.setString(5, s.getTelefono());
-			stmt.setString(6, s.getDni());
-			stmt.setString(7, s.getUsername());
-			stmt.setString(8, s.getPassword());
-
+			stmt = cargar_datos_a_bd(s, stmt);
 			stmt.executeUpdate();
 			keyResultSet=stmt.getGeneratedKeys();
 			if(keyResultSet!=null && keyResultSet.next()){
@@ -228,18 +190,7 @@ public class DataSocio {
 
 		try {
 			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(_UPDATE);
-			stmt.setString(1, s.getNombre());
-			stmt.setString(2, s.getApellido());
-			stmt.setString(3, s.getEmail());
-			stmt.setString(4, s.getDomicilio());
-			stmt.setString(5, s.getTelefono());
-			stmt.setString(6, s.getDni());
-			stmt.setString(7, s.getUsername());
-			stmt.setString(8, s.getPassword());
-			stmt.setString(9, s.getTipoUsuario());
-			stmt.setString(10, s.getEstado());
-			stmt.setInt(11, s.getId());
-
+			stmt = cargar_datos_a_bd(s, stmt);
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			throw new CustomException("Error al actualizar Socio", "DataSocio", e);	
@@ -253,4 +204,43 @@ public class DataSocio {
 			throw e;					
 		} 
 	}
+	
+	public Socio cargar_datos_a_entidad(Socio s, ResultSet rs) {
+		try {
+			s.setId(rs.getInt("id_socio"));
+			s.setUsername(rs.getString("username"));
+			s.setPassword(rs.getString("password"));
+			s.setNombre(rs.getString("nombre"));
+			s.setApellido(rs.getString("apellido"));
+			s.setEmail(rs.getString("email"));
+			s.setDomicilio(rs.getString("domicilio"));
+			s.setTelefono(rs.getString("telefono"));
+			s.setDni(rs.getString("dni"));
+			s.setTipoUsuario(rs.getString("tipo"));
+			s.setEstado(rs.getString("estado"));
+		}
+		catch (SQLException e) {
+			throw new CustomException("Error al ejecutar recuperar datos.", "DataSocio", e);		
+		} catch (CustomException e) {
+			throw e;								
+		}
+		return s;
+	}
+	
+	public PreparedStatement cargar_datos_a_bd(Socio s, PreparedStatement stmt) throws SQLException{
+		stmt.setString(1, s.getNombre());
+		stmt.setString(2, s.getApellido());
+		stmt.setString(3, s.getEmail());
+		stmt.setString(4, s.getDomicilio());
+		stmt.setString(5, s.getTelefono());
+		stmt.setString(6, s.getDni());
+		stmt.setString(7, s.getUsername());
+		stmt.setString(8, s.getPassword());
+		stmt.setString(9, s.getTipoUsuario());
+		stmt.setString(10, s.getEstado());
+		stmt.setInt(11, s.getId());
+			
+		return stmt;
+	}
+	
 }

@@ -50,7 +50,7 @@ public class FactoryConexion {
 				conn = DriverManager.getConnection(connString);
 			}
 		} catch (SQLException e) {
-			throw new CustomException("No se pudó conectar a la BD", "FactoryConexion", e);
+			throw new CustomException("No se pudï¿½ conectar a la BD", "FactoryConexion", e);
 		}
 		cantConn++;
 		return conn;
