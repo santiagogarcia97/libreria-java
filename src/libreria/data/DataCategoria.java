@@ -104,7 +104,7 @@ public class DataCategoria {
 		
 		try {
 			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(_ADD, PreparedStatement.RETURN_GENERATED_KEYS);
-			stmt = cargar_datos_a_bd(c,stmt);
+			stmt = cargar_datos_a_bd(c,stmt,"add");
 			stmt.executeUpdate();
 			
 			keyResultSet=stmt.getGeneratedKeys();
@@ -157,7 +157,7 @@ public class DataCategoria {
 
 		try {
 			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(_UPDATE);
-			stmt = cargar_datos_a_bd(c,stmt);
+			stmt = cargar_datos_a_bd(c,stmt, "update");
 			stmt.setInt(3, c.getId());
 
 			stmt.executeUpdate();
@@ -188,9 +188,10 @@ public class DataCategoria {
 		return c;
 	}
 	
-	public PreparedStatement cargar_datos_a_bd(Categoria c, PreparedStatement stmt) throws SQLException{
+	public PreparedStatement cargar_datos_a_bd(Categoria c, PreparedStatement stmt, String mode) throws SQLException{
 		stmt.setString(1, c.getDesc());
 		stmt.setString(2, c.getEstado());
+		if (mode == "update") stmt.setInt(3, c.getId());
 			
 		return stmt;
 

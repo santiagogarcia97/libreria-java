@@ -142,7 +142,7 @@ public class DataLibro {
 		ResultSet keyResultSet=null;
 		try {
 			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(_ADD, PreparedStatement.RETURN_GENERATED_KEYS);
-			stmt = cargar_datos_a_bd(l,stmt);
+			stmt = cargar_datos_a_bd(l,stmt,"add");
 			stmt.executeUpdate();
 			keyResultSet=stmt.getGeneratedKeys();
 			if(keyResultSet!=null && keyResultSet.next()){
@@ -194,7 +194,7 @@ public class DataLibro {
 
 		try {
 			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(_UPDATE);
-			stmt = cargar_datos_a_bd(l,stmt);
+			stmt = cargar_datos_a_bd(l,stmt, "update");
 			stmt.executeUpdate();
 			
 		} catch (SQLException e) {
@@ -224,17 +224,18 @@ public class DataLibro {
 			l.setTapa(rs.getString("imagen_tapa"));
 			cat.setId(rs.getInt("id_cl"));
 			cat.setDesc(rs.getString("descripcion"));
+			l.setCat(cat);
 		}
 		catch (SQLException e) {
 			throw new CustomException("Error al ejecutar recuperar datos.", "DataLibro", e);		
 		} catch (CustomException e) {
 			throw e;								
 		}
-		l.setCat(cat);
+		
 		return l;
 	}
 	
-	public PreparedStatement cargar_datos_a_bd(Libro l, PreparedStatement stmt) throws SQLException{
+	public PreparedStatement cargar_datos_a_bd(Libro l, PreparedStatement stmt, String mode) throws SQLException{
 		
 		stmt.setString(1, l.getIsbn());
 		stmt.setString(2, l.getTitulo());
@@ -245,8 +246,8 @@ public class DataLibro {
 		stmt.setString(7, l.getEstado());
 		stmt.setInt(8, l.getCat().getId());
 		stmt.setString(9, l.getTapa());
-			
-		stmt.setInt(10, l.getId());
+		
+		if (mode == "update") stmt.setInt(10, l.getId());
 	
 			
 		return stmt;

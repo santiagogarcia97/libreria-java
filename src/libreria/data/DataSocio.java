@@ -16,8 +16,8 @@ public class DataSocio {
 	
 	private final String _GET_ALL = "select * from socios where estado!='eliminado'"; 
 	
-	private final String _ADD = "insert into socios(nombre,apellido,email,domicilio,telefono,dni,username, password) "
-									+ "values (?,?,?,?,?,?,?,?)"; 
+	private final String _ADD = "insert into socios(nombre,apellido,email,domicilio,telefono,dni,username, password, tipo, estado) "
+									+ "values (?,?,?,?,?,?,?,?,?,?)"; 
 	
 	private final String _DELETE = 	"update socios set estado='eliminado' where id_socio=?"; 
 	
@@ -138,7 +138,7 @@ public class DataSocio {
 		ResultSet keyResultSet=null;
 		try {
 			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(_ADD, PreparedStatement.RETURN_GENERATED_KEYS);
-			stmt = cargar_datos_a_bd(s, stmt);
+			stmt = cargar_datos_a_bd(s, stmt, "add");
 			stmt.executeUpdate();
 			keyResultSet=stmt.getGeneratedKeys();
 			if(keyResultSet!=null && keyResultSet.next()){
@@ -190,7 +190,7 @@ public class DataSocio {
 
 		try {
 			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(_UPDATE);
-			stmt = cargar_datos_a_bd(s, stmt);
+			stmt = cargar_datos_a_bd(s, stmt, "update");
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			throw new CustomException("Error al actualizar Socio", "DataSocio", e);	
@@ -227,7 +227,7 @@ public class DataSocio {
 		return s;
 	}
 	
-	public PreparedStatement cargar_datos_a_bd(Socio s, PreparedStatement stmt) throws SQLException{
+	public PreparedStatement cargar_datos_a_bd(Socio s, PreparedStatement stmt, String mode) throws SQLException{
 		stmt.setString(1, s.getNombre());
 		stmt.setString(2, s.getApellido());
 		stmt.setString(3, s.getEmail());
@@ -238,7 +238,7 @@ public class DataSocio {
 		stmt.setString(8, s.getPassword());
 		stmt.setString(9, s.getTipoUsuario());
 		stmt.setString(10, s.getEstado());
-		stmt.setInt(11, s.getId());
+		if (mode == "update") stmt.setInt(11, s.getId());
 			
 		return stmt;
 	}
