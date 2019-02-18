@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import libreria.controllers.CtrlCategoria;
 import libreria.controllers.CtrlLibro;
-import libreria.entities.Categoria;
+import libreria.entities.*;
 
 /**
  * Servlet implementation class ServletHome
@@ -35,11 +35,18 @@ public class ServletHome extends HttpServlet {
 		
 		request.setAttribute("categorias", ctrlCat.getAll());
 		
-		if(request.getParameter("cat") != null) {
+		if(request.getParameter("cat") != null && request.getParameter("libro") == null) {
 			Categoria c = new Categoria();
 			c.setId(Integer.parseInt(request.getParameter("cat")));
 			
 			request.setAttribute("libros", ctrlLibro.getByCat(c));
+		}
+		else if(request.getParameter("cat") == null && request.getParameter("libro") != null){
+			Libro l = new Libro();
+			l.setId(Integer.parseInt(request.getParameter("libro")));
+			
+			request.setAttribute("libro", ctrlLibro.getById(l));
+			
 		}
 		else {
 			request.setAttribute("libros", ctrlLibro.getAll());
