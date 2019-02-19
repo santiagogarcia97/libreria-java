@@ -18,6 +18,7 @@ public class CtrlSocio {
 	public Socio add(Socio s) throws CustomException{
 		String hashedPass = BCrypt.hashpw(s.getPassword(), BCrypt.gensalt(10));
 		s.setPassword(hashedPass);
+		s.setEstado("habilitado");
 		return dataSocio.add(s);
 	}
 	

@@ -88,7 +88,7 @@
 						<h5>Fecha edición: ${libro.getFechaEdicion()}</h5>
 						<br>
 						<h5>Maximo dias de prestamo: ${libro.getDiasMaxPrestamo()}</h5>
-						<a href="#" class="btn btn-primary">Agregar al prestamo</a>
+						<a href="/libreria-java/prestamos?action=add&id=${libro.getId()}" class="btn btn-primary">Agregar al prestamo</a>
 					</div>
 				</div>
 			</div>

@@ -14,81 +14,80 @@ import libreria.utils.CustomException;
 /**
  * Servlet implementation class ServletUserAuth
  */
-@WebServlet({ "/auth/*"})
+@WebServlet({ "/auth/*" })
 public class ServletUserAuth extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ServletUserAuth() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public ServletUserAuth() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		try {
 			switch (request.getPathInfo()) {
 			case "/signup":
-				if(request.getSession().getAttribute("loggedType") == null) {
-					request.getRequestDispatcher( "/WEB-INF/pages/signup.jsp" ).forward( request, response );
+				if (request.getSession().getAttribute("loggedUser") == null) {
+					request.getRequestDispatcher("/WEB-INF/pages/signup.jsp").forward(request, response);
+				} else {
+					response.sendRedirect("/libreria-java/home");
 				}
-				else {
-					response.sendRedirect("/libreria-java/home");			
-				}
-				break;				
+				break;
 			case "/login":
-				if(request.getSession().getAttribute("loggedType") == null) {
-					request.getRequestDispatcher( "/WEB-INF/pages/login.jsp" ).forward( request, response );
+				if (request.getSession().getAttribute("loggedType") == null) {
+					request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
+				} else {
+					response.sendRedirect("/libreria-java/home");
 				}
-				else {
-					response.sendRedirect("/libreria-java/home");			
-				}
-				break;				
+				break;
 			case "/logout":
-				this.logOut(request,response);
-				break;	
+				this.logOut(request, response);
+				break;
 			default:
-				this.error(request,response);
+				response.sendRedirect("/libreria-java/home");
 				break;
 			}
 		} catch (CustomException e) {
-		request.getSession().setAttribute("errorMsg", e.getMessage());
-		request.getRequestDispatcher( "/WEB-INF/pages/error.jsp" ).forward( request, response );
+			request.getSession().setAttribute("errorMsg", e.getMessage());
+			request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
 		}
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, CustomException, ServletException {	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws IOException, CustomException, ServletException {
 		try {
 			switch (request.getPathInfo()) {
 			case "/signup":
-				this.signUp(request,response);
+				this.signUp(request, response);
 				break;
-				
+
 			case "/login":
-				this.logIn(request,response);
+				this.logIn(request, response);
 				break;
-				
+
 			case "/logout":
-				this.logOut(request,response);
+				this.logOut(request, response);
 				break;
-		
+
 			default:
-				this.error(request,response);
+				response.sendRedirect("/libreria-java/home");
 				break;
 			}
 		} catch (CustomException e) {
-		request.getSession().setAttribute("errorMsg", e.getMessage());
-		request.getRequestDispatcher( "/WEB-INF/pages/error.jsp" ).forward( request, response );
+			request.getSession().setAttribute("errorMsg", e.getMessage());
+			request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
 		}
 	}
-	
+
 	//////////////////////
 	// SIGN UP LOGIC
 	//////////////////////
 	private void signUp(HttpServletRequest request, HttpServletResponse response) throws CustomException, IOException {
-		
+
 		Socio s = new Socio();
 		s.setNombre(request.getParameter("inputNombre"));
 		s.setApellido(request.getParameter("inputApellido"));
@@ -98,60 +97,47 @@ public class ServletUserAuth extends HttpServlet {
 		s.setDni(request.getParameter("inputDni"));
 		s.setUsername(request.getParameter("inputUsername"));
 		s.setPassword(request.getParameter("inputPassword"));
-				
+
 		CtrlSocio ctrl = new CtrlSocio();
 
-		if(ctrl.getByUsername(s) == null) { //El username está disponible
-			
-			Socio newSocio = ctrl.add(s);		
-			request.getSession().setAttribute("loggedType", newSocio.getTipoUsuario());
-			request.getSession().setAttribute("loggedUsername", newSocio.getUsername());
-			
+		if (ctrl.getByUsername(s) == null) { // El username está disponible
+
+			Socio nuevoSocio = ctrl.add(s);
+			request.getSession().setAttribute("loggedUser", nuevoSocio);
+
 			response.sendRedirect("/libreria-java/home");
-		}
-		else {
+		} else {
 			request.getSession().setAttribute("errorMsg", "El nombre de usuario no se encuentra disponible");
 			response.sendRedirect("signup");
 		}
 	}
-	
+
 	//////////////////////
 	// LOG IN LOGIC
 	//////////////////////
-	private void logIn(HttpServletRequest request, HttpServletResponse response) throws CustomException, IOException {		
+	private void logIn(HttpServletRequest request, HttpServletResponse response) throws CustomException, IOException {
 		Socio loginSocio = new Socio();
 		loginSocio.setUsername(request.getParameter("inputUsername"));
 		loginSocio.setPassword(request.getParameter("inputPassword"));
-		
+
 		CtrlSocio ctrl = new CtrlSocio();
 
-			if(ctrl.validateLogin(loginSocio).getId() == -1) {
-				request.getSession().setAttribute("errorMsg", "El usuario no existe o la contraseña es incorrecta");
-				response.sendRedirect("login");
-			}
-			else {
-				loginSocio = ctrl.getByUsername(loginSocio);
-				request.getSession().setAttribute("loggedType", loginSocio.getTipoUsuario());
-				request.getSession().setAttribute("loggedUsername", loginSocio.getUsername());
-				response.sendRedirect("/libreria-java/home");
-			}
+		if (ctrl.validateLogin(loginSocio).getId() == -1) {
+			request.getSession().setAttribute("errorMsg", "El usuario no existe o la contraseña es incorrecta");
+			response.sendRedirect("login");
+		} else {
+			loginSocio = ctrl.getByUsername(loginSocio);
+			request.getSession().setAttribute("loggedUser", loginSocio);
+			response.sendRedirect("/libreria-java/home");
+		}
 
 	}
-	
-	
+
 	//////////////////////
 	// LOG OUT LOGIC
 	//////////////////////
 	private void logOut(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		request.getSession().invalidate();
 		response.sendRedirect("/libreria-java/home");
-	}
-	
-	
-	//////////////////////
-	// ERROR LOGIC
-	//////////////////////
-	private void error(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		response.setStatus(404);
 	}
 }

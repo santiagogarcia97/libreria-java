@@ -108,10 +108,14 @@ public class ServletAdmin extends HttpServlet {
 	// VALIDAR SESION
 	//////////////////////
 	private boolean isAdmin(HttpServletRequest req) {
-		if(req.getSession().getAttribute("loggedType") != null && 
-				((String)req.getSession().getAttribute("loggedType")).equals("admin")) { return true;
-		} else { return false;}
+		if(req.getSession().getAttribute("loggedUser") != null) { 
+			Socio s = (Socio)req.getSession().getAttribute("loggedUser");
+			if(s.getTipoUsuario().equals("admin"))
+				return true;
+		} 
+		return false;
 	}
+	
 	//////////////////////
 	// ALTA LIBRO LOGIC
 	//////////////////////
@@ -135,6 +139,7 @@ public class ServletAdmin extends HttpServlet {
 		l = ctrl.add(l);
 		
 	}
+	
 	//////////////////////
 	// ALTA CATEGORIA LOGIC
 	//////////////////////
