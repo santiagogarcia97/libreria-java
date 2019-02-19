@@ -181,7 +181,7 @@ public class DataEjemplar {
 			Libro l = new Libro();
 			Categoria cat = new Categoria();
 		try {
-			e.setId(rs.getInt("id_Ejemplar"));
+			e.setId(rs.getInt("id_ejemplar"));
 			e.setDisponible(rs.getBoolean("disponible"));
 			e.setEstado(rs.getString("estado"));
 			l.setId(rs.getInt("id_libro"));

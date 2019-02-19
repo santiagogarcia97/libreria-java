@@ -1,73 +1,226 @@
 package libreria.data;
+
 import java.sql.*;
 import java.util.ArrayList;
 
+import libreria.entities.Categoria;
 import libreria.entities.LineaDePrestamo;
-import libreria.data.DataEjemplar;
-import libreria.entities.Ejemplar;
 import libreria.entities.Libro;
+import libreria.entities.Ejemplar;
+import libreria.utils.CustomException;
 
 public class DataLineaDePrestamo {
+	
+	
+	private final String _GET_BY_ID = "select * from lineas_prestamo lp inner join ejemplares e on lp.id_ejemplar = e.id_ejemplar"
+									+ "inner join libros l on e.id_libro=l.id_libro " 
+									+ "inner join categorias cl on l.id_categoria = cl.id_categoria "
+									+ "where id_linea=? and lp.estado!='eliminado'";
+
+	private final String _GET_ALL =   "select * from lineas_prestamo lp inner join ejemplares e on lp.id_ejemplar = e.id_ejemplar "
+									+ "inner join libros l on e.id_libro=l.id_libro " 
+									+ "inner join categorias cl on l.id_categoria = cl.id_categoria "
+									+ "where lp.estado!='eliminado'"; 
+							
+	private final String _ADD = "insert into lineas_prestamo(devuelto,fecha_devolucion,id_ejemplar, id_prestamo, estado) "
+									+ "values (?,?,?,?,?)"; 
+	
+	private final String _DELETE = 	"update lineas_prestamo set estado='eliminado' where id_linea=?"; 
+	
+	private final String _UPDATE = 	"update lineas_prestamo set devuelto=?, fecha_devolucion=?, id_ejemplar=?, id_prestamo=?, estado=?, where id_linea=?"; 
+	
+	///////////////
+	// GET ALL
+	///////////////
+	public ArrayList<LineaDePrestamo> getAll() throws CustomException{
 		
-	public ArrayList<LineaDePrestamo> getAll() throws Exception{
-			
-			Statement stmt=null;
-			ResultSet rs=null;
-			ArrayList<LineaDePrestamo> lineas= new ArrayList<LineaDePrestamo>();
-			try {
-				stmt = FactoryConexion.getInstancia().getConn().createStatement();
-				rs = stmt.executeQuery("select * from lineasdeprestamo");
-				
-				if(rs!=null){
-					while(rs.next()){
-						
-						int id = rs.getInt("id_ejemplar");
-						DataEjemplar de = DataEjemplar();
-						Ejemplar e = de.getOne(id);
-						
-						LineaDePrestamo lp =new LineaDePrestamo();
-						lp.setId(rs.getInt("id_linea"));
-						lp.setDevuelto(rs.getBoolean("devuelto"));
-						lp.setFechaDevolucion(rs.getDate("fecha_devolucion"));
-						lp.setEjemplar(e);
-					
-						lineas.add(lp);
-					}
-				}
-			} catch (SQLException e) {
-				//AppDataException ade=new AppDataException(e, "Error al recuperar listado de Libros.\n"+e.getSQLState()+":"+e.getMessage(), Level.WARN);
-				throw e;
-			} catch (Exception ade){
-				throw ade;
-			}		
-	
-			try {
-				if(rs!=null) rs.close();
-				if(stmt!=null) stmt.close();
-				FactoryConexion.getInstancia().releaseConn();
-			} catch (SQLException e) {
-				
-				e.printStackTrace();
-			}
-			
-			return lineas;
-			
-		}
-	
-	public LineaDePrestamo getOne(int id) throws Exception{
-		LineaDePrestamo lp = new LineaDePrestamo();
 		Statement stmt=null;
 		ResultSet rs=null;
-		stmt = con.prepareStatement("SELECT * from lineasdeprestamo WHERE  id_linea = ?");
-		stmt.setString(1, id);
-		ResultSet rs = stmt.executeQuery();
-		if(rs.next()) {
-			int ide = rs.getInt("id_ejemplar");
-			DataEjemplar de = DataEjemplar();
-			Ejemplar e = de.getOne(ide);
-			lp.setEjemplar(e);
+		ArrayList<LineaDePrestamo> lineas= new ArrayList<LineaDePrestamo>();
+		
+		try {
+			stmt = FactoryConexion.getInstancia().getConn().createStatement();
+			rs = stmt.executeQuery(_GET_ALL);
+			
+			if(rs!=null){
+				while(rs.next()){
+					LineaDePrestamo lp=new LineaDePrestamo();
+					lp = cargar_datos_a_entidad(lp,rs);
+					lineas.add(lp);
+				}
+			}			
+		} catch (SQLException e) {
+			throw new CustomException("Error al ejecutar getAll()", "DataLineaDePrestamo", e);		
+		} catch (CustomException e) {
+			throw e;					
+		} finally{
+			try {
+				if(rs!=null)rs.close();
+				if(stmt!=null)stmt.close();
+				FactoryConexion.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				throw new CustomException("Error al ejecutar getAll()", "DataLineaDePrestamo", e);
+			} catch (CustomException e) {
+				throw e;					
+			} 
+		}
+		return lineas;
+	}
+	
+	///////////////
+	// GET BY ID
+	///////////////
+	public LineaDePrestamo getById(LineaDePrestamo lpr) throws CustomException{
+		LineaDePrestamo lp=null;
+		PreparedStatement stmt=null;
+		ResultSet rs=null;
+		try {
+			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(_GET_BY_ID);
+			stmt.setInt(1, lpr.getId());
+			rs=stmt.executeQuery();
+			
+			if(rs!=null && rs.next()){
+				lp = new LineaDePrestamo();
+				lp = cargar_datos_a_entidad(lp,rs);
+			}			
+		} catch (SQLException e) {
+			throw new CustomException("Error al obtener Linea por id", "DataLineaDePrestamo", e);		
+		} catch (CustomException e) {
+			throw e;					
+		} finally{
+			try {
+				if(rs!=null)rs.close();
+				if(stmt!=null)stmt.close();
+				FactoryConexion.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				throw new CustomException("Error al obtener Linea por id", "DataLineaDePrestamo", e);
+			} catch (CustomException e) {
+				throw e;					
+			} 
 		}
 		return lp;
+	}
+	
+	
+	///////////////
+	// ADD
+	///////////////	
+	public LineaDePrestamo add(LineaDePrestamo lp) throws CustomException{
+		PreparedStatement stmt=null;
+		ResultSet keyResultSet=null;
+		try {
+			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(_ADD, PreparedStatement.RETURN_GENERATED_KEYS);
+			stmt = cargar_datos_a_bd(lp, stmt, "add");
+			stmt.executeUpdate();
+			keyResultSet=stmt.getGeneratedKeys();
+			if(keyResultSet!=null && keyResultSet.next()){
+				lp.setId(keyResultSet.getInt(1));
+			}
+		} catch (SQLException e) {
+			throw new CustomException("Error al insertar Linea", "DataLineaDePrestamo", e);	
+		}
+		try {
+			if(keyResultSet!=null)keyResultSet.close();
+			if(stmt!=null)stmt.close();
+			FactoryConexion.getInstancia().releaseConn();
+		} catch (SQLException e) {
+			throw new CustomException("Error al insertar Linea", "DataLineaDePrestamo", e);
+		} catch (CustomException e) {
+			throw e;					
+		} 
+		return lp;
+	}
+	
+	///////////////
+	// DELETE
+	///////////////
+	public void delete(LineaDePrestamo lp) throws CustomException{
+		PreparedStatement stmt=null;
+		
+		try {
+			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(_DELETE);
+			stmt.setInt(1, lp.getId());
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			throw new CustomException("Error al eliminar Linea", "DataLineaDePrestamo", e);	
+		}
+		try {
+			if(stmt!=null)stmt.close();
+			FactoryConexion.getInstancia().releaseConn();
+		} catch (SQLException e) {
+			throw new CustomException("Error al eliminar Linea", "DataLineaDePrestamo", e);
+		} catch (CustomException e) {
+			throw e;					
+		} 
+	}
+	
+	///////////////
+	// UPDATE
+	///////////////
+	public void update(LineaDePrestamo lp) throws CustomException{
+		PreparedStatement stmt=null;
+
+		try {
+			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(_UPDATE);
+			stmt = cargar_datos_a_bd(lp, stmt, "update");
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			throw new CustomException("Error al actualizar Linea", "DataLineaDePrestamo", e);	
+		}
+		try {
+			if(stmt!=null)stmt.close();
+			FactoryConexion.getInstancia().releaseConn();
+		} catch (SQLException e) {
+			throw new CustomException("Error al actualizar Linea", "DataLineaDePrestamo", e);
+		} catch (CustomException e) {
+			throw e;					
+		} 
+	}
+	
+	public LineaDePrestamo cargar_datos_a_entidad(LineaDePrestamo lp, ResultSet rs) {
+		Ejemplar e = new Ejemplar();
+		Libro l = new Libro();
+		Categoria cat = new Categoria();
+		try {
+			e.setId(rs.getInt("id_ejemplar"));
+			e.setDisponible(rs.getBoolean("disponible"));
+			e.setEstado(rs.getString("estado"));
+			l.setId(rs.getInt("id_libro"));
+			l.setIsbn(rs.getString("isbn"));
+			l.setTitulo(rs.getString("titulo"));
+			l.setAutor(rs.getString("autor"));
+			l.setEdicion(rs.getString("edicion"));			
+			l.setFechaEdicion(rs.getDate("fecha_edicion"));
+			l.setDiasMaxPrestamo(rs.getInt("cant_dias_max"));
+			l.setEstado(rs.getString("estado"));
+			l.setTapa(rs.getString("imagen_tapa"));
+			cat.setId(rs.getInt("id_cl"));
+			cat.setDesc(rs.getString("descripcion"));
+			l.setCat(cat);
+			lp.setId(rs.getInt("id_linea"));
+			lp.setDevuelto(rs.getBoolean("devuelto"));
+			lp.setFechaDevolucion(rs.getDate("fecha_devolucion"));
+			lp.setIdPrestamo(rs.getInt("id_prestamo"));
+			lp.setEstado(rs.getString("estado"));
+			lp.setEjemplar(e);
+		}
+		catch (SQLException ex) {
+			throw new CustomException("Error al ejecutar recuperar datos.", "DataLineaDePrestamo", ex);		
+		} catch (CustomException ex) {
+			throw ex;								
+		}
+		return lp;
+	}
+	
+	public PreparedStatement cargar_datos_a_bd(LineaDePrestamo lp, PreparedStatement stmt, String mode) throws SQLException{
+		stmt.setBoolean(1, lp.isDevuelto());
+		stmt.setDate(2, lp.getFechaDevolucion());
+		stmt.setInt(3, lp.getEjemplar().getId());
+		stmt.setInt(4, lp.getIdPrestamo());
+		stmt.setString(5, lp.getEstado());
+		if (mode == "update") stmt.setInt(6, lp.getId());
+					
+		return stmt;
 	}
 	
 }

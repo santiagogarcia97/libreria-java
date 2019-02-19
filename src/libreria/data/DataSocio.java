@@ -3,8 +3,6 @@ package libreria.data;
 import java.sql.*;
 import java.util.ArrayList;
 
-import libreria.entities.Categoria;
-import libreria.entities.Libro;
 import libreria.entities.Socio;
 import libreria.utils.CustomException;
 

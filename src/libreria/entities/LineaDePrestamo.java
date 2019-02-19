@@ -1,5 +1,6 @@
 package libreria.entities;
-import java.time.LocalDate;;
+import java.sql.Date;
+import java.time.*;
 
 
 public class LineaDePrestamo extends Entidad {
@@ -7,8 +8,9 @@ public class LineaDePrestamo extends Entidad {
 	private static final long serialVersionUID = 1L;
 	
 	private boolean devuelto;
-	private LocalDate fechaDevolucion;
+	private Date fechaDevolucion;
 	private Ejemplar ejemplar;
+	private int idPrestamo;
 	
 	
 	public LineaDePrestamo() {}
@@ -17,15 +19,19 @@ public class LineaDePrestamo extends Entidad {
 		this.devuelto = devuelto;
 	}
 	
-	public void setFechaDevolucion(LocalDate fecha) {
+	public void setFechaDevolucion(Date fecha) {
 		this.fechaDevolucion = fecha;
 	}
 	
 	public void setEjemplar(Ejemplar ejemplar) {
 		this.ejemplar = ejemplar;
 	}
-
-	public LocalDate getFechaDevolucion() {
+	
+	public void setIdPrestamo(int id) {
+		this.idPrestamo = id;
+	}
+	
+	public Date getFechaDevolucion() {
 		return this.fechaDevolucion;
 	}
 	
@@ -35,5 +41,9 @@ public class LineaDePrestamo extends Entidad {
 	
 	public Ejemplar getEjemplar(){
 		return this.ejemplar;
+	}
+	
+	public int getIdPrestamo() {
+		return this.idPrestamo;
 	}
 }
