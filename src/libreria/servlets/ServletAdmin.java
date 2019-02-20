@@ -109,8 +109,8 @@ public class ServletAdmin extends HttpServlet {
 	//////////////////////
 	private boolean isAdmin(HttpServletRequest req) {
 		if(req.getSession().getAttribute("loggedUser") != null) { 
-			Socio s = (Socio)req.getSession().getAttribute("loggedUser");
-			if(s.getTipoUsuario().equals("admin"))
+			Usuario u = (Usuario)req.getSession().getAttribute("loggedUser");
+			if(u.getTipoUsuario().equals("admin"))
 				return true;
 		} 
 		return false;
@@ -155,28 +155,7 @@ public class ServletAdmin extends HttpServlet {
 	}
 	
 	
-	
-	
-	
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 }
 

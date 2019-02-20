@@ -22,8 +22,8 @@ public class DataLineaDePrestamo {
 									+ "inner join categorias cl on l.id_categoria = cl.id_categoria "
 									+ "where lp.estado!='eliminado'"; 
 							
-	private final String _ADD = "insert into lineas_prestamo(devuelto,fecha_devolucion,id_ejemplar, id_prestamo, estado) "
-									+ "values (?,?,?,?,?)"; 
+	private final String _ADD = "insert into lineas_prestamo(id_ejemplar, id_prestamo, estado) "
+									+ "values (?,?,?)"; 
 	
 	private final String _DELETE = 	"update lineas_prestamo set estado='eliminado' where id_linea=?"; 
 	
@@ -183,7 +183,7 @@ public class DataLineaDePrestamo {
 		Categoria cat = new Categoria();
 		try {
 			e.setId(rs.getInt("id_ejemplar"));
-			e.setDisponible(rs.getBoolean("disponible"));
+	//		e.setDisponible(rs.getBoolean("disponible"));
 			e.setEstado(rs.getString("estado"));
 			l.setId(rs.getInt("id_libro"));
 			l.setIsbn(rs.getString("isbn"));
@@ -198,7 +198,7 @@ public class DataLineaDePrestamo {
 			cat.setDesc(rs.getString("descripcion"));
 			l.setCat(cat);
 			lp.setId(rs.getInt("id_linea"));
-			lp.setDevuelto(rs.getBoolean("devuelto"));
+		//	lp.setDevuelto(rs.getBoolean("devuelto"));
 			lp.setFechaDevolucion(rs.getDate("fecha_devolucion"));
 			lp.setIdPrestamo(rs.getInt("id_prestamo"));
 			lp.setEstado(rs.getString("estado"));
@@ -213,11 +213,9 @@ public class DataLineaDePrestamo {
 	}
 	
 	public PreparedStatement cargar_datos_a_bd(LineaDePrestamo lp, PreparedStatement stmt, String mode) throws SQLException{
-		stmt.setBoolean(1, lp.isDevuelto());
-		stmt.setDate(2, lp.getFechaDevolucion());
-		stmt.setInt(3, lp.getEjemplar().getId());
-		stmt.setInt(4, lp.getIdPrestamo());
-		stmt.setString(5, lp.getEstado());
+		stmt.setInt(1, lp.getEjemplar().getId());
+		stmt.setInt(2, lp.getIdPrestamo());
+		stmt.setString(3, lp.getEstado());
 		if (mode == "update") stmt.setInt(6, lp.getId());
 					
 		return stmt;

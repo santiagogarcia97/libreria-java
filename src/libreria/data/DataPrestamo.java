@@ -11,8 +11,8 @@ import libreria.utils.CustomException;
 public class DataPrestamo {
 
 	
-	private final String _GET_BY_ID = "select * from prestamos p inner join lineas_prestamo p on p.id_linea = p.id_linea"
-									+ "inner join ejemplares e on p.id_ejemplar = e.id_ejemplar"
+	private final String _GET_BY_ID = "select * from prestamos p inner join lineas_prestamo lp on p.id_prestamo = lp.id_prestamo"
+									+ "inner join ejemplares e on lp.id_ejemplar = e.id_ejemplar"
 									+ "inner join libros l on e.id_libro=l.id_libro " 
 									+ "inner join categorias cl on l.id_categoria = cl.id_categoria "
 									+ "where id_prestamo=? and p.estado!='eliminado'";
@@ -23,8 +23,8 @@ public class DataPrestamo {
 									+ "inner join categorias cl on l.id_categoria = cl.id_categoria "
 									+ "where p.estado!='eliminado'"; 
 							
-	private final String _ADD = "insert into prestamos(fecha_hora_prestamo, fecha_a_devolver, dias_prestamo, estado) "
-							  + "values (?,?,?,?)"; 
+	private final String _ADD = "insert into prestamos(id_usuario,fecha_hora_solicitud,fecha_hora_preparacion,fecha_hora_retiro,"
+			+ "fecha_hora_devolucion, estado) values (?,?,?,?,?,?)";
 	
 	private final String _DELETE = 	"update prestamos set estado='eliminado' where id_prestamo=?"; 
 	
@@ -120,14 +120,14 @@ public class DataPrestamo {
 				p.setId(keyResultSet.getInt(1));
 			}
 		} catch (SQLException e) {
-			throw new CustomException("Error al insertar Linea", "DataPrestamo", e);	
+			throw new CustomException("Error al insertar Prestamo", "DataPrestamo", e);	
 		}
 		try {
 			if(keyResultSet!=null)keyResultSet.close();
 			if(stmt!=null)stmt.close();
 			FactoryConexion.getInstancia().releaseConn();
 		} catch (SQLException e) {
-			throw new CustomException("Error al insertar Linea", "DataPrestamo", e);
+			throw new CustomException("Error al insertar Prestamo", "DataPrestamo", e);
 		} catch (CustomException e) {
 			throw e;					
 		} 
@@ -183,8 +183,8 @@ public class DataPrestamo {
 	public Prestamo cargar_datos_a_entidad(Prestamo p, ResultSet rs) {
 		try {
 			p.setId(rs.getInt("id_prestamo"));
-			p.setFechaADevolver(rs.getDate("fecha_a_devolver"));
-			p.setDiasPrestamo(rs.getInt("dias_prestamo"));
+			//p.setFechaADevolver(rs.getDate("fecha_a_devolver"));
+			//p.setDiasPrestamo(rs.getInt("dias_prestamo"));
 			p.setEstado(rs.getString("estado"));
 			p = cargarLineas(p);
 		}
@@ -198,10 +198,12 @@ public class DataPrestamo {
 	
 	public PreparedStatement cargar_datos_a_bd(Prestamo p, PreparedStatement stmt, String mode) throws SQLException{
 		//fecha_hora_prestamo=?, fecha_a_devolver=?, dias_prestamo=?, estado=?, where id_prestamo=?
-		stmt.setDate(1, p.getFechaHoraPrestamo());
-		stmt.setDate(2, p.getFechaADevolver());
-		stmt.setInt(3, p.getDiasPrestamo());
-		stmt.setString(4, p.getEstado());
+		stmt.setInt(1, p.getSocio().getId());
+		stmt.setDate(2, p.getFechaHoraSolicitud());
+		stmt.setDate(3, p.getFechaHoraPreparacion());
+		stmt.setDate(4, p.getFechaHoraRetiro());
+		stmt.setDate(5, p.getFechaHoraDevolucion());
+		stmt.setString(6, p.getEstado());
 		if (mode == "update") stmt.setInt(5, p.getId());
 					
 		return stmt;
@@ -240,7 +242,7 @@ public class DataPrestamo {
 				throw e;					
 			} 
 		}
-		p.setLineas(lineas);
+		//p.setLineas(lineas);
 		return p;
 	}
 }

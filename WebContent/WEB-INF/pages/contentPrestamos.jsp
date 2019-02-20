@@ -6,12 +6,13 @@
 	<div class="form-group">
 		<h2>Prestamo actual</h2>
 	</div>
-
+	
+	<div class="container">
 	<c:choose>
 		<c:when
 			test="${sessionScope.prestamoActual != null && sessionScope.prestamoActual.size() > 0 }">
-			<div class="row">
-				<table class="table text-center">
+				<div class="row">
+				<table class="col table table-responsive text-center">
 					<thead>
 						<tr>
 							<th scope="col">#</th>
@@ -31,7 +32,7 @@
 								<th scope="row" class="align-middle"><c:out
 										value="${count + 1}"></c:out></th>
 								<td class="align-middle"><img class="img-fluid"
-									height="200" width="150" src="${libro.getTapa()}"
+									height="100" width="100" src="${libro.getTapa()}"
 									alt="Imagen no disponible"></td>
 								<td class="align-middle"><c:out
 										value="${libro.getTitulo()}"></c:out></td>
@@ -49,13 +50,13 @@
 			</div>
 			<div class="text-center">
 				<hr>
-				<a href="#" class="btn btn-lg btn-primary">Solicitar Prestamo</a>
+				<a href="/libreria-java/prestamos?action=solicitar" class="btn btn-lg btn-primary">Solicitar Prestamo</a>
 			</div>
 		</c:when>
 		<c:otherwise>
 		No hay libros seleccionados
 		</c:otherwise>
 	</c:choose>
-
+	</div>
 
 </div>

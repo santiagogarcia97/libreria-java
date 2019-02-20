@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import libreria.controllers.CtrlSocio;
-import libreria.entities.Socio;
+import libreria.controllers.CtrlUsuario;
+import libreria.entities.Usuario;
 import libreria.utils.CustomException;
 
 /**
@@ -38,7 +38,7 @@ public class ServletUserAuth extends HttpServlet {
 				}
 				break;
 			case "/login":
-				if (request.getSession().getAttribute("loggedType") == null) {
+				if (request.getSession().getAttribute("loggedUser") == null) {
 					request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
 				} else {
 					response.sendRedirect("/libreria-java/home");
@@ -88,22 +88,22 @@ public class ServletUserAuth extends HttpServlet {
 	//////////////////////
 	private void signUp(HttpServletRequest request, HttpServletResponse response) throws CustomException, IOException {
 
-		Socio s = new Socio();
-		s.setNombre(request.getParameter("inputNombre"));
-		s.setApellido(request.getParameter("inputApellido"));
-		s.setEmail(request.getParameter("inputEmail"));
-		s.setDomicilio(request.getParameter("inputDomicilio"));
-		s.setTelefono(request.getParameter("inputTelefono"));
-		s.setDni(request.getParameter("inputDni"));
-		s.setUsername(request.getParameter("inputUsername"));
-		s.setPassword(request.getParameter("inputPassword"));
+		Usuario u = new Usuario();
+		u.setNombre(request.getParameter("inputNombre"));
+		u.setApellido(request.getParameter("inputApellido"));
+		u.setEmail(request.getParameter("inputEmail"));
+		u.setDomicilio(request.getParameter("inputDomicilio"));
+		u.setTelefono(request.getParameter("inputTelefono"));
+		u.setDni(request.getParameter("inputDni"));
+		u.setUsername(request.getParameter("inputUsername"));
+		u.setPassword(request.getParameter("inputPassword"));
 
-		CtrlSocio ctrl = new CtrlSocio();
+		CtrlUsuario ctrl = new CtrlUsuario();
 
-		if (ctrl.getByUsername(s) == null) { // El username está disponible
+		if (ctrl.getByUsername(u) == null) { // El username está disponible
 
-			Socio nuevoSocio = ctrl.add(s);
-			request.getSession().setAttribute("loggedUser", nuevoSocio);
+			Usuario nuevoUsuario = ctrl.add(u);
+			request.getSession().setAttribute("loggedUser", nuevoUsuario);
 
 			response.sendRedirect("/libreria-java/home");
 		} else {
@@ -116,18 +116,18 @@ public class ServletUserAuth extends HttpServlet {
 	// LOG IN LOGIC
 	//////////////////////
 	private void logIn(HttpServletRequest request, HttpServletResponse response) throws CustomException, IOException {
-		Socio loginSocio = new Socio();
-		loginSocio.setUsername(request.getParameter("inputUsername"));
-		loginSocio.setPassword(request.getParameter("inputPassword"));
+		Usuario loginUser = new Usuario();
+		loginUser.setUsername(request.getParameter("inputUsername"));
+		loginUser.setPassword(request.getParameter("inputPassword"));
 
-		CtrlSocio ctrl = new CtrlSocio();
+		CtrlUsuario ctrl = new CtrlUsuario();
 
-		if (ctrl.validateLogin(loginSocio).getId() == -1) {
+		if (ctrl.validateLogin(loginUser).getId() == -1) {
 			request.getSession().setAttribute("errorMsg", "El usuario no existe o la contraseña es incorrecta");
 			response.sendRedirect("login");
 		} else {
-			loginSocio = ctrl.getByUsername(loginSocio);
-			request.getSession().setAttribute("loggedUser", loginSocio);
+			loginUser = ctrl.getByUsername(loginUser);
+			request.getSession().setAttribute("loggedUser", loginUser);
 			response.sendRedirect("/libreria-java/home");
 		}
 

@@ -4,7 +4,6 @@ public class Ejemplar extends Entidad {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private boolean disponible;
 	private Libro libro;
 	
 	public Ejemplar() {}
@@ -17,12 +16,5 @@ public class Ejemplar extends Entidad {
 		return this.libro;
 	}
 
-	public boolean isDisponible() {
-		return disponible;
-	}
-
-	public void setDisponible(boolean disponible) {
-		this.disponible = disponible;
-	}
 }
 

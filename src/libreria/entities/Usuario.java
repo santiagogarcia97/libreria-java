@@ -2,7 +2,7 @@ package libreria.entities;
 
 import java.util.ArrayList;
 
-public class Socio extends Entidad {
+public class Usuario extends Entidad {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -12,7 +12,7 @@ public class Socio extends Entidad {
 	private ArrayList<Prestamo> prestamos = new ArrayList<Prestamo>();
 	private ArrayList<Sancion> sanciones = new ArrayList<Sancion>();
 	
-	public Socio() {}
+	public Usuario() {}
 	
 	
 	// Setters

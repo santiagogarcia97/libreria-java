@@ -13,6 +13,8 @@ public class DataEjemplar {
 	private final String _GET_BY_ID = "select * from ejemplares e inner join libros l on e.id_libro=l.id_libro " 
 									+ "inner join categorias cl on l.id_categoria = cl.id_categoria "
 									+ "where id_ejemplar=? and e.estado!='eliminado'";
+	
+	private final String _GET_ONE_BY_LIBRO = "select * from ejemplares where estado='habilitado' and id_libro=? limit 1";
 		
 	private final String _GET_ALL =   "select * from ejemplares e inner join libros l on e.id_libro=l.id_libro " 
 									+ "inner join categorias cl on l.id_categoria = cl.id_categoria "
@@ -80,7 +82,11 @@ public class DataEjemplar {
 			
 			if(rs!=null && rs.next()){
 				e = new Ejemplar();
-				e = cargar_datos_a_entidad(e,rs);
+				e.setId(rs.getInt("id_ejemplar"));
+				Libro l = new Libro();
+				l.setId(rs.getInt("id_libro"));
+				e.setLibro(l);
+				e.setEstado(rs.getString("estado"));
 			}			
 		} catch (SQLException ex) {
 			throw new CustomException("Error al obtener Ejemplar por id", "DataEjemplar", ex);		
@@ -99,6 +105,42 @@ public class DataEjemplar {
 		}
 		return e;
 	}
+	
+	////////////////////
+	// GET ONE BY LIBRO
+	////////////////////
+	public Ejemplar getOneByLibro(Libro l) throws CustomException{
+		Ejemplar e=null;
+		PreparedStatement stmt=null;
+		ResultSet rs=null;
+		try {
+			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(_GET_ONE_BY_LIBRO);
+			stmt.setInt(1, l.getId());
+			rs=stmt.executeQuery();
+			
+			if(rs!=null && rs.next()){
+				e = new Ejemplar();
+				e.setId(rs.getInt("id_ejemplar"));
+				e.setLibro(l);
+				e.setEstado(rs.getString("estado"));
+			}			
+		} catch (SQLException ex) {
+			throw new CustomException("Error al obtener Ejemplar por Libro", "DataEjemplar", ex);		
+		} catch (CustomException ex) {
+			throw ex;					
+		} finally{
+			try {
+				if(rs!=null)rs.close();
+				if(stmt!=null)stmt.close();
+				FactoryConexion.getInstancia().releaseConn();
+			} catch (SQLException ex) {
+				throw new CustomException("Error al obtener Ejemplar por Libro", "DataEjemplar", ex);
+			} catch (CustomException ex) {
+				throw ex;					
+			} 
+		}
+		return e;
+	}	
 	
 	///////////////
 	// ADD
@@ -182,7 +224,7 @@ public class DataEjemplar {
 			Categoria cat = new Categoria();
 		try {
 			e.setId(rs.getInt("id_ejemplar"));
-			e.setDisponible(rs.getBoolean("disponible"));
+
 			e.setEstado(rs.getString("estado"));
 			l.setId(rs.getInt("id_libro"));
 			l.setIsbn(rs.getString("isbn"));
@@ -209,7 +251,7 @@ public class DataEjemplar {
 	public PreparedStatement cargar_datos_a_bd(Ejemplar e, PreparedStatement stmt, String mode) throws SQLException{
 	
 		stmt.setString(1, e.getEstado());
-		stmt.setBoolean(2, e.isDisponible());
+
 		stmt.setInt(3, e.getLibro().getId());
 		if (mode == "update") stmt.setInt(4, e.getId());
 		
