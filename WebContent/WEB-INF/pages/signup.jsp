@@ -32,14 +32,11 @@
                     <input type="tel" class="form-control" name="inputTelefono" placeholder="Telefono" required="required">
                 </div>
                 <div class="form-group">
-                    <input type="email" class="form-control" name="inputEmail" placeholder="Email" required="required">
-                </div>
-                <div class="form-group">
                     <input type="number" class="form-control" name="inputDni" placeholder="DNI" required="required">
                 </div>
                 <hr>
                 <div class="form-group">
-                    <input type="text" class="form-control" name="inputUsername" placeholder="Nombre de Usuario" required="required">
+                    <input type="email" class="form-control" name="inputEmail" placeholder="Email" required="required">
                 </div>
                 <div class="form-group">
                     <input type="password" class="form-control" id="1" name="inputPassword" placeholder="Contraseña" required="required">

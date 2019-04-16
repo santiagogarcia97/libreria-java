@@ -18,9 +18,9 @@
         <div class="signup-form">
             <form id="mainForm" action="/libreria-java/auth/login" method="post">
                 <h2>Ingresar</h2>
-                <p class="hint-text">Ingrese su usuario y contraseña.</p>
+                <p class="hint-text">Ingrese su email y contraseña.</p>
                 <div class="form-group">
-                    <input type="text" class="form-control" name="inputUsername" placeholder="Nombre de Usuario" required="required">
+                    <input type="text" class="form-control" name="inputEmail" placeholder="Email" required="required">
                 </div>
                 <div class="form-group">
                     <input type="password" class="form-control" name="inputPassword" placeholder="Contraseña" required="required">

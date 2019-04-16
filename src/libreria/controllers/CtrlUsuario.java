@@ -22,12 +22,12 @@ public class CtrlUsuario {
 		return dataUsuario.add(u);
 	}
 	
-	public Usuario getByUsername(Usuario u) throws CustomException{
-		return this.dataUsuario.getByUsername(u);
+	public Usuario getByEmail(Usuario u) throws CustomException{
+		return this.dataUsuario.getByEmail(u);
 	}
 	
 	public Usuario validateLogin(Usuario u) throws CustomException{
-		Usuario validSoc = getByUsername(u);
+		Usuario validSoc = getByEmail(u);
 		
 		if(validSoc != null) {
 			if(BCrypt.checkpw(u.getPassword(), validSoc.getPassword())) {
