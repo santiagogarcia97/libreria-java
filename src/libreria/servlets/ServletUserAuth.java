@@ -95,12 +95,11 @@ public class ServletUserAuth extends HttpServlet {
 		u.setDomicilio(request.getParameter("inputDomicilio"));
 		u.setTelefono(request.getParameter("inputTelefono"));
 		u.setDni(request.getParameter("inputDni"));
-		u.setUsername(request.getParameter("inputUsername"));
 		u.setPassword(request.getParameter("inputPassword"));
 
 		CtrlUsuario ctrl = new CtrlUsuario();
 
-		if (ctrl.getByUsername(u) == null) { // El username está disponible
+		if (ctrl.getByEmail(u) == null) { // El username está disponible
 
 			Usuario nuevoUsuario = ctrl.add(u);
 			request.getSession().setAttribute("loggedUser", nuevoUsuario);
@@ -117,7 +116,7 @@ public class ServletUserAuth extends HttpServlet {
 	//////////////////////
 	private void logIn(HttpServletRequest request, HttpServletResponse response) throws CustomException, IOException {
 		Usuario loginUser = new Usuario();
-		loginUser.setUsername(request.getParameter("inputUsername"));
+		loginUser.setEmail(request.getParameter("inputEmail"));
 		loginUser.setPassword(request.getParameter("inputPassword"));
 
 		CtrlUsuario ctrl = new CtrlUsuario();
@@ -126,7 +125,7 @@ public class ServletUserAuth extends HttpServlet {
 			request.getSession().setAttribute("errorMsg", "El usuario no existe o la contraseña es incorrecta");
 			response.sendRedirect("login");
 		} else {
-			loginUser = ctrl.getByUsername(loginUser);
+			loginUser = ctrl.getByEmail(loginUser);
 			request.getSession().setAttribute("loggedUser", loginUser);
 			response.sendRedirect("/libreria-java/home");
 		}

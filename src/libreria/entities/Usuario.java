@@ -7,7 +7,7 @@ public class Usuario extends Entidad {
 	private static final long serialVersionUID = 1L;
 	
 	
-	private String nombre,apellido,email,domicilio,telefono,dni,username,password;
+	private String nombre,apellido,email,domicilio,telefono,dni,password;
 	private String tipoUsuario = "socio";
 	private ArrayList<Prestamo> prestamos = new ArrayList<Prestamo>();
 	private ArrayList<Sancion> sanciones = new ArrayList<Sancion>();
@@ -33,9 +33,6 @@ public class Usuario extends Entidad {
 	}
 	public void setDni(String dni) {
 		this.dni = dni;
-	}	
-	public void setUsername(String username) {
-		this.username = username;
 	}	
 	public void setPassword(String password) {
 		this.password = password;
@@ -69,9 +66,6 @@ public class Usuario extends Entidad {
 	}
 	public String getDni() {
 		return dni;
-	}	
-	public String getUsername() {
-		return this.username;
 	}	
 	public String getPassword() {
 		return this.password;

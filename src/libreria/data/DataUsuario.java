@@ -8,19 +8,19 @@ import libreria.utils.CustomException;
 
 public class DataUsuario {
 	
-	private final String _GET_BY_USERNAME = "select * from usuarios where username=? and estado!='eliminado'"; 
+	private final String _GET_BY_EMAIL = "select * from usuarios where email=? and estado!='eliminado'"; 
 	
 	private final String _GET_BY_ID = "select * from usuarios where id_usuario=? and estado!='eliminado'"; 
 	
 	private final String _GET_ALL = "select * from usuarios where estado!='eliminado'"; 
 	
-	private final String _ADD = "insert into usuarios(nombre,apellido,email,domicilio,telefono,dni,username, password, tipo, estado) "
-									+ "values (?,?,?,?,?,?,?,?,?,?)"; 
+	private final String _ADD = "insert into usuarios(nombre,apellido,email,domicilio,telefono,dni,password,tipo,estado) "
+									+ "values (?,?,?,?,?,?,?,?,?)"; 
 	
 	private final String _DELETE = 	"update usuarios set estado='eliminado' where id_usuario=?"; 
 	
-	private final String _UPDATE = 	"update usuarios set nombre=?, apellido=?,email=?, domicilio=?,"
-									+ "telefono=?, dni=?, username=?, password=?, tipo=?, estado=? where id_usuario=?"; 
+	private final String _UPDATE = 	"update usuarios set nombre=?, apellido=?,email=? , domicilio=?,"
+									+ "telefono=?, dni=?, password=?, tipo=?, estado=? where id_usuario=?"; 
 	
 	///////////////
 	// GET ALL
@@ -97,13 +97,13 @@ public class DataUsuario {
 	///////////////
 	// GET BY USERNAME
 	///////////////	
-	public Usuario getByUsername(Usuario user) throws CustomException{
+	public Usuario getByEmail(Usuario user) throws CustomException{
 		Usuario u=null;
 		PreparedStatement stmt=null;
 		ResultSet rs=null;
 		try {
-			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(_GET_BY_USERNAME);
-			stmt.setString(1, user.getUsername());
+			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(_GET_BY_EMAIL);
+			stmt.setString(1, user.getEmail());
 			rs=stmt.executeQuery();
 			
 			if(rs!=null && rs.next()){
@@ -111,7 +111,7 @@ public class DataUsuario {
 					u = cargar_datos_a_entidad(u,rs);
 			}			
 		} catch (SQLException e) {
-			throw new CustomException("Error al obtener Usuario por username", "DataUsuario", e);		
+			throw new CustomException("Error al obtener Usuario por email", "DataUsuario", e);		
 		} catch (CustomException e) {
 			throw e;					
 		} finally{
@@ -120,7 +120,7 @@ public class DataUsuario {
 				if(stmt!=null)stmt.close();
 				FactoryConexion.getInstancia().releaseConn();
 			} catch (SQLException e) {
-				throw new CustomException("Error al obtener Usuario por username", "DataUsuario", e);
+				throw new CustomException("Error al obtener Usuario por email", "DataUsuario", e);
 			} catch (CustomException e) {
 				throw e;					
 			} 
@@ -206,7 +206,6 @@ public class DataUsuario {
 	public Usuario cargar_datos_a_entidad(Usuario u, ResultSet rs) {
 		try {
 			u.setId(rs.getInt("id_usuario"));
-			u.setUsername(rs.getString("username"));
 			u.setPassword(rs.getString("password"));
 			u.setNombre(rs.getString("nombre"));
 			u.setApellido(rs.getString("apellido"));
@@ -224,7 +223,7 @@ public class DataUsuario {
 		}
 		return u;
 	}
-	
+
 	public PreparedStatement cargar_datos_a_bd(Usuario u, PreparedStatement stmt, String mode) throws SQLException{
 		stmt.setString(1, u.getNombre());
 		stmt.setString(2, u.getApellido());
@@ -232,11 +231,10 @@ public class DataUsuario {
 		stmt.setString(4, u.getDomicilio());
 		stmt.setString(5, u.getTelefono());
 		stmt.setString(6, u.getDni());
-		stmt.setString(7, u.getUsername());
-		stmt.setString(8, u.getPassword());
-		stmt.setString(9, u.getTipoUsuario());
-		stmt.setString(10, u.getEstado());
-		if (mode == "update") stmt.setInt(11, u.getId());
+		stmt.setString(7, u.getPassword());
+		stmt.setString(8, u.getTipoUsuario());
+		stmt.setString(9, u.getEstado());
+		if (mode == "update") stmt.setInt(10, u.getId());
 			
 		return stmt;
 	}

@@ -40,8 +40,10 @@
 					<ul class="navbar-nav ">
 						<li class="nav-item dropdown"><a href="#"
 							class="nav-link dropdown-toggle" id="navDropDownLink"
-							data-toggle="dropdown"> <c:out
-									value="${sessionScope.loggedUser.getUsername()}"></c:out>
+							data-toggle="dropdown"> 
+								<c:out value="${sessionScope.loggedUser.getNombre()}"></c:out>
+								<c:out value=" "></c:out> 
+								<c:out value="${sessionScope.loggedUser.getApellido()}"></c:out>
 						</a>
 							<div class="dropdown-menu dropdown-menu-right">
 								<a class="dropdown-item" href="#">Perfil</a>
