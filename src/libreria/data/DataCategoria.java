@@ -12,13 +12,13 @@ import libreria.utils.CustomException;
 
 public class DataCategoria {
 	
-	private final String _GET_BY_ID = "select * from categorias where id_cl=? and estado!='eliminado'"; 
+	private final String _GET_BY_ID = "select * from categorias where id=? and estado!='eliminado'"; 
 	
 	private final String _GET_ALL = "select * from categorias where estado!='eliminado'"; 
 	
 	private final String _ADD = "insert into categorias(descripcion, estado) values (?,?)"; 
 	
-	private final String _DELETE = 	"update categorias set estado='eliminado' where id_cl=?"; 
+	private final String _DELETE = 	"update categorias set estado='eliminado' where id=?"; 
 	
 	private final String _UPDATE = 	"update categorias set descripcion=?, estado=? where id_cl=?"; 
 	
@@ -176,7 +176,7 @@ public class DataCategoria {
 	
 	public Categoria cargar_datos_a_entidad(Categoria c, ResultSet rs) {
 		try {
-			c.setId(rs.getInt("id_cl"));
+			c.setId(rs.getInt("id"));
 			c.setDesc(rs.getString("descripcion"));
 			c.setEstado(rs.getString("estado"));
 		}

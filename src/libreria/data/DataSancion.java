@@ -45,8 +45,9 @@ public class DataSancion {
 			return sanciones;
 			
 		}
-	
+	/*
 	public Sancion getOne(int id) throws Exception{
+	
 		Sancion s = new Sancion();
 		Statement stmt=null;
 		ResultSet rs=null;
@@ -60,6 +61,6 @@ public class DataSancion {
 		}
 		return s;
 	}
-	
+	*/
 	
 }

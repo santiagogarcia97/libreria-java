@@ -1,5 +1,6 @@
 package libreria.entities;
 
+import java.sql.Date;
 import java.time.*;
 
 
@@ -8,7 +9,7 @@ public class Sancion extends Entidad {
 	private static final long serialVersionUID = 1L;
 	
 	private int diasSancion;
-	private LocalDate fechaSancion;
+	private Date fechaSancion;
 	
 	
 	public Sancion() {}
@@ -17,12 +18,12 @@ public class Sancion extends Entidad {
 		this.diasSancion = dias;
 	}
 	
-	public void setFechaSancion(LocalDate fecha) {
-		this.fechaSancion = fecha;
+	public void setFechaSancion(Date date) {
+		this.fechaSancion = date;
 	}
 	
 
-	public LocalDate getFechaSancion() {
+	public Date getFechaSancion() {
 		return this.fechaSancion;
 	}
 	

@@ -9,11 +9,11 @@ import libreria.utils.CustomException;
 
 public class DataLibro {
 	
-	private final String _GET_BY_ID = "select * from libros l inner join categorias cl on l.id_categoria=cl.id_cl where id_libro=? and l.estado!='eliminado'";
+	private final String _GET_BY_ID = "select * from libros l inner join categorias cl on l.id_categoria=cl.id where id_libro=? and l.estado!='eliminado'";
 	
-	private final String _GET_BY_CAT = "select * from libros l inner join categorias cl on l.id_categoria=cl.id_cl where id_cl=? and l.estado!='eliminado'";
+	private final String _GET_BY_CAT = "select * from libros l inner join categorias cl on l.id_categoria=cl.id where cl.id=? and l.estado!='eliminado'";
 	
-	private final String _GET_ALL = "select * from libros l inner join categorias cl on l.id_categoria=cl.id_cl where l.estado!='eliminado'"; 
+	private final String _GET_ALL = "select * from libros l inner join categorias cl on l.id_categoria=cl.id where l.estado!='eliminado'"; 
 	
 	private final String _ADD = "insert into libros(isbn,titulo,autor,edicion,fecha_edicion,cant_dias_max,estado,id_categoria,imagen_tapa) "
 									+ "values (?,?,?,?,?,?,?,?,?)"; 
@@ -213,7 +213,7 @@ public class DataLibro {
 	public Libro cargar_datos_a_entidad(Libro l, ResultSet rs) {
 		Categoria cat = new Categoria();
 		try {
-			l.setId(rs.getInt("id_libro"));
+			l.setId(rs.getInt("id"));
 			l.setIsbn(rs.getString("isbn"));
 			l.setTitulo(rs.getString("titulo"));
 			l.setAutor(rs.getString("autor"));
@@ -222,7 +222,7 @@ public class DataLibro {
 			l.setDiasMaxPrestamo(rs.getInt("cant_dias_max"));
 			l.setEstado(rs.getString("estado"));
 			l.setTapa(rs.getString("imagen_tapa"));
-			cat.setId(rs.getInt("id_cl"));
+			cat.setId(rs.getInt("id_categoria"));
 			cat.setDesc(rs.getString("descripcion"));
 			l.setCat(cat);
 		}
