@@ -9,7 +9,7 @@ import libreria.utils.CustomException;
 
 public class DataLibro {
 	
-	private final String _GET_BY_ID = "select * from libros l inner join categorias cl on l.id_categoria=cl.id where id_libro=? and l.estado!='eliminado'";
+	private final String _GET_BY_ID = "select * from libros l inner join categorias cl on l.id_categoria=cl.id where l.id=? and l.estado!='eliminado'";
 	
 	private final String _GET_BY_CAT = "select * from libros l inner join categorias cl on l.id_categoria=cl.id where cl.id=? and l.estado!='eliminado'";
 	

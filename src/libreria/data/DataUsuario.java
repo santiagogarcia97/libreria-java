@@ -10,7 +10,7 @@ public class DataUsuario {
 	
 	private final String _GET_BY_EMAIL = "select * from usuarios where email=? and estado!='eliminado'"; 
 	
-	private final String _GET_BY_ID = "select * from usuarios where id_usuario=? and estado!='eliminado'"; 
+	private final String _GET_BY_ID = "select * from usuarios where id=? and estado!='eliminado'"; 
 	
 	private final String _GET_ALL = "select * from usuarios where estado!='eliminado'"; 
 	
@@ -95,7 +95,7 @@ public class DataUsuario {
 	}
 	
 	///////////////
-	// GET BY USERNAME
+	// GET BY EMAIL
 	///////////////	
 	public Usuario getByEmail(Usuario user) throws CustomException{
 		Usuario u=null;
@@ -205,7 +205,7 @@ public class DataUsuario {
 	
 	public Usuario cargar_datos_a_entidad(Usuario u, ResultSet rs) {
 		try {
-			u.setId(rs.getInt("id_usuario"));
+			u.setId(rs.getInt("id"));
 			u.setPassword(rs.getString("password"));
 			u.setNombre(rs.getString("nombre"));
 			u.setApellido(rs.getString("apellido"));
