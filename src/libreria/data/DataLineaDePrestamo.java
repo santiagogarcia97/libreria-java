@@ -12,22 +12,22 @@ import libreria.utils.CustomException;
 public class DataLineaDePrestamo {
 	
 	
-	private final String _GET_BY_ID = "select * from lineas_prestamo lp inner join ejemplares e on lp.id_ejemplar = e.id_ejemplar"
-									+ "inner join libros l on e.id_libro=l.id_libro " 
-									+ "inner join categorias cl on l.id_categoria = cl.id_categoria "
-									+ "where id_linea=? and lp.estado!='eliminado'";
+	private final String _GET_BY_ID = "select * from lineas_prestamo lp inner join ejemplares e on lp.id_ejemplar = e.id"
+									+ "inner join libros l on e.id_libro=l.id " 
+									+ "inner join categorias cl on l.id_categoria = cl.id "
+									+ "where id=? and lp.estado!='eliminado'";
 
-	private final String _GET_ALL =   "select * from lineas_prestamo lp inner join ejemplares e on lp.id_ejemplar = e.id_ejemplar "
-									+ "inner join libros l on e.id_libro=l.id_libro " 
-									+ "inner join categorias cl on l.id_categoria = cl.id_categoria "
+	private final String _GET_ALL =   "select * from lineas_prestamo lp inner join ejemplares e on lp.id_ejemplar = e.id "
+									+ "inner join libros l on e.id_libro=l.id " 
+									+ "inner join categorias cl on l.id_categoria = cl.id "
 									+ "where lp.estado!='eliminado'"; 
 							
 	private final String _ADD = "insert into lineas_prestamo(id_ejemplar, id_prestamo, estado) "
 									+ "values (?,?,?)"; 
 	
-	private final String _DELETE = 	"update lineas_prestamo set estado='eliminado' where id_linea=?"; 
+	private final String _DELETE = 	"update lineas_prestamo set estado='eliminado' where id=?"; 
 	
-	private final String _UPDATE = 	"update lineas_prestamo set devuelto=?, fecha_devolucion=?, id_ejemplar=?, id_prestamo=?, estado=?, where id_linea=?"; 
+	private final String _UPDATE = 	"update lineas_prestamo set devuelto=?, fecha_devolucion=?, id_ejemplar=?, id_prestamo=?, estado=?, where id=?"; 
 	
 	///////////////
 	// GET ALL
@@ -197,7 +197,7 @@ public class DataLineaDePrestamo {
 			cat.setId(rs.getInt("id_cl"));
 			cat.setDesc(rs.getString("descripcion"));
 			l.setCat(cat);
-			lp.setId(rs.getInt("id_linea"));
+			lp.setId(rs.getInt("id"));
 		//	lp.setDevuelto(rs.getBoolean("devuelto"));
 			lp.setFechaDevolucion(rs.getDate("fecha_devolucion"));
 			lp.setIdPrestamo(rs.getInt("id_prestamo"));

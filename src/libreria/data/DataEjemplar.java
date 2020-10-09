@@ -10,22 +10,22 @@ import libreria.utils.CustomException;
 
 public class DataEjemplar {
 	
-	private final String _GET_BY_ID = "select * from ejemplares e inner join libros l on e.id_libro=l.id_libro " 
-									+ "inner join categorias cl on l.id_categoria = cl.id_categoria "
-									+ "where id_ejemplar=? and e.estado!='eliminado'";
+	private final String _GET_BY_ID = "select * from ejemplares e inner join libros l on e.id_libro=l.id " 
+									+ "inner join categorias cl on l.id_categoria = cl.id "
+									+ "where id=? and e.estado!='eliminado'";
 	
 	private final String _GET_ONE_BY_LIBRO = "select * from ejemplares where estado='habilitado' and id_libro=? limit 1";
 		
-	private final String _GET_ALL =   "select * from ejemplares e inner join libros l on e.id_libro=l.id_libro " 
-									+ "inner join categorias cl on l.id_categoria = cl.id_categoria "
+	private final String _GET_ALL =   "select * from ejemplares e inner join libros l on e.id_libro=l.id " 
+									+ "inner join categorias cl on l.id_categoria = cl.id "
 									+ "where e.estado!='eliminado'"; 
 	
 	private final String _ADD = "insert into ejemplares(estado, disponible, id_libro )"
 									+ "values (?, ?, ?)"; 
 	
-	private final String _DELETE = 	"update ejemplares set estado='eliminado' where id_ejemplar=?"; 
+	private final String _DELETE = 	"update ejemplares set estado='eliminado' where id=?"; 
 	
-	private final String _UPDATE = 	"update ejemplares set estado=?, disponible=? , id_libro=? where id_ejemplar=?"; 
+	private final String _UPDATE = 	"update ejemplares set estado=?, disponible=? , id_libro=? where id=?"; 
 	
 	
 	
@@ -82,7 +82,7 @@ public class DataEjemplar {
 			
 			if(rs!=null && rs.next()){
 				e = new Ejemplar();
-				e.setId(rs.getInt("id_ejemplar"));
+				e.setId(rs.getInt("id"));
 				Libro l = new Libro();
 				l.setId(rs.getInt("id_libro"));
 				e.setLibro(l);
@@ -120,7 +120,7 @@ public class DataEjemplar {
 			
 			if(rs!=null && rs.next()){
 				e = new Ejemplar();
-				e.setId(rs.getInt("id_ejemplar"));
+				e.setId(rs.getInt("id"));
 				e.setLibro(l);
 				e.setEstado(rs.getString("estado"));
 			}			
@@ -223,7 +223,7 @@ public class DataEjemplar {
 			Libro l = new Libro();
 			Categoria cat = new Categoria();
 		try {
-			e.setId(rs.getInt("id_ejemplar"));
+			e.setId(rs.getInt("id"));
 
 			e.setEstado(rs.getString("estado"));
 			l.setId(rs.getInt("id_libro"));

@@ -18,10 +18,10 @@ public class DataLibro {
 	private final String _ADD = "insert into libros(isbn,titulo,autor,edicion,fecha_edicion,cant_dias_max,estado,id_categoria,imagen_tapa) "
 									+ "values (?,?,?,?,?,?,?,?,?)"; 
 	
-	private final String _DELETE = 	"update libros set estado='eliminado' where id_libro=?"; 
+	private final String _DELETE = 	"update libros set estado='eliminado' where id=?"; 
 	
 	private final String _UPDATE = 	"update libros set isbn=?, titulo=?,autor=?, edicion=?,"
-									+ "fecha_edicion=?, cant_dias_max=?, estado=?, id_categoria=?, imagen_tapa=? where id_libro=?"; 
+									+ "fecha_edicion=?, cant_dias_max=?, estado=?, id_categoria=?, imagen_tapa=? where id=?"; 
 	
 	///////////////
 	// GET ALL

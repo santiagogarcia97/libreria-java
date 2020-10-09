@@ -17,10 +17,10 @@ public class DataUsuario {
 	private final String _ADD = "insert into usuarios(nombre,apellido,email,domicilio,telefono,dni,password,tipo,estado) "
 									+ "values (?,?,?,?,?,?,?,?,?)"; 
 	
-	private final String _DELETE = 	"update usuarios set estado='eliminado' where id_usuario=?"; 
+	private final String _DELETE = 	"update usuarios set estado='eliminado' where id=?"; 
 	
 	private final String _UPDATE = 	"update usuarios set nombre=?, apellido=?,email=? , domicilio=?,"
-									+ "telefono=?, dni=?, password=?, tipo=?, estado=? where id_usuario=?"; 
+									+ "telefono=?, dni=?, password=?, tipo=?, estado=? where id=?"; 
 	
 	///////////////
 	// GET ALL

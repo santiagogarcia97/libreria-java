@@ -11,16 +11,16 @@ import libreria.utils.CustomException;
 public class DataPrestamo {
 
 	
-	private final String _GET_BY_ID = "select * from prestamos p inner join lineas_prestamo lp on p.id_prestamo = lp.id_prestamo"
-									+ "inner join ejemplares e on lp.id_ejemplar = e.id_ejemplar"
-									+ "inner join libros l on e.id_libro=l.id_libro " 
-									+ "inner join categorias cl on l.id_categoria = cl.id_categoria "
+	private final String _GET_BY_ID = "select * from prestamos p inner join lineas_prestamo lp on p.id = lp.id_prestamo"
+									+ "inner join ejemplares e on lp.id_ejemplar = e.id"
+									+ "inner join libros l on e.id_libro=l.id " 
+									+ "inner join categorias cl on l.id_categoria = cl.id "
 									+ "where id_prestamo=? and p.estado!='eliminado'";
 
-	private final String _GET_ALL =   "select * from prestamos p inne join lineas_prestamo p on p.id_linea = p.id_linea"
-									+ "inner join ejemplares e on p.id_ejemplar = e.id_ejemplar "
-									+ "inner join libros l on e.id_libro=l.id_libro " 
-									+ "inner join categorias cl on l.id_categoria = cl.id_categoria "
+	private final String _GET_ALL =   "select * from prestamos p inner join lineas_prestamo lp on p.id = lp.id_prestamo"
+									+ "inner join ejemplares e on p.id_ejemplar = e.id "
+									+ "inner join libros l on e.id_libro=l.id " 
+									+ "inner join categorias cl on l.id_categoria = cl.id "
 									+ "where p.estado!='eliminado'"; 
 							
 	private final String _ADD = "insert into prestamos(id_usuario,fecha_hora_solicitud,fecha_hora_preparacion,fecha_hora_retiro,"

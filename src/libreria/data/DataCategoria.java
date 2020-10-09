@@ -20,7 +20,7 @@ public class DataCategoria {
 	
 	private final String _DELETE = 	"update categorias set estado='eliminado' where id=?"; 
 	
-	private final String _UPDATE = 	"update categorias set descripcion=?, estado=? where id_cl=?"; 
+	private final String _UPDATE = 	"update categorias set descripcion=?, estado=? where id=?"; 
 	
 	///////////////
 	// GET ALL
