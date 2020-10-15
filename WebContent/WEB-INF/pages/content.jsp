@@ -79,7 +79,7 @@
 				<hr>
 				<div class="row">
 					<div class="col-md-auto">
-						<img alt="Imagen no disponible" src="${libro.getTapa()}">
+						<img alt="Imagen no disponible" width="250px" src="${libro.getTapa()}">
 					</div>
 					<div class="col">
 						<h5>Autor: ${libro.getAutor()}</h5>
