@@ -38,7 +38,7 @@
         <h5 class="">Categorias Libros</h5>
         <div class="list-group list-group-flush">
           <div class="list-group-item d-flex justify-content-between align-items-center">
-            <a href="/libreria-java/admin/alta-cat-libro" class="text-dark">Agregar</a>
+            <a href="/libreria-java/admin/listado-cat-libro" class="text-dark">Gestionar</a>
           </div>         
         </div>
                 

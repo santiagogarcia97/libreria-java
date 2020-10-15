@@ -11,6 +11,7 @@ import libreria.controllers.*;
 import libreria.entities.*;
 import libreria.utils.CustomException;
 import java.sql.Date;
+import java.util.Enumeration;
 
 /**
  * Servlet implementation class ServletAdmin
@@ -42,10 +43,10 @@ public class ServletAdmin extends HttpServlet {
 						ctrl = new CtrlCategoria();
 						request.setAttribute("categorias", ctrl.getAll());
 						break;
-					case "/alta-cat-libro":
+					case "/listado-cat-libro":
 						ctrl = new CtrlCategoria();
 						request.setAttribute("categorias", ctrl.getAll());
-						request.setAttribute("adminPage", "altaCatLibro");
+						request.setAttribute("adminPage", "listadoCatLibro");
 						break;	
 					default:
 						request.setAttribute("adminPage", "stats");
@@ -77,10 +78,17 @@ public class ServletAdmin extends HttpServlet {
 					this.altaLibro(request, response);
 					response.sendRedirect("/libreria-java/admin/alta-libro");
 					break;	
-				case "/alta-cat-libro":
+				case "/listado-cat-libro/alta":
 					this.altaCatLibro(request, response);
-					response.sendRedirect("/libreria-java/admin/alta-cat-libro");
+					response.sendRedirect("/libreria-java/admin/listado-cat-libro");
 					break;	
+				case "/listado-cat-libro/modificar":
+					this.modificarCatLibro(request,response);
+					response.sendRedirect("/libreria-java/admin/listado-cat-libro");
+					break;
+				case "/listado-cat-libro/eliminar":
+					this.eliminarCatLibro(request,response);
+					response.sendRedirect("/libreria-java/admin/listado-cat-libro");
 				}
 				
 			} else {
@@ -155,7 +163,29 @@ public class ServletAdmin extends HttpServlet {
 	}
 	
 	
-
+	//////////////////////
+	// MODIFICAR CATEGORIA LOGIC
+	//////////////////////	
+	private void modificarCatLibro(HttpServletRequest req, HttpServletResponse res) {
+		CtrlCategoria ctrl = new CtrlCategoria();
+		Categoria c = new Categoria();		
+		c.setId(Integer.parseInt(req.getParameter("inputID")));
+		c.setDesc(req.getParameter("inputDesc"));
+		c.setEstado(req.getParameter("inputEstado"));
+		ctrl.update(c);
+		
+	}
 	
+	//////////////////////
+	// ELIMINAR CATEGORIA LOGIC
+	//////////////////////	
+	private void eliminarCatLibro(HttpServletRequest req, HttpServletResponse res) {
+		CtrlCategoria ctrl = new CtrlCategoria();
+		Categoria c = new Categoria();		
+		c.setId(Integer.parseInt(req.getParameter("inputID")));
+		c.setDesc(req.getParameter("inputDesc"));
+		c.setEstado(req.getParameter("inputEstado"));
+		ctrl.delete(c);
+	}
 }
 

@@ -5,11 +5,12 @@
 
 <html>
 	<head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
         <title>Libreria UTN</title>
         
         <link href="/libreria-java/resources/css/bootstrap/bootstrap.min.css" rel="stylesheet">
         <link href="/libreria-java/resources/css/template.css" rel="stylesheet">
+        <meta charset="utf-8">
 
 	</head>
 	
