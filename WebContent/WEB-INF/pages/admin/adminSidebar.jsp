@@ -27,7 +27,7 @@
         <h5 class="">Libros</h5>
         <div class="list-group list-group-flush">
           <div class="list-group-item d-flex justify-content-between align-items-center">
-            <a href="#" class="text-dark">Buscar</a>
+            <a href="/libreria-java/admin/listado-libro" class="text-dark">Gestionar</a>
           </div>        
           <div class="list-group-item d-flex justify-content-between align-items-center">
             <a href="/libreria-java/admin/alta-libro" class="text-dark">Agregar</a>

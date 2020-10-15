@@ -195,6 +195,7 @@ public class DataLibro {
 		try {
 			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(_UPDATE);
 			stmt = cargar_datos_a_bd(l,stmt, "update");
+			System.out.println(stmt);
 			stmt.executeUpdate();
 			
 		} catch (SQLException e) {
@@ -236,7 +237,6 @@ public class DataLibro {
 	}
 	
 	public PreparedStatement cargar_datos_a_bd(Libro l, PreparedStatement stmt, String mode) throws SQLException{
-		
 		stmt.setString(1, l.getIsbn());
 		stmt.setString(2, l.getTitulo());
 		stmt.setString(3, l.getAutor());

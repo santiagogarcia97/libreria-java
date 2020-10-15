@@ -34,20 +34,34 @@ public class ServletAdmin extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		if(isAdmin(request)) {
-			try {
-				CtrlCategoria ctrl;
-				
+			try {				
 				switch (request.getPathInfo()) {			
-					case "/alta-libro":
+					case "/alta-libro":{
 						request.setAttribute("adminPage", "altaLibro");
-						ctrl = new CtrlCategoria();
+						CtrlCategoria ctrl = new CtrlCategoria();
 						request.setAttribute("categorias", ctrl.getAll());
+						}
 						break;
-					case "/listado-cat-libro":
-						ctrl = new CtrlCategoria();
+					case "/listado-cat-libro":{
+						CtrlCategoria ctrl = new CtrlCategoria();
 						request.setAttribute("categorias", ctrl.getAll());
 						request.setAttribute("adminPage", "listadoCatLibro");
-						break;	
+						}
+						break;
+					case "/listado-libro":{
+						CtrlLibro ctrl = new CtrlLibro();
+						request.setAttribute("libros",ctrl.getAll());
+						request.setAttribute("adminPage", "listadoLibro");
+						}
+						break;
+					case "/edit-libro":{
+						CtrlLibro ctrl = new CtrlLibro();
+						request.setAttribute("libros",ctrl.getAll());
+						CtrlCategoria ctrlCat = new CtrlCategoria();
+						request.setAttribute("categorias", ctrlCat.getAll());
+						request.setAttribute("adminPage", "editLibro");
+						}
+						break;
 					default:
 						request.setAttribute("adminPage", "stats");
 						break;
@@ -76,7 +90,7 @@ public class ServletAdmin extends HttpServlet {
 				switch (request.getPathInfo()) {		
 				case "/alta-libro":
 					this.altaLibro(request, response);
-					response.sendRedirect("/libreria-java/admin/alta-libro");
+					response.sendRedirect("/libreria-java/admin/listado-libro");
 					break;	
 				case "/listado-cat-libro/alta":
 					this.altaCatLibro(request, response);
@@ -89,6 +103,14 @@ public class ServletAdmin extends HttpServlet {
 				case "/listado-cat-libro/eliminar":
 					this.eliminarCatLibro(request,response);
 					response.sendRedirect("/libreria-java/admin/listado-cat-libro");
+					break;
+				case "/edit-libro":
+					this.modificarLibro(request,response);
+					response.sendRedirect("/libreria-java/admin/listado-libro");
+					break;
+				case "/listado-libro/eliminar":
+					this.eliminarLibro(request,response);
+					response.sendRedirect("/libreria-java/admin/listado-libro");
 				}
 				
 			} else {
@@ -146,6 +168,42 @@ public class ServletAdmin extends HttpServlet {
 		CtrlLibro ctrl = new CtrlLibro();
 		l = ctrl.add(l);
 		
+	}
+	
+	//////////////////////
+	// MODIFICAR LIBRO LOGIC
+	//////////////////////
+	private void modificarLibro(HttpServletRequest req, HttpServletResponse res) throws CustomException, ServletException, IOException {
+		Libro l = new Libro();
+		l.setId(Integer.parseInt(req.getParameter("inputID")));
+		l.setAutor(req.getParameter("inputAutor"));
+		l.setTitulo(req.getParameter("inputTitulo"));
+		l.setEdicion(req.getParameter("inputEdicion"));
+		l.setFechaEdicion(Date.valueOf(req.getParameter("inputFechaEdicion")));
+		l.setIsbn(req.getParameter("inputISBN"));
+		l.setDiasMaxPrestamo(Integer.parseInt(req.getParameter("inputMaxDias")));
+		l.setTapa(req.getParameter("inputTapa"));
+		
+		l.setCat(new Categoria());
+		l.getCat().setId(Integer.parseInt(req.getParameter("inputCategoria")));
+	
+		l.setEstado("disponible");
+		//TODO: este set de estado está bien?
+		//TODO: no se establece la desc de la categoría?
+		CtrlLibro ctrl = new CtrlLibro();
+		ctrl.update(l);
+		
+	}
+	
+	
+	//////////////////////
+	// ELIMINAR LIBRO LOGIC
+	//////////////////////	
+	private void eliminarLibro(HttpServletRequest req, HttpServletResponse res) {
+		Libro l = new Libro();
+		l.setId(Integer.parseInt(req.getParameter("inputID")));
+		CtrlLibro ctrl = new CtrlLibro();
+		ctrl.delete(l);
 	}
 	
 	//////////////////////
