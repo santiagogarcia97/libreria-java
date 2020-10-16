@@ -20,12 +20,12 @@ public class DataEjemplar {
 									+ "inner join categorias cl on l.id_categoria = cl.id "
 									+ "where e.estado!='eliminado'"; 
 	
-	private final String _ADD = "insert into ejemplares(estado, disponible, id_libro )"
-									+ "values (?, ?, ?)"; 
+	private final String _ADD = "insert into ejemplares(estado, id_libro)"
+									+ "values (?, ?)"; 
 	
 	private final String _DELETE = 	"update ejemplares set estado='eliminado' where id=?"; 
 	
-	private final String _UPDATE = 	"update ejemplares set estado=?, disponible=? , id_libro=? where id=?"; 
+	private final String _UPDATE = 	"update ejemplares set estado=? , id_libro=? where id=?"; 
 	
 	
 	
@@ -235,7 +235,7 @@ public class DataEjemplar {
 			l.setDiasMaxPrestamo(rs.getInt("cant_dias_max"));
 			l.setEstado(rs.getString("estado"));
 			l.setTapa(rs.getString("imagen_tapa"));
-			cat.setId(rs.getInt("id_cl"));
+			cat.setId(rs.getInt("id"));
 			cat.setDesc(rs.getString("descripcion"));
 			l.setCat(cat);
 		}
@@ -252,8 +252,8 @@ public class DataEjemplar {
 	
 		stmt.setString(1, e.getEstado());
 
-		stmt.setInt(3, e.getLibro().getId());
-		if (mode == "update") stmt.setInt(4, e.getId());
+		stmt.setInt(2, e.getLibro().getId());
+		if (mode == "update") stmt.setInt(3, e.getId());
 		
 			
 		return stmt;

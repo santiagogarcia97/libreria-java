@@ -1,8 +1,12 @@
 package libreria.controllers;
 
+import java.util.ArrayList;
+
 import libreria.data.DataEjemplar;
+import libreria.entities.Categoria;
 import libreria.entities.Ejemplar;
 import libreria.entities.Libro;
+import libreria.utils.CustomException;
 
 public class CtrlEjemplar {
 
@@ -22,5 +26,16 @@ public class CtrlEjemplar {
 		}
 	}
 	
+	public ArrayList<Ejemplar> getAll() throws CustomException{
+		return this.dataEjemplar.getAll();
+	}
+	
+	public Ejemplar add(Ejemplar e) throws CustomException{
+		return this.dataEjemplar.add(e);
+	}
+	
+	public void delete(Ejemplar e) throws CustomException{
+		this.dataEjemplar.delete(e);
+	}
 	
 }

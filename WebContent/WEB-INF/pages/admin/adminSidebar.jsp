@@ -31,7 +31,10 @@
           </div>        
           <div class="list-group-item d-flex justify-content-between align-items-center">
             <a href="/libreria-java/admin/alta-libro" class="text-dark">Agregar</a>
-          </div>    
+          </div>
+          <div class="list-group-item d-flex justify-content-between align-items-center">
+            <a href="/libreria-java/admin/ejemplares" class="text-dark">Ejemplares</a>
+          </div>        
         </div>
         
         <br>

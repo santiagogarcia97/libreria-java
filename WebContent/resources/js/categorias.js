@@ -54,7 +54,7 @@ function modificar(id){
 		newDel.className="btn btn-secondary";
 		newDel.innerHTML="Cancelar";
 		newDel.setAttribute('type', 'button');
-		newDel.addEventListener("click",function(){console.log("hello");window.location.href = "/libreria-java/admin/listado-cat-libro";})
+		newDel.addEventListener("click",function(){window.location.href = "/libreria-java/admin/listado-cat-libro";})
 		delbtn.parentNode.replaceChild(newDel, delbtn);
 	}
 }

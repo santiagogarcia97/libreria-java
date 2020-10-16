@@ -22,7 +22,7 @@ public class DataLibro {
 	
 	private final String _UPDATE = 	"update libros set isbn=?, titulo=?,autor=?, edicion=?,"
 									+ "fecha_edicion=?, cant_dias_max=?, estado=?, id_categoria=?, imagen_tapa=? where id=?"; 
-	
+		
 	///////////////
 	// GET ALL
 	///////////////
@@ -253,4 +253,5 @@ public class DataLibro {
 		return stmt;
 
 	}
+
 }

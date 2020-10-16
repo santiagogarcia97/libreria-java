@@ -11,7 +11,6 @@ import libreria.controllers.*;
 import libreria.entities.*;
 import libreria.utils.CustomException;
 import java.sql.Date;
-import java.util.Enumeration;
 
 /**
  * Servlet implementation class ServletAdmin
@@ -60,6 +59,14 @@ public class ServletAdmin extends HttpServlet {
 						CtrlCategoria ctrlCat = new CtrlCategoria();
 						request.setAttribute("categorias", ctrlCat.getAll());
 						request.setAttribute("adminPage", "editLibro");
+						}
+						break;
+					case "/ejemplares":{
+						CtrlLibro ctrl = new CtrlLibro();
+						CtrlEjemplar ctrlEj = new CtrlEjemplar();
+						request.setAttribute("libros",ctrl.getAll());
+						request.setAttribute("ejemplares", ctrlEj.getAll());
+						request.setAttribute("adminPage", "ejemplares");
 						}
 						break;
 					default:
@@ -111,7 +118,19 @@ public class ServletAdmin extends HttpServlet {
 				case "/listado-libro/eliminar":
 					this.eliminarLibro(request,response);
 					response.sendRedirect("/libreria-java/admin/listado-libro");
+					break;
+				case "/ejemplares/alta":{
+					String returnAddr = this.altaEjemplar(request,response);
+					response.sendRedirect(returnAddr);
+					break;
+					}
+				case "/ejemplares/baja":{
+					String returnAddr = this.bajaEjemplar(request,response);
+					response.sendRedirect(returnAddr);
+					break;
+					}
 				}
+				
 				
 			} else {
 				response.sendRedirect("/libreria-java/home");
@@ -244,6 +263,42 @@ public class ServletAdmin extends HttpServlet {
 		c.setDesc(req.getParameter("inputDesc"));
 		c.setEstado(req.getParameter("inputEstado"));
 		ctrl.delete(c);
+	}
+	
+	//////////////////////
+	// ALTA EJEMPLAR LOGIC
+	//////////////////////
+	
+	private String altaEjemplar(HttpServletRequest req, HttpServletResponse res) {
+		int cant = Integer.parseInt(req.getParameter("inputCantEj"));
+		String id = req.getParameter("inputLibroID");
+		for(int i=0; i<cant; i++) {
+			CtrlEjemplar ctrl = new CtrlEjemplar();
+			Ejemplar e = new Ejemplar();
+			Libro l = new Libro();
+			l.setId(Integer.parseInt(id));
+			CtrlLibro ctrlLib = new CtrlLibro();
+			l = ctrlLib.getById(l);
+			e.setEstado("habilitado");
+			//TODO: habilitado o disponible?
+			e.setLibro(l);
+			ctrl.add(e);
+		}
+		return "/libreria-java/admin/ejemplares?id="+id;
+	}
+	
+	//////////////////////
+	// BAJA EJEMPLAR LOGIC
+	//////////////////////
+	
+	private String bajaEjemplar(HttpServletRequest req, HttpServletResponse res) {
+		String id = req.getParameter("inputLibroID");
+		int id_ej = Integer.parseInt(req.getParameter("inputEjemplar"));
+		CtrlEjemplar ctrl = new CtrlEjemplar();
+		Ejemplar e = new Ejemplar();
+		e.setId(id_ej);
+		ctrl.delete(e);
+		return "/libreria-java/admin/ejemplares?id="+id;
 	}
 }
 
