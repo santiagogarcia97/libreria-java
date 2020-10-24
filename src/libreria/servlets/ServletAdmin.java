@@ -69,6 +69,24 @@ public class ServletAdmin extends HttpServlet {
 						request.setAttribute("adminPage", "ejemplares");
 						}
 						break;
+					case "/listado-usuario":{
+						CtrlUsuario ctrl = new CtrlUsuario();
+						request.setAttribute("usuarios",ctrl.getAll());
+						request.setAttribute("adminPage", "listadoUsuario");
+						}
+						break;
+					case "/alta-usuario":{
+						CtrlUsuario ctrl = new CtrlUsuario();
+						request.setAttribute("usuarios",ctrl.getAll());
+						request.setAttribute("adminPage", "altaUsuario");
+						}
+						break;
+					case "/edit-usuario":{
+						CtrlUsuario ctrl = new CtrlUsuario();
+						request.setAttribute("usuarios",ctrl.getAll());
+						request.setAttribute("adminPage", "editUsuario");
+						}
+						break;
 					default:
 						request.setAttribute("adminPage", "stats");
 						break;
@@ -129,6 +147,18 @@ public class ServletAdmin extends HttpServlet {
 					response.sendRedirect(returnAddr);
 					break;
 					}
+				case "/alta-usuario":
+					this.altaUsuario(request, response);
+					//El redirect se hace en el metodo altaUsuario segun si el email ya estaba tomado o no.
+					break;
+				case "/edit-usuario":
+					this.modificarUsuario(request,response);
+					response.sendRedirect("/libreria-java/admin/listado-usuario");
+					break;
+				case "/listado-usuario/eliminar":
+					this.eliminarUsuario(request,response);
+					response.sendRedirect("/libreria-java/admin/listado-usuario");
+					break;
 				}
 				
 				
@@ -300,5 +330,64 @@ public class ServletAdmin extends HttpServlet {
 		ctrl.delete(e);
 		return "/libreria-java/admin/ejemplares?id="+id;
 	}
-}
 
+
+	//////////////////////
+	// ALTA USUARIO LOGIC
+	//////////////////////
+	private void altaUsuario(HttpServletRequest request, HttpServletResponse response) throws CustomException, IOException {
+	
+		Usuario u = new Usuario();
+		u.setNombre(request.getParameter("inputNombre"));
+		u.setApellido(request.getParameter("inputApellido"));
+		u.setEmail(request.getParameter("inputEmail"));
+		u.setDomicilio(request.getParameter("inputDomicilio"));
+		u.setTelefono(request.getParameter("inputTelefono"));
+		u.setDni(request.getParameter("inputDNI"));
+		u.setPassword(request.getParameter("inputPSWD"));
+		u.setTipoUsuario(request.getParameter("inputTipo"));
+	
+		CtrlUsuario ctrl = new CtrlUsuario();
+	
+		if (ctrl.getByEmail(u) == null) { // El username est� disponible
+	
+			ctrl.add(u);	
+			response.sendRedirect("/libreria-java/admin/listado-usuario");
+		} else {
+			request.getSession().setAttribute("errorMsg", "El nombre de usuario no se encuentra disponible");
+			response.sendRedirect("/libreria-java/admin/alta-usuario");
+		}
+	}
+	
+	
+	//////////////////////
+	// MODIFICAR USUARIO LOGIC
+	//////////////////////
+	private void modificarUsuario(HttpServletRequest request, HttpServletResponse response) {
+	
+		Usuario u = new Usuario();
+		u.setId(Integer.parseInt(request.getParameter("inputID")));
+		u.setNombre(request.getParameter("inputNombre"));
+		u.setApellido(request.getParameter("inputApellido"));
+		u.setEmail(request.getParameter("inputEmail"));
+		u.setDomicilio(request.getParameter("inputDomicilio"));
+		u.setTelefono(request.getParameter("inputTelefono"));
+		u.setDni(request.getParameter("inputDNI"));
+		u.setTipoUsuario(request.getParameter("inputTipo"));
+		u.setPassword(request.getParameter("inputPSWD"));
+		u.setEstado("habilitado");
+		CtrlUsuario ctrl = new CtrlUsuario();
+		ctrl.update(u);	
+
+	}
+	
+	//////////////////////
+	// ELIMINAR USUARIO LOGIC
+	//////////////////////	
+	private void eliminarUsuario(HttpServletRequest req, HttpServletResponse res) {
+		Usuario u = new Usuario();
+		u.setId(Integer.parseInt(req.getParameter("inputID")));
+		CtrlUsuario ctrl = new CtrlUsuario();
+		ctrl.delete(u);
+	}
+}

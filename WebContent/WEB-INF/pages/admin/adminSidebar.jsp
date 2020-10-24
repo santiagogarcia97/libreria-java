@@ -46,10 +46,10 @@
         </div>
                 
         <br>
-        <h5 class="">Socios</h5>
+        <h5 class="">Usuarios</h5>
         <div class="list-group list-group-flush">
           <div class="list-group-item d-flex justify-content-between align-items-center">
-            <a href="#" class="text-dark">Buscar</a>
+            <a href="/libreria-java/admin/listado-usuario" class="text-dark">Gestionar</a>
           </div>            
         </div>
         
