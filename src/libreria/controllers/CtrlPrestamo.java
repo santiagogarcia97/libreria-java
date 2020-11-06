@@ -26,5 +26,15 @@ public class CtrlPrestamo {
 			dataLinea.add(lp);
 		}
 	}
+	public int countPrestamosPreparacion() {
+		return dataPrestamo.countPreparacion();
+	}
+	
+	public int countPrestamosRetiro() {
+		return dataPrestamo.countRetiro();
+	}
+	public int countPrestamosDevolucion() {
+		return dataPrestamo.countDevolucion();
+	}
 	
 }

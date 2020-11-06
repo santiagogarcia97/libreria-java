@@ -33,7 +33,12 @@ public class ServletAdmin extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		if(isAdmin(request)) {
-			try {				
+			try {
+				CtrlPrestamo ctrlPrestamo = new CtrlPrestamo();
+				request.setAttribute("countPreparacion", ctrlPrestamo.countPrestamosPreparacion());
+				request.setAttribute("countRetiro", ctrlPrestamo.countPrestamosRetiro());
+				request.setAttribute("countDevolucion", ctrlPrestamo.countPrestamosDevolucion());
+				
 				switch (request.getPathInfo()) {			
 					case "/alta-libro":{
 						request.setAttribute("adminPage", "altaLibro");
