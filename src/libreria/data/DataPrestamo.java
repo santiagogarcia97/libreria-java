@@ -33,8 +33,10 @@ public class DataPrestamo {
 	private final String _GET_LINEAS = "select * from lineas_prestamo where id_prestamo = ?";
 	
 	private final String _COUNT_PREPARACION = "select count(*) from prestamos where fecha_hora_preparacion is null and estado!='eliminado'";
-	private final String _COUNT_RETIRO = "select count(id) from prestamos where fecha_hora_preparacion is not null and fecha_hora_retiro is null and estado!='eliminado'";
-	private final String _COUNT_DEVOLUCION = "select count(id) from prestamos where fecha_hora_preparacion is not null and fecha_hora_retiro is not null and fecha_hora_devolucion is null and estado!='eliminado'";
+	private final String _COUNT_RETIRO =  "select count(id) from prestamos where fecha_hora_preparacion is not null "
+										+ "and fecha_hora_retiro is null and estado!='eliminado'";
+	private final String _COUNT_DEVOLUCION =  "select count(id) from prestamos where fecha_hora_preparacion is not null "
+											+ "and fecha_hora_retiro is not null and fecha_hora_devolucion is null and estado!='eliminado'";
 	
 	///////////////
 	// GET ALL
@@ -190,78 +192,95 @@ public class DataPrestamo {
 	///////////////
 	public int countPreparacion() throws CustomException{
 		PreparedStatement stmt=null;
-		int number = 0;
+		ResultSet rs = null;
+		int counter = 0;
 
 		try {
 			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(_COUNT_PREPARACION);
-			ResultSet rs = stmt.executeQuery();
+			rs = stmt.executeQuery();
 			
-			 while (rs.next()) {
-				 number = rs.getInt(1);
-			 }
+			while (rs.next()) {
+				counter = rs.getInt(1);
+			}
+			 
 		} catch (SQLException e) {
 			throw new CustomException("Error al obtener datos", "DataPrestamo", e);	
+		} finally {
+			// cerrar la conexion
+			try {
+				if(rs!=null) { rs.close(); }
+				if(stmt!=null) { stmt.close();}
+				FactoryConexion.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				throw new CustomException("Error al obtener datos", "DataPrestamo", e);
+			}
 		}
-		try {
-			if(stmt!=null)stmt.close();
-			FactoryConexion.getInstancia().releaseConn();
-		} catch (SQLException e) {
-			throw new CustomException("Error al obtener datos", "DataPrestamo", e);
-		} catch (CustomException e) {
-			throw e;					
-		} 
-		return number;
+
+		return counter;
 	}
 	public int countRetiro() throws CustomException{
 		PreparedStatement stmt=null;
-		int number = 0;
+		ResultSet rs = null;
+		int counter = 0;
 
 		try {
 			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(_COUNT_RETIRO);
-			ResultSet rs = stmt.executeQuery();
+			rs = stmt.executeQuery();
 			
-			 while (rs.next()) {
-				 number = rs.getInt(1);
-			 }
+			while (rs.next()) {
+				counter = rs.getInt(1);
+			}
+			 
 		} catch (SQLException e) {
 			throw new CustomException("Error al obtener datos", "DataPrestamo", e);	
+		} finally {
+			// cerrar la conexion
+			try {
+				if(rs!=null) { rs.close(); }
+				if(stmt!=null) { stmt.close();}
+				FactoryConexion.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				throw new CustomException("Error al obtener datos", "DataPrestamo", e);
+			}
 		}
-		try {
-			if(stmt!=null)stmt.close();
-			FactoryConexion.getInstancia().releaseConn();
-		} catch (SQLException e) {
-			throw new CustomException("Error al obtener datos", "DataPrestamo", e);
-		} catch (CustomException e) {
-			throw e;					
-		} 
-		return number;
+
+		return counter;
 	}
 	public int countDevolucion() throws CustomException{
 		PreparedStatement stmt=null;
-		int number = 0;
+		ResultSet rs = null;
+		int counter = 0;
 
 		try {
 			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(_COUNT_DEVOLUCION);
-			ResultSet rs = stmt.executeQuery();
+			rs = stmt.executeQuery();
 			
-			 while (rs.next()) {
-				 number = rs.getInt(1);
-			 }
+			while (rs.next()) {
+				counter = rs.getInt(1);
+			}
+			 
 		} catch (SQLException e) {
 			throw new CustomException("Error al obtener datos", "DataPrestamo", e);	
+		} finally {
+			// cerrar la conexion
+			try {
+				if(rs!=null) { rs.close(); }
+				if(stmt!=null) { stmt.close();}
+				FactoryConexion.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				throw new CustomException("Error al obtener datos", "DataPrestamo", e);
+			}
 		}
-		try {
-			if(stmt!=null)stmt.close();
-			FactoryConexion.getInstancia().releaseConn();
-		} catch (SQLException e) {
-			throw new CustomException("Error al obtener datos", "DataPrestamo", e);
-		} catch (CustomException e) {
-			throw e;					
-		} 
-		return number;
+
+		return counter;
 	}
 	
 	
+	
+	
+	///////////////
+	// HELPERS
+	///////////////
 	public Prestamo cargar_datos_a_entidad(Prestamo p, ResultSet rs) {
 		try {
 			p.setId(rs.getInt("id_prestamo"));
