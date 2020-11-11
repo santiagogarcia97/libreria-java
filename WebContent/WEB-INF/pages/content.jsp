@@ -88,7 +88,11 @@
 						<h5>Fecha edición: ${libro.getFechaEdicion()}</h5>
 						<br>
 						<h5>Maximo dias de prestamo: ${libro.getDiasMaxPrestamo()}</h5>
-						<a href="/libreria-java/prestamos?action=add&id=${libro.getId()}" class="btn btn-primary">Agregar al prestamo</a>
+						<form id="form-add" action="/libreria-java/prestamos/agregar" method="post">
+							<input type="text" class="form-control" id="inputIDLibro" 
+			   				name="inputIDLibro" required="required" hidden="true" value=${ libro.getId() }> 
+							<button class="btn btn-primary" type="submit">Agregar al prestamo</button>
+						</form>
 					</div>
 				</div>
 			</div>

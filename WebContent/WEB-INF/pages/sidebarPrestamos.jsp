@@ -7,8 +7,9 @@
   <h1 class="my-4">Prestamos</h1>
   
   <div class="list-group list-group-flush">
-    <a href="" class="list-group-item">Actual</a>
-    <a href="" class="list-group-item">Historial</a>
+  	<a href="/libreria-java/home" class="list-group-item">Volver al Inicio</a>
+    <a href="/libreria-java/prestamos/carrito" class="list-group-item">Carrito</a>
+    <a href="/libreria-java/prestamos/prestamos-activos" class="list-group-item">Prestamos Activos</a>
   </div>
 
 </div>

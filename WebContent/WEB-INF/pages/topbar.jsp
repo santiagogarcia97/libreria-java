@@ -37,7 +37,23 @@
 
 			<c:choose>
 				<c:when test="${sessionScope.loggedUser != null}">
+				<div style="width: 42px">
+					<c:choose>
+						<c:when test="${sessionScope.carrito.size() == null}">
+							<a href="/libreria-java/prestamos/carrito">
+								<img alt="Carrito" width="20px" src="${pageContext.request.contextPath}/resources/images/shopping-cart-empty.png">
+							</a>
+						</c:when>
+						<c:otherwise>
+							<a href="/libreria-java/prestamos/carrito">
+								<img alt="Carrito" width="24px" src="${pageContext.request.contextPath}/resources/images/shopping-cart-full.png">
+							</a>
+						</c:otherwise>
+					</c:choose>
+
+				</div>
 					<ul class="navbar-nav ">
+						
 						<li class="nav-item dropdown"><a href="#"
 							class="nav-link dropdown-toggle" id="navDropDownLink"
 							data-toggle="dropdown"> 

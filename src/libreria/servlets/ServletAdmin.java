@@ -11,6 +11,7 @@ import libreria.controllers.*;
 import libreria.entities.*;
 import libreria.utils.CustomException;
 import java.sql.Date;
+import java.util.ArrayList;
 
 /**
  * Servlet implementation class ServletAdmin
@@ -87,9 +88,25 @@ public class ServletAdmin extends HttpServlet {
 						request.setAttribute("adminPage", "editUsuario");
 						}
 						break;
-					default:
-						request.setAttribute("adminPage", "stats");
+					case "/listado-prestamo":{
+						CtrlPrestamo ctrl = new CtrlPrestamo();
+						CtrlUsuario ctrlU = new CtrlUsuario();
+						request.setAttribute("prestamos",ctrl.getAll());
+						request.setAttribute("usuarios",ctrlU.getAll());
+						request.setAttribute("adminPage", "listadoPrestamo");
+						}
 						break;
+					case "/edit-prestamo":{
+						CtrlPrestamo ctrl = new CtrlPrestamo();
+						CtrlUsuario ctrlU = new CtrlUsuario();
+						CtrlEjemplar ctrlE = new CtrlEjemplar();
+						CtrlLibro ctrlL = new CtrlLibro();
+						request.setAttribute("prestamos", ctrl.getAll());
+						request.setAttribute("usuarios", ctrlU.getAll());
+						request.setAttribute("libros", ctrlL.getAll());
+						request.setAttribute("ejemplares", ctrlE.getAll());
+						request.setAttribute("adminPage", "editPrestamo");
+					}
 				}
 				
 				request.getRequestDispatcher( "/WEB-INF/pages/admin/adminPanel.jsp" ).forward( request, response );
@@ -159,14 +176,29 @@ public class ServletAdmin extends HttpServlet {
 					this.eliminarUsuario(request,response);
 					response.sendRedirect("/libreria-java/admin/listado-usuario");
 					break;
-				}
+				case "/edit-prestamo/eliminar-linea":{
+					String returnAddr = this.eliminarLineaPrestamo(request,response);
+					response.sendRedirect(returnAddr);
+				}break;
+				case "/edit-prestamo/agregar-linea":{
+					String returnAddr = this.agregarLineaPrestamo(request,response);
+					response.sendRedirect(returnAddr);
+				}break;
+				case "/edit-prestamo/eliminar-prestamo":
+					this.eliminarPrestamo(request,response);
+					response.sendRedirect("/libreria-java/admin/listado-prestamo?tipo=preparacion");
+					break;
+				case "/edit-prestamo/confirmar":
+					String returnAddr = this.confirmarPrestamo(request,response);
+					response.sendRedirect(returnAddr);
+					break;
+			}
 				
 				
 			} else {
 				response.sendRedirect("/libreria-java/home");
-			}	
 			
-			
+			}
 		} catch (CustomException e) {
 			request.getSession().setAttribute("errorMsg", e.getMessage());
 			request.getRequestDispatcher( "/WEB-INF/pages/error.jsp" ).forward( request, response );
@@ -389,5 +421,43 @@ public class ServletAdmin extends HttpServlet {
 		u.setId(Integer.parseInt(req.getParameter("inputID")));
 		CtrlUsuario ctrl = new CtrlUsuario();
 		ctrl.delete(u);
+	}
+	
+	//////////////////////
+	// ELIMINAR LINEA LOGIC
+	//////////////////////	
+	private String eliminarLineaPrestamo(HttpServletRequest req, HttpServletResponse res) {
+		CtrlPrestamo ctrl = new CtrlPrestamo();
+		int id = (Integer.parseInt(req.getParameter("inputID")));
+		ctrl.eliminarLinea(id);
+		return "/libreria-java/admin/edit-prestamo?id="+req.getParameter("inputIDPrestamo");
+	}
+	
+	//////////////////////
+	// AGREGAR LINEA LOGIC
+	//////////////////////	
+	private String agregarLineaPrestamo(HttpServletRequest req, HttpServletResponse res) {
+		CtrlPrestamo ctrl = new CtrlPrestamo();
+		int id = (Integer.parseInt(req.getParameter("inputEjId")));
+		ctrl.agregarLinea(id,Integer.parseInt(req.getParameter("inputIDPrestamo")));
+		return "/libreria-java/admin/edit-prestamo?id="+req.getParameter("inputIDPrestamo");
+	}
+	
+	//////////////////////
+	// ELIMINAR PRESTAMO LOGIC
+	//////////////////////	
+	private void eliminarPrestamo(HttpServletRequest req, HttpServletResponse res) {
+		CtrlPrestamo ctrl = new CtrlPrestamo();
+		int id = (Integer.parseInt(req.getParameter("inputIDPrestamo")));
+		ctrl.delete(id);
+	}
+	
+	//////////////////////
+	// CONFIRMAR PRESTAMO LOGIC
+	//////////////////////
+	private String confirmarPrestamo(HttpServletRequest req, HttpServletResponse res) {
+		CtrlPrestamo ctrl = new CtrlPrestamo();
+		String tipo = ctrl.confirmarPrestamo(Integer.parseInt(req.getParameter("inputIDPrestamo")));
+		return "/libreria-java/admin/listado-prestamo?tipo="+tipo;
 	}
 }

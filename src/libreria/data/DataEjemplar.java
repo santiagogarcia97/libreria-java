@@ -12,13 +12,13 @@ public class DataEjemplar {
 	
 	private final String _GET_BY_ID = "select * from ejemplares e inner join libros l on e.id_libro=l.id " 
 									+ "inner join categorias cl on l.id_categoria = cl.id "
-									+ "where id=? and e.estado!='eliminado'";
+									+ "where e.id=? and e.estado!='eliminado'";
 	
 	private final String _GET_ONE_BY_LIBRO = "select * from ejemplares where estado='habilitado' and id_libro=? limit 1";
 		
 	private final String _GET_ALL =   "select * from ejemplares e inner join libros l on e.id_libro=l.id " 
 									+ "inner join categorias cl on l.id_categoria = cl.id "
-									+ "where e.estado!='eliminado'"; 
+									+ "where e.estado='habilitado'"; 
 	
 	private final String _ADD = "insert into ejemplares(estado, id_libro)"
 									+ "values (?, ?)"; 
@@ -26,6 +26,8 @@ public class DataEjemplar {
 	private final String _DELETE = 	"update ejemplares set estado='eliminado' where id=?"; 
 	
 	private final String _UPDATE = 	"update ejemplares set estado=? , id_libro=? where id=?"; 
+	
+	private final String _GET_COUNT_BY_LIBRO = "select count(*) as total from ejemplares where estado='habilitado' and id_libro=?";
 	
 	
 	
@@ -104,6 +106,43 @@ public class DataEjemplar {
 			} 
 		}
 		return e;
+	}
+	
+	//////////////////////
+	// GET COUNT BY LIBRO
+	//////////////////////
+	public Integer getCountByLibro(Libro l) throws CustomException{
+		
+		PreparedStatement stmt=null;
+		ResultSet rs=null;
+		Integer total = -1;
+		
+		try {
+			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(_GET_COUNT_BY_LIBRO);
+			stmt.setInt(1, l.getId());
+			rs=stmt.executeQuery();
+			
+			if(rs!=null){
+				while(rs.next()){
+					total = rs.getInt("total");
+				}
+			}			
+		} catch (SQLException e) {
+			throw new CustomException("Error al ejecutar getCountByLibro()", "DataEjemplar", e);		
+		} catch (CustomException e) {
+			throw e;					
+		} finally{
+			try {
+				if(rs!=null)rs.close();
+				if(stmt!=null)stmt.close();
+				FactoryConexion.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				throw new CustomException("Error al ejecutar getCountByLibro()", "DataEjemplar", e);
+			} catch (CustomException e) {
+				throw e;					
+			} 
+		}
+		return total;
 	}
 	
 	////////////////////

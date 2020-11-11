@@ -12,22 +12,22 @@ import libreria.utils.CustomException;
 public class DataLineaDePrestamo {
 	
 	
-	private final String _GET_BY_ID = "select * from lineas_prestamo lp inner join ejemplares e on lp.id_ejemplar = e.id"
+	private final String _GET_BY_ID = "select * from lineas_prestamo lp inner join ejemplares e on lp.id_ejemplar = e.id "
 									+ "inner join libros l on e.id_libro=l.id " 
 									+ "inner join categorias cl on l.id_categoria = cl.id "
-									+ "where id=? and lp.estado!='eliminado'";
+									+ "where lp.id=? and lp.estado!='eliminado'";
 
 	private final String _GET_ALL =   "select * from lineas_prestamo lp inner join ejemplares e on lp.id_ejemplar = e.id "
 									+ "inner join libros l on e.id_libro=l.id " 
 									+ "inner join categorias cl on l.id_categoria = cl.id "
 									+ "where lp.estado!='eliminado'"; 
 							
-	private final String _ADD = "insert into lineas_prestamo(id_ejemplar, id_prestamo, estado) "
-									+ "values (?,?,?)"; 
+	private final String _ADD = "insert into lineas_prestamo(id_ejemplar, id_prestamo, estado, fecha_devolucion) "
+									+ "values (?,?,?,?)"; 
 	
 	private final String _DELETE = 	"update lineas_prestamo set estado='eliminado' where id=?"; 
 	
-	private final String _UPDATE = 	"update lineas_prestamo set devuelto=?, fecha_devolucion=?, id_ejemplar=?, id_prestamo=?, estado=?, where id=?"; 
+	private final String _UPDATE = 	"update lineas_prestamo set id_ejemplar=?, id_prestamo=?, estado=?, fecha_devolucion=? where id=?"; 
 	
 	///////////////
 	// GET ALL
@@ -194,9 +194,10 @@ public class DataLineaDePrestamo {
 			l.setDiasMaxPrestamo(rs.getInt("cant_dias_max"));
 			l.setEstado(rs.getString("estado"));
 			l.setTapa(rs.getString("imagen_tapa"));
-			cat.setId(rs.getInt("id_cl"));
+			cat.setId(rs.getInt("id_categoria"));
 			cat.setDesc(rs.getString("descripcion"));
 			l.setCat(cat);
+			e.setLibro(l);
 			lp.setId(rs.getInt("id"));
 		//	lp.setDevuelto(rs.getBoolean("devuelto"));
 			lp.setFechaDevolucion(rs.getDate("fecha_devolucion"));
@@ -216,7 +217,8 @@ public class DataLineaDePrestamo {
 		stmt.setInt(1, lp.getEjemplar().getId());
 		stmt.setInt(2, lp.getIdPrestamo());
 		stmt.setString(3, lp.getEstado());
-		if (mode == "update") stmt.setInt(6, lp.getId());
+		stmt.setDate(4, lp.getFechaDevolucion());
+		if (mode == "update") stmt.setInt(5, lp.getId());
 					
 		return stmt;
 	}

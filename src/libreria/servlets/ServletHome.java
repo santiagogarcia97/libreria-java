@@ -1,6 +1,8 @@
 package libreria.servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,11 +12,12 @@ import javax.servlet.http.HttpServletResponse;
 import libreria.controllers.CtrlCategoria;
 import libreria.controllers.CtrlLibro;
 import libreria.entities.*;
+import libreria.utils.CustomException;
 
 /**
  * Servlet implementation class ServletHome
  */
-@WebServlet("/home")
+@WebServlet("/home/*")
 public class ServletHome extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -30,30 +33,38 @@ public class ServletHome extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		CtrlCategoria ctrlCat = new CtrlCategoria();
-		CtrlLibro ctrlLibro = new CtrlLibro();
-		
-		request.setAttribute("categorias", ctrlCat.getAll());
-		
-		if(request.getParameter("cat") != null && request.getParameter("libro") == null) {
-			Categoria c = new Categoria();
-			c.setId(Integer.parseInt(request.getParameter("cat")));
-			
-			request.setAttribute("libros", ctrlLibro.getByCat(c));
-		}
-		else if(request.getParameter("cat") == null && request.getParameter("libro") != null){
-			Libro l = new Libro();
-			l.setId(Integer.parseInt(request.getParameter("libro")));
-			
-			request.setAttribute("libro", ctrlLibro.getById(l));
-			
-		}
-		else {
-			request.setAttribute("libros", ctrlLibro.getAll());
-		}
-		
+		try {				
+			if (request.getPathInfo() == null) {			
+				CtrlCategoria ctrlCat = new CtrlCategoria();
+				CtrlLibro ctrlLibro = new CtrlLibro();
 
-		request.getRequestDispatcher( "/WEB-INF/pages/index.jsp" ).forward( request, response );
+				request.setAttribute("categorias", ctrlCat.getAll());
+
+				if(request.getParameter("cat") != null && request.getParameter("libro") == null) {
+					Categoria c = new Categoria();
+					c.setId(Integer.parseInt(request.getParameter("cat")));
+
+					request.setAttribute("libros", ctrlLibro.getByCat(c));
+				}
+				else if(request.getParameter("cat") == null && request.getParameter("libro") != null){
+					Libro l = new Libro();
+					l.setId(Integer.parseInt(request.getParameter("libro")));
+
+					request.setAttribute("libro", ctrlLibro.getById(l));
+
+				}
+				else {
+					request.setAttribute("libros", ctrlLibro.getAll());
+				}
+
+
+				request.getRequestDispatcher( "/WEB-INF/pages/index.jsp" ).forward( request, response );
+			}
+		}
+		catch (CustomException e) {
+			request.getSession().setAttribute("errorMsg", e.getMessage());
+			request.getRequestDispatcher( "/WEB-INF/pages/error.jsp" ).forward( request, response );
+		}
 	}
 
 

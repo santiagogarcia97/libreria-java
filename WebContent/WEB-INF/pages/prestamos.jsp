@@ -16,11 +16,14 @@
 	<body>
 		<jsp:include page="topbar.jsp" />
 		
+		<c:if test="${requestScope.prestamosPage == null}" >
+			<c:set scope="request" var="prestamosPage" value="error" />
+		</c:if>
+		
 		<div class="container h-100">
 			<div class="row h-100">
-				<jsp:include page="sidebarPrestamos.jsp" />
-				
-				<jsp:include page="contentPrestamos.jsp" />
+				<jsp:include page="/WEB-INF/pages/sidebarPrestamos.jsp" />
+				<jsp:include page="/WEB-INF/pages/${requestScope.prestamosPage}.jsp" />
 			</div>
 		</div>
 
