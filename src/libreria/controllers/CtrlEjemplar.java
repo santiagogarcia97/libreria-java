@@ -30,12 +30,20 @@ public class CtrlEjemplar {
 		return this.dataEjemplar.getAll();
 	}
 	
+	public Integer getCountByLibro(Libro l) {
+		return this.dataEjemplar.getCountByLibro(l);
+	}
+	
 	public Ejemplar add(Ejemplar e) throws CustomException{
 		return this.dataEjemplar.add(e);
 	}
 	
 	public void delete(Ejemplar e) throws CustomException{
 		this.dataEjemplar.delete(e);
+	}
+	
+	public void update(Ejemplar e) throws CustomException{
+		this.dataEjemplar.update(e);
 	}
 	
 }

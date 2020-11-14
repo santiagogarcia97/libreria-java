@@ -56,5 +56,9 @@ public class CtrlUsuario {
 	public ArrayList<Usuario> getAll()throws CustomException{
 		return dataUsuario.getAll();
 	}
+	
+	public Usuario getById(Usuario u) throws CustomException{
+		return this.dataUsuario.getById(u);
+	}
 
 }

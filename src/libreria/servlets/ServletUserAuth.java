@@ -1,6 +1,8 @@
 package libreria.servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -99,7 +101,7 @@ public class ServletUserAuth extends HttpServlet {
 
 		CtrlUsuario ctrl = new CtrlUsuario();
 
-		if (ctrl.getByEmail(u) == null) { // El username está disponible
+		if (ctrl.getByEmail(u) == null) { // El username estï¿½ disponible
 
 			Usuario nuevoUsuario = ctrl.add(u);
 			request.getSession().setAttribute("loggedUser", nuevoUsuario);
@@ -122,7 +124,7 @@ public class ServletUserAuth extends HttpServlet {
 		CtrlUsuario ctrl = new CtrlUsuario();
 
 		if (ctrl.validateLogin(loginUser).getId() == -1) {
-			request.getSession().setAttribute("errorMsg", "El usuario no existe o la contraseña es incorrecta");
+			request.getSession().setAttribute("errorMsg", "El usuario no existe o la contraseï¿½a es incorrecta");
 			response.sendRedirect("login");
 		} else {
 			loginUser = ctrl.getByEmail(loginUser);

@@ -7,7 +7,7 @@ public class Prestamo extends Entidad {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private Usuario socio;
+	private int socioId;
 	private Date fechaHoraSolicitud, fechaHoraPreparacion, fechaHoraRetiro,fechaHoraDevolucion;
 
 	ArrayList<LineaDePrestamo> lineas = new ArrayList<LineaDePrestamo>();
@@ -17,8 +17,8 @@ public class Prestamo extends Entidad {
 	////////////
 	// Setters
 	////////////
-	public void setSocio(Usuario socio) {
-		this.socio = socio;
+	public void setSocioId(int socioId) {
+		this.socioId = socioId;
 	}
 	public void setFechaHoraSolicitud(Date fechaHoraSolicitud) {
 		this.fechaHoraSolicitud = fechaHoraSolicitud;
@@ -37,11 +37,12 @@ public class Prestamo extends Entidad {
 		this.lineas.add(lp);
 	}
 	
+	
 	////////////
 	// Getters
 	////////////	
-	public Usuario getSocio() {
-		return socio;
+	public int getSocioId() {
+		return socioId;
 	}
 	public Date getFechaHoraSolicitud() {
 		return fechaHoraSolicitud;

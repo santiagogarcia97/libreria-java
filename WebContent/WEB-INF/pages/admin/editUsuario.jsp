@@ -88,7 +88,8 @@
 		<div class="form-group row">
     		<label for="inputPSWD" class="col-sm-4 col-form-label">Password</label>
    			 <div class="col-sm-8">
-      			<input type="password" class="form-control" id="inputPSWD" name="inputPSWD" placeholder="Password" required="required" readonly value="${usuario.getPassword() }">
+      			<input type="password" class="form-control" id="inputPSWD" name="inputPSWD" placeholder="Password" required="required" readonly value="${usuario.getPassword() }" hidden="true">
+      			<input type="password" class="form-control" readonly value="*****">
     		</div>
   		</div>
 				
