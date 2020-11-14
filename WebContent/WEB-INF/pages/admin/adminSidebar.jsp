@@ -9,15 +9,15 @@
         <h5 class="">Prestamos</h5>
         <div class="list-group list-group-flush">
           <div class="list-group-item d-flex justify-content-between align-items-center">
-            <a href="#" class="text-dark">Pendientes Preparación</a>
+            <a href="/libreria-java/admin/listado-prestamo?tipo=preparacion" class="text-dark">Pendientes Preparación</a>
             <span class="badge badge-primary badge-pill">${ requestScope.countPreparacion }</span>
           </div>
           <div class="list-group-item d-flex justify-content-between align-items-center">
-            <a href="#" class="text-dark">Pendientes Retiro</a>
+            <a href="/libreria-java/admin/listado-prestamo?tipo=retiro" class="text-dark">Pendientes Retiro</a>
             <span class="badge badge-primary badge-pill">${ requestScope.countRetiro }</span>
           </div>
           <div class="list-group-item d-flex justify-content-between align-items-center">
-            <a href="#" class="text-dark">Pendientes Devolución</a>
+            <a href="/libreria-java/admin/listado-prestamo?tipo=devolucion" class="text-dark">Pendientes Devolución</a>
             <span class="badge badge-primary badge-pill">${ requestScope.countDevolucion }</span>
           </div>
         
