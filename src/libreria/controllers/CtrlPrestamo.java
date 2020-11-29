@@ -1,6 +1,10 @@
 package libreria.controllers;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
 
 import libreria.data.DataEjemplar;
 import libreria.data.DataLineaDePrestamo;
@@ -99,18 +103,52 @@ public class CtrlPrestamo {
 		if(p.getEstado().equals("preparacion")) {
 			String s = "retiro";
 			p.setEstado(s);
+			p.setFechaHoraPreparacion(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
 			this.dataPrestamo.update(p);
 			return s;
 		}
 		else if(p.getEstado().equals("retiro")) {
 			String s = "devolucion";
 			p.setEstado(s);
+			p.setFechaHoraRetiro(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
 			this.dataPrestamo.update(p);
 			return s;
 		}
 		else if(p.getEstado().equals("devolucion")) {
+			p.setFechaHoraDevolucion(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
 			this.delete(id);
 		}
 		return "error-"+p.getEstado();
 	}
+	
+	public LocalDate calc_fecha_devolver(int id) throws CustomException {
+		// Calcula y devuelve fecha maxima en la que debe ser devuelto el prestamo
+		DataEjemplar de = new DataEjemplar();
+		Prestamo p = new Prestamo();
+		p.setId(id);
+		p = this.dataPrestamo.getById(p);
+		
+		if(p.getFechaHoraRetiro() == null) {
+			//TODO: throw CustomException
+		}
+		
+		LocalDate fechaRetiro = p.getFechaHoraRetiro().toLocalDate();
+		ArrayList<Integer> diasPrestamo = new ArrayList<Integer>();
+		
+		for(LineaDePrestamo lp : p.getLineas()) {
+			Ejemplar ej = lp.getEjemplar();
+			ej = de.getById(ej);
+			diasPrestamo.add(ej.getLibro().getDiasMaxPrestamo());
+		}
+		
+		Integer min = Collections.min(diasPrestamo);
+		
+		return fechaRetiro.plusDays(min);
+	}
+	
+	public int calc_dias_restantes(int id) {
+		LocalDate fecha = this.calc_fecha_devolver(id);
+		return (int) LocalDate.now().until(fecha, ChronoUnit.DAYS);
+	}
 }
+

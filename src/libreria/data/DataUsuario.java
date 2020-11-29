@@ -215,6 +215,10 @@ public class DataUsuario {
 			u.setDni(rs.getString("dni"));
 			u.setTipoUsuario(rs.getString("tipo"));
 			u.setEstado(rs.getString("estado"));
+			
+			DataSancion ds = new DataSancion();
+			u.setSancionado(ds.IsSancionado(u.getId()));
+			
 		}
 		catch (SQLException e) {
 			throw new CustomException("Error al ejecutar recuperar datos.", "DataUsuario", e);		

@@ -9,6 +9,7 @@ public class Usuario extends Entidad {
 	
 	private String nombre,apellido,email,domicilio,telefono,dni,password;
 	private String tipoUsuario = "socio";
+	private Boolean sancionado;
 	private ArrayList<Prestamo> prestamos = new ArrayList<Prestamo>();
 	private ArrayList<Sancion> sanciones = new ArrayList<Sancion>();
 	
@@ -47,6 +48,10 @@ public class Usuario extends Entidad {
 		this.tipoUsuario = tipoUsuario;
 	}
 	
+	public void setSancionado(Boolean sancionado) {
+		this.sancionado = sancionado;
+	}
+	
 
 	//Getters
 	public String getNombre() {
@@ -78,6 +83,15 @@ public class Usuario extends Entidad {
 	}
 	public String getTipoUsuario() {
 		return tipoUsuario;
+	}
+	
+	public String getSancionado() {
+		if(this.sancionado) {
+			return "Si";
+		}
+		else {
+			return "No";
+		}
 	}
 
 }

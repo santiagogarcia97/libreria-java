@@ -50,7 +50,10 @@
         <div class="list-group list-group-flush">
           <div class="list-group-item d-flex justify-content-between align-items-center">
             <a href="/libreria-java/admin/listado-usuario" class="text-dark">Gestionar</a>
-          </div>            
+          </div>
+          <div class="list-group-item d-flex justify-content-between align-items-center">
+            <a href="/libreria-java/admin/listado-sanciones" class="text-dark">Sanciones</a>
+          </div>           
         </div>
         
         <br>

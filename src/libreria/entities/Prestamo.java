@@ -1,7 +1,10 @@
 package libreria.entities;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
+
+import libreria.utils.CustomException;
 
 public class Prestamo extends Entidad {
 	
@@ -60,6 +63,5 @@ public class Prestamo extends Entidad {
 	public ArrayList<LineaDePrestamo> getLineas(){
 		return this.lineas;
 	}
-
 	
 }

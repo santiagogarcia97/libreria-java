@@ -112,6 +112,11 @@ public class ServletAdmin extends HttpServlet {
 						request.setAttribute("ejemplares", ctrlE.getAll());
 						request.setAttribute("adminPage", "editPrestamo");
 					}
+					case "/listado-sanciones":{
+						CtrlSancion ctrl = new CtrlSancion();
+						request.setAttribute("sanciones", ctrl.getAll());
+						request.setAttribute("adminPage", "listadoSanciones");
+					}
 				}
 				
 				request.getRequestDispatcher( "/WEB-INF/pages/admin/adminPanel.jsp" ).forward( request, response );
@@ -196,6 +201,10 @@ public class ServletAdmin extends HttpServlet {
 				case "/edit-prestamo/confirmar":
 					String returnAddr = this.confirmarPrestamo(request,response);
 					response.sendRedirect(returnAddr);
+					break;
+				case "/listado-sancion/eliminar":
+					this.eliminarSancion(request,response);
+					response.sendRedirect("/libreria-java/admin/listado-sanciones");
 					break;
 			}
 				
@@ -464,5 +473,14 @@ public class ServletAdmin extends HttpServlet {
 		CtrlPrestamo ctrl = new CtrlPrestamo();
 		String tipo = ctrl.confirmarPrestamo(Integer.parseInt(req.getParameter("inputIDPrestamo")));
 		return "/libreria-java/admin/listado-prestamo?tipo="+tipo;
+	}
+	
+	
+	private void eliminarSancion(HttpServletRequest req, HttpServletResponse res) {
+		CtrlSancion ctrl = new CtrlSancion();
+		int id = (Integer.parseInt(req.getParameter("inputID")));
+		Sancion s = new Sancion();
+		s.setId(id);
+		ctrl.delete(s);
 	}
 }

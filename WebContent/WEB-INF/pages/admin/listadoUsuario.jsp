@@ -16,6 +16,7 @@
 	      <th scope="col">ID</th>
 	      <th scope="col">Nombre y Apellido</th>
 		  <th scope="col">Tipo</th>
+		  <th scope="col">Sancionado</th>
 		  <th scope="col"> </th>
 		  <th scope="col"> </th>
 	    </tr>
@@ -31,6 +32,8 @@
 			      	<td><label id="nombre-lbl-${usuario.getId()}">${usuario.getNombre()} ${usuario.getApellido()}</label></td>
 			      
 			      	<td><label id="tipo-lbl-${usuario.getId()}">${usuario.getTipoUsuario()}</label></td>
+			      	
+			      	<td><label id="sancionado-lbl-${usuario.getId()}">${usuario.getSancionado()}</label></td>
 			      	
 			      	<td> <button id="mod-btn-${usuario.getId()}" 
 			      			   class="btn btn-outline-secondary float-right"

@@ -9,6 +9,7 @@ public class Sancion extends Entidad {
 	private static final long serialVersionUID = 1L;
 	
 	private int diasSancion;
+	private int idUsuario;
 	private Date fechaSancion;
 	
 	
@@ -22,6 +23,10 @@ public class Sancion extends Entidad {
 		this.fechaSancion = date;
 	}
 	
+	public void setIdUsuario(int id) {
+		this.idUsuario = id;
+	}
+	
 
 	public Date getFechaSancion() {
 		return this.fechaSancion;
@@ -29,6 +34,10 @@ public class Sancion extends Entidad {
 	
 	public int getDiasSancion() {
 		return this.diasSancion;
+	}
+	
+	public int getIdUsuario() {
+		return this.idUsuario;
 	}
 }
 
