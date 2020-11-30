@@ -40,6 +40,8 @@ public class ServletPrestamos extends HttpServlet {
 		switch (request.getPathInfo()) {
 		case "/carrito":
 			request.setAttribute("nroEjemplares", this.consultarCantEjemplares(request,response));
+			Usuario u = (Usuario) request.getSession().getAttribute("loggedUser");
+			request.setAttribute("sancionado", u.getSancionado());
 			request.setAttribute("prestamosPage", "carrito");
 			break;
 		case "/prestamos-activos":

@@ -77,15 +77,14 @@
 	<hr>
 	<br>
 		<c:choose>
-			<c:when test="${disponible}">
+			<c:when test="${disponible && requestScope.sancionado.equals(\"No\")}">
 			<form id="form-confirmar" action="/libreria-java/prestamos/carrito/confirmar" method="post" style="display: inline">
 				<button id="btn-alta" class="btn btn-primary">Confirmar Préstamo</button>
 			</form>
+			
 			</c:when>
 			<c:otherwise>
-				
-					<button id="btn-alta" class="btn btn-secondary" disabled=>Confirmar Préstamo</button>
-				
+				<button id="btn-alta" class="btn btn-secondary" disabled>Confirmar Préstamo</button>
 			</c:otherwise>
 		</c:choose>
 	    <a href="/libreria-java/home" id="btn-alta" class="btn btn-outline-secondary">Agregar más libros</a>
@@ -98,6 +97,9 @@
 			<h4>Tu carrito está vacío. <a href="/libreria-java/home">Explora nuestros libros</a> y agrégalos al carrito para crear un nuevo pedido.</h4>
 		</c:otherwise>
 	</c:choose>
+	<c:if test="${requestScope.sancionado.equals(\"Si\")}">
+		<label style="color: red">Usted está sancionado, por lo que no puede hacer un pedido hasta devolver su préstamo pendiente.</label>
+	</c:if>	
 </div>
 <script src="/libreria-java/resources/js/carrito.js"></script>
 
