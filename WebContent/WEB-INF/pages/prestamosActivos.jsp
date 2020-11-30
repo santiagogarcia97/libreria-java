@@ -17,6 +17,8 @@
 	      <th scope="col">ID</th>
 		  <th scope="col">Cantidad de Libros</th>
 		  <th scope="col">Fecha de Realización</th>
+		  <th scope="col">Fecha Max Devolucion</th>
+		  <th scope="col">Cantidad Dias Restantes</th>
 		  <th scope="col">Estado</th>
 	    </tr>
 	  </thead>
@@ -32,8 +34,18 @@
 			      	
 			      	<td><label id="lineas-lbl-${prestamo.getId()}">${prestamo.getLineas().size()}</label></td>
 			      	
-			      	<td><label id="fecha-lbl-${prestamo.getId()}">${prestamo.getFechaHoraSolicitud()}</label></td>			      	
+			      	<td><label id="fecha-lbl-${prestamo.getId()}">${prestamo.getFechaHoraSolicitud()}</label></td>
 			      	
+			      	<c:choose>
+			      		<c:when test="${prestamo.getEstado() == \"devolucion\" }">
+			      			<td><label id="fecha-lbl-${prestamo.getId()}">${prestamo.calc_fecha_devolver()}</label></td>
+    						<td><label id="dias-lbl-${prestamo.getId()}">${prestamo.calc_dias_restantes()}</label></td>
+    					</c:when>
+    					<c:otherwise>
+    						<td><label id="fecha-lbl-${prestamo.getId()}">-</label></td>
+    						<td><label id="dias-lbl-${prestamo.getId()}">-</label></td>
+    					</c:otherwise>
+			      	</c:choose>			      	
 			      	<td><label id="estado-lbl-${prestamo.getId()}">${prestamo.getEstado()}</label></td>
 			      	
 			      	

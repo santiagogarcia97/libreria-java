@@ -29,6 +29,10 @@
 	      <th scope="col">ID Usuario</th>
 		  <th scope="col">Nombre y Apellido</th>
 		  <th scope="col">Cantidad de Líneas</th>
+		  <c:if test="${tipo == \"devolucion\" }">
+    		<th scope="col">Fecha Max Devolucion</th>
+		  	<th scope="col">Cantidad Dias Restantes</th>
+    	</c:if>
 		  <th scope="col"> </th>
 	    </tr>
 	  </thead>
@@ -51,6 +55,11 @@
 			      	<td><label id="nombre-apellido-lbl-${prestamo.getId()}">${usuario.getNombre()} ${usuario.getApellido()}</label></td>
 			      	
 			      	<td><label id="lineas-lbl-${prestamo.getId()}">${prestamo.getLineas().size()}</label></td>
+			      	
+			      	<c:if test="${tipo == \"devolucion\" }">
+    					<td><label id="fecha-lbl-${prestamo.getId()}">${prestamo.calc_fecha_devolver()}</label></td>
+    					<td><label id="dias-lbl-${prestamo.getId()}">${prestamo.calc_dias_restantes()}</label></td>
+    				</c:if>
 			      	
 			      	<td> <button id="mod-btn-${prestamo.getId()}" 
 			      			   class="btn btn-outline-secondary float-right"

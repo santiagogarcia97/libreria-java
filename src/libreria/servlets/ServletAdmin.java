@@ -112,6 +112,7 @@ public class ServletAdmin extends HttpServlet {
 						request.setAttribute("ejemplares", ctrlE.getAll());
 						request.setAttribute("adminPage", "editPrestamo");
 					}
+					break;
 					case "/listado-sanciones":{
 						CtrlSancion ctrl = new CtrlSancion();
 						request.setAttribute("sanciones", ctrl.getAll());

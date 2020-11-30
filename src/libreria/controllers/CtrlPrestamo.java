@@ -116,39 +116,12 @@ public class CtrlPrestamo {
 		}
 		else if(p.getEstado().equals("devolucion")) {
 			p.setFechaHoraDevolucion(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
+			this.dataPrestamo.update(p);
 			this.delete(id);
+			return "preparacion";
 		}
 		return "error-"+p.getEstado();
 	}
 	
-	public LocalDate calc_fecha_devolver(int id) throws CustomException {
-		// Calcula y devuelve fecha maxima en la que debe ser devuelto el prestamo
-		DataEjemplar de = new DataEjemplar();
-		Prestamo p = new Prestamo();
-		p.setId(id);
-		p = this.dataPrestamo.getById(p);
-		
-		if(p.getFechaHoraRetiro() == null) {
-			//TODO: throw CustomException
-		}
-		
-		LocalDate fechaRetiro = p.getFechaHoraRetiro().toLocalDate();
-		ArrayList<Integer> diasPrestamo = new ArrayList<Integer>();
-		
-		for(LineaDePrestamo lp : p.getLineas()) {
-			Ejemplar ej = lp.getEjemplar();
-			ej = de.getById(ej);
-			diasPrestamo.add(ej.getLibro().getDiasMaxPrestamo());
-		}
-		
-		Integer min = Collections.min(diasPrestamo);
-		
-		return fechaRetiro.plusDays(min);
-	}
-	
-	public int calc_dias_restantes(int id) {
-		LocalDate fecha = this.calc_fecha_devolver(id);
-		return (int) LocalDate.now().until(fecha, ChronoUnit.DAYS);
-	}
 }
 
