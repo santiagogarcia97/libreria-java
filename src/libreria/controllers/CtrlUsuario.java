@@ -3,7 +3,6 @@ package libreria.controllers;
 import java.util.ArrayList;
 
 import libreria.data.DataUsuario;
-import libreria.entities.Libro;
 import libreria.entities.Usuario;
 import libreria.utils.BCrypt;
 import libreria.utils.CustomException;
@@ -24,7 +23,8 @@ public class CtrlUsuario {
 	}
 	
 	public Usuario getByEmail(Usuario u) throws CustomException{
-		return this.dataUsuario.getByEmail(u);
+		u =  this.dataUsuario.getByEmail(u);
+		return u;
 	}
 	
 	public void update(Usuario u) throws CustomException{

@@ -77,7 +77,7 @@
 	<hr>
 	<br>
 		<c:choose>
-			<c:when test="${disponible && requestScope.sancionado.equals(\"No\")}">
+			<c:when test="${disponible && requestScope.sancionado.equals(\"No\") && requestScope.moroso.equals(\"No\")}">
 			<form id="form-confirmar" action="/libreria-java/prestamos/carrito/confirmar" method="post" style="display: inline">
 				<button id="btn-alta" class="btn btn-primary">Confirmar Préstamo</button>
 			</form>
@@ -98,7 +98,10 @@
 		</c:otherwise>
 	</c:choose>
 	<c:if test="${requestScope.sancionado.equals(\"Si\")}">
-		<label style="color: red">Usted está sancionado, por lo que no puede hacer un pedido hasta devolver su préstamo pendiente.</label>
+		<label style="color: red">Usted está sancionado, por lo que no puede hacer un pedido hasta que finalice su sanción.</label>
+	</c:if>	
+	<c:if test="${requestScope.moroso.equals(\"Si\")}">
+		<label style="color: red">Usted ha excedido el tiempo de devolución de uno de sus prestamos, por lo que no puede hacer un pedido hasta devolver su préstamo pendiente.</label>
 	</c:if>	
 </div>
 <script src="/libreria-java/resources/js/carrito.js"></script>

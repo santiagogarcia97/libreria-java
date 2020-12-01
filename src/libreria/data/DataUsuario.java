@@ -3,6 +3,8 @@ package libreria.data;
 import java.sql.*;
 import java.util.ArrayList;
 
+import libreria.controllers.CtrlPrestamo;
+import libreria.controllers.CtrlSancion;
 import libreria.entities.Usuario;
 import libreria.utils.CustomException;
 
@@ -215,9 +217,6 @@ public class DataUsuario {
 			u.setDni(rs.getString("dni"));
 			u.setTipoUsuario(rs.getString("tipo"));
 			u.setEstado(rs.getString("estado"));
-			
-			DataSancion ds = new DataSancion();
-			u.setSancionado(ds.IsSancionado(u.getId()));
 			
 		}
 		catch (SQLException e) {

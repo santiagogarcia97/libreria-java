@@ -22,7 +22,7 @@ public class DataSancion {
 	private final String _DELETE = 	"update sanciones set estado='eliminado' where id=?"; 
 
 	private final String _UPDATE = 	"update sanciones set estado=?, fecha_sancion=?, dias_sancion=? , id_usuario=? where id=?"; 
-
+	
 	///////////////
 	// GET ALL
 	///////////////
@@ -38,9 +38,9 @@ public class DataSancion {
 
 			if(rs!=null){
 				while(rs.next()){
-					Sancion c = new Sancion();
-					c = cargar_datos_a_entidad(c,rs);
-					Sancions.add(c);
+					Sancion s = new Sancion();
+					s = cargar_datos_a_entidad(s,rs);
+					Sancions.add(s);
 				}
 			}			
 		} catch (SQLException e) {
@@ -77,9 +77,9 @@ public class DataSancion {
 
 			if(rs!=null){
 				while(rs.next()){
-					Sancion c = new Sancion();
-					c = cargar_datos_a_entidad(c,rs);
-					Sancions.add(c);
+					Sancion s = new Sancion();
+					s = cargar_datos_a_entidad(s,rs);
+					Sancions.add(s);
 				}
 			}			
 		} catch (SQLException e) {
@@ -103,18 +103,18 @@ public class DataSancion {
 	///////////////
 	// GET BY ID
 	///////////////
-	public Sancion getById(Sancion cat) throws CustomException{
-		Sancion c=null;
+	public Sancion getById(Sancion san) throws CustomException{
+		Sancion s=null;
 		PreparedStatement stmt=null;
 		ResultSet rs=null;
 		try {
 			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(_GET_BY_ID);
-			stmt.setInt(1, cat.getId());
+			stmt.setInt(1, san.getId());
 			rs=stmt.executeQuery();
 
 			if(rs!=null && rs.next()){
-				c = new Sancion();
-				c = cargar_datos_a_entidad(c,rs);
+				s = new Sancion();
+				s = cargar_datos_a_entidad(s,rs);
 			}			
 		} catch (SQLException e) {
 			throw new CustomException("Error al ejecutar getById()", "DataSancion", e);		
@@ -131,25 +131,25 @@ public class DataSancion {
 				throw e;					
 			} 
 		}
-		return c;
+		return s;
 	}
 
 
 	///////////////
 	// ADD
 	///////////////	
-	public Sancion add(Sancion c) throws CustomException{
+	public Sancion add(Sancion s) throws CustomException{
 		PreparedStatement stmt=null;
 		ResultSet keyResultSet=null;
 
 		try {
 			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(_ADD, PreparedStatement.RETURN_GENERATED_KEYS);
-			stmt = cargar_datos_a_bd(c,stmt,"add");
+			stmt = cargar_datos_a_bd(s,stmt,"add");
 			stmt.executeUpdate();
 
 			keyResultSet=stmt.getGeneratedKeys();
 			if(keyResultSet!=null && keyResultSet.next()){
-				c.setId(keyResultSet.getInt(1));
+				s.setId(keyResultSet.getInt(1));
 			}
 		} catch (SQLException e) {
 			throw new CustomException("Error al ejecutar add()", "DataSancion", e);	
@@ -163,18 +163,18 @@ public class DataSancion {
 		} catch (CustomException e) {
 			throw e;					
 		} 
-		return c;
+		return s;
 	}
 
 	///////////////
 	// DELETE
 	///////////////
-	public void delete(Sancion c) throws CustomException{
+	public void delete(Sancion s) throws CustomException{
 		PreparedStatement stmt=null;
 
 		try {
 			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(_DELETE);
-			stmt.setInt(1, c.getId());
+			stmt.setInt(1, s.getId());
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			throw new CustomException("Error al ejecutar delete()", "DataSancion", e);	
@@ -192,13 +192,13 @@ public class DataSancion {
 	///////////////
 	// UPDATE
 	///////////////
-	public void update(Sancion c) throws CustomException{
+	public void update(Sancion s) throws CustomException{
 		PreparedStatement stmt=null;
 
 		try {
 			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(_UPDATE);
-			stmt = cargar_datos_a_bd(c,stmt, "update");
-			stmt.setInt(3, c.getId());
+			stmt = cargar_datos_a_bd(s,stmt, "update");
+			stmt.setInt(3, s.getId());
 
 			stmt.executeUpdate();
 		} catch (SQLException e) {
@@ -214,49 +214,30 @@ public class DataSancion {
 		} 
 	}
 
-	public Sancion cargar_datos_a_entidad(Sancion c, ResultSet rs) {
+	public Sancion cargar_datos_a_entidad(Sancion s, ResultSet rs) {
 		try {
-			c.setId(rs.getInt("id"));
-			c.setFechaSancion(rs.getDate("fecha_sancion"));
-			c.setDiasSancion(rs.getInt("dias_sancion"));
-			c.setIdUsuario(rs.getInt("id_usuario"));
-			c.setEstado(rs.getString("estado"));
+			s.setId(rs.getInt("id"));
+			s.setFechaSancion(rs.getDate("fecha_sancion"));
+			s.setDiasSancion(rs.getInt("dias_sancion"));
+			s.setIdUsuario(rs.getInt("id_usuario"));
+			s.setEstado(rs.getString("estado"));
 		}
 		catch (SQLException e) {
 			throw new CustomException("Error al ejecutar recuperar datos.", "DataSancion", e);		
 		} catch (CustomException e) {
 			throw e;								
 		}
-		return c;
+		return s;
 	}
 
-	public PreparedStatement cargar_datos_a_bd(Sancion c, PreparedStatement stmt, String mode) throws SQLException{
-		stmt.setString(1, c.getEstado());
-		stmt.setDate(2, c.getFechaSancion());
-		stmt.setInt(3, c.getDiasSancion());
-		stmt.setInt(4, c.getIdUsuario());
-		if (mode == "update") stmt.setInt(5, c.getId());
+	public PreparedStatement cargar_datos_a_bd(Sancion s, PreparedStatement stmt, String mode) throws SQLException{
+		stmt.setString(1, s.getEstado());
+		stmt.setDate(2, s.getFechaSancion());
+		stmt.setInt(3, s.getDiasSancion());
+		stmt.setInt(4, s.getIdUsuario());
+		if (mode == "update") stmt.setInt(5, s.getId());
 
 		return stmt;
 
-	}
-	
-	
-	/////////////////
-	// IS SANCIONADO
-	/////////////////
-	public Boolean IsSancionado(int id) {
-		ArrayList<Sancion> lista = this.getBySocio(id);
-		for(Sancion s : lista) {
-			if(s.getIdUsuario() == id) {
-				LocalDate fechaInicial = s.getFechaSancion().toLocalDate();
-				LocalDate fechaFinal = fechaInicial.plusDays(s.getDiasSancion());
-				LocalDate now = new java.sql.Date(Calendar.getInstance().getTime().getTime()).toLocalDate();
-				if(fechaInicial.isBefore(now) && fechaFinal.isAfter(now)) {
-					return true;
-				}
-			}
-		}
-		return false;
 	}
 }

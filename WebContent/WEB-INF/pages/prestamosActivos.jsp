@@ -39,7 +39,12 @@
 			      	<c:choose>
 			      		<c:when test="${prestamo.getEstado() == \"devolucion\" }">
 			      			<td><label id="fecha-lbl-${prestamo.getId()}">${prestamo.calc_fecha_devolver()}</label></td>
-    						<td><label id="dias-lbl-${prestamo.getId()}">${prestamo.calc_dias_restantes()}</label></td>
+    						<c:if test = "${prestamo.calc_dias_restantes() >= 0}">
+    							<td><label id="dias-lbl-${prestamo.getId()}">${prestamo.calc_dias_restantes()}</label></td>
+	    					</c:if>
+	    					<c:if test = "${prestamo.calc_dias_restantes() < 0}">
+    							<td><label id="dias-lbl-${prestamo.getId()}" style="color: red">Vencido hace ${prestamo.calc_dias_restantes()*-1} dias</label></td>
+    					</c:if>
     					</c:when>
     					<c:otherwise>
     						<td><label id="fecha-lbl-${prestamo.getId()}">-</label></td>

@@ -2,6 +2,9 @@ package libreria.entities;
 
 import java.util.ArrayList;
 
+import libreria.controllers.CtrlPrestamo;
+import libreria.controllers.CtrlSancion;
+
 public class Usuario extends Entidad {
 	
 	private static final long serialVersionUID = 1L;
@@ -9,7 +12,6 @@ public class Usuario extends Entidad {
 	
 	private String nombre,apellido,email,domicilio,telefono,dni,password;
 	private String tipoUsuario = "socio";
-	private Boolean sancionado;
 	private ArrayList<Prestamo> prestamos = new ArrayList<Prestamo>();
 	private ArrayList<Sancion> sanciones = new ArrayList<Sancion>();
 	
@@ -48,10 +50,6 @@ public class Usuario extends Entidad {
 		this.tipoUsuario = tipoUsuario;
 	}
 	
-	public void setSancionado(Boolean sancionado) {
-		this.sancionado = sancionado;
-	}
-	
 
 	//Getters
 	public String getNombre() {
@@ -86,7 +84,18 @@ public class Usuario extends Entidad {
 	}
 	
 	public String getSancionado() {
-		if(this.sancionado) {
+		CtrlSancion cs = new CtrlSancion();
+		if(cs.isSancionado(this.getId())) {
+			return "Si";
+		}
+		else {
+			return "No";
+		}
+	}
+	
+	public String getMoroso() {
+		CtrlPrestamo cp = new CtrlPrestamo();
+		if(cp.isMoroso(this.getId())) {
 			return "Si";
 		}
 		else {

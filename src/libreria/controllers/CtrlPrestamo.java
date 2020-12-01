@@ -1,18 +1,15 @@
 package libreria.controllers;
 
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 
 import libreria.data.DataEjemplar;
 import libreria.data.DataLineaDePrestamo;
 import libreria.data.DataPrestamo;
 import libreria.entities.Ejemplar;
-import libreria.entities.Libro;
 import libreria.entities.LineaDePrestamo;
 import libreria.entities.Prestamo;
+import libreria.entities.Sancion;
 import libreria.utils.CustomException;
 
 public class CtrlPrestamo {
@@ -26,13 +23,13 @@ public class CtrlPrestamo {
 	}
 	
 	public ArrayList<Prestamo> getAll() throws CustomException{
-		return dataPrestamo.getAll();
+		return (ArrayList<Prestamo>) dataPrestamo.getAll();
 	}
 	
 	public Prestamo add(Prestamo p) {
 		p = dataPrestamo.add(p);
 		
-		ArrayList<LineaDePrestamo> lineas = (ArrayList<LineaDePrestamo>) p.getLineas();
+		ArrayList<LineaDePrestamo> lineas = p.getLineas();
 		for(LineaDePrestamo lp : lineas) {
 			lp.setIdPrestamo(p.getId());
 			dataLinea.add(lp);
@@ -97,6 +94,7 @@ public class CtrlPrestamo {
 	
 	public String confirmarPrestamo(int id) {
 		Prestamo p = new Prestamo();
+		CtrlSancion ctrls = new CtrlSancion();
 		p.setId(id);
 		p = this.dataPrestamo.getById(p);
 		
@@ -117,11 +115,32 @@ public class CtrlPrestamo {
 		else if(p.getEstado().equals("devolucion")) {
 			p.setFechaHoraDevolucion(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
 			this.dataPrestamo.update(p);
+			if(p.calc_dias_restantes() < 0) {
+				Sancion s = new Sancion();
+				s.setDiasSancion(Sancion.cant_dias);
+				s.setEstado("habilitado");
+				s.setFechaSancion(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
+				s.setIdUsuario(p.getSocioId());
+				ctrls.add(s);
+				
+			}
 			this.delete(id);
 			return "preparacion";
 		}
 		return "error-"+p.getEstado();
 	}
-	
+
+	public Boolean isMoroso(int id) {
+		ArrayList<Prestamo> prestamos = this.getAll();
+		for(Prestamo p : prestamos) {
+			if(p.getSocioId() == id && p.getEstado().equals("devolucion")) {
+				if(p.calc_dias_restantes() < 0) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 }
 

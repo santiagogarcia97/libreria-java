@@ -16,6 +16,8 @@
 		      <th scope="col">Fecha</th>
 			  <th scope="col">Cant. Dias</th>
 			  <th scope="col">ID Usuario</th>
+			  <th scope="col">Fecha Fin</th>
+		  	  <th scope="col">Cantidad Dias Restantes</th>
 			  <th scope="col"> </th>
 		    </tr>
 		  </thead>
@@ -40,6 +42,10 @@
 				      	<td>
 				      		<label id="user-lbl-${s.getId()}">${s.getIdUsuario()}</label>
 				      	</td>
+				      	
+				      	<td><label id="fecha-lbl-${prestamo.getId()}">${s.calc_fecha_exp()}</label></td>
+    					<td><label id="dias-lbl-${prestamo.getId()}">${s.calc_dias_restantes()}</label></td>
+				      	
 				      			   
 				      	<td> <button id="del-btn-${s.getId()}" 
 				      			   class="btn btn-outline-danger float-right"

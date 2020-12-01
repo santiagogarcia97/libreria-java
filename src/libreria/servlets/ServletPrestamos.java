@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import libreria.controllers.CtrlEjemplar;
 import libreria.controllers.CtrlLibro;
 import libreria.controllers.CtrlPrestamo;
-import libreria.controllers.CtrlUsuario;
 import libreria.entities.Ejemplar;
 import libreria.entities.Libro;
 import libreria.entities.LineaDePrestamo;
@@ -42,6 +41,7 @@ public class ServletPrestamos extends HttpServlet {
 			request.setAttribute("nroEjemplares", this.consultarCantEjemplares(request,response));
 			Usuario u = (Usuario) request.getSession().getAttribute("loggedUser");
 			request.setAttribute("sancionado", u.getSancionado());
+			request.setAttribute("moroso", u.getMoroso());
 			request.setAttribute("prestamosPage", "carrito");
 			break;
 		case "/prestamos-activos":
