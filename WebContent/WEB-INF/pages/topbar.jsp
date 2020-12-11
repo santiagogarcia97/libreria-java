@@ -31,7 +31,7 @@
 					</c:when>
 				</c:choose>
 
-				<li class="nav-item"><a class="nav-link" href="#">Acerca de</a>
+				<li class="nav-item"><a class="nav-link" href="https://github.com/santiagogarcia97/libreria-java/blob/master/README.md">Acerca de</a>
 				</li>
 			</ul>
 
