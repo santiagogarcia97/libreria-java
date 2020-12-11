@@ -74,6 +74,14 @@
 		</c:when>
 
 		<c:when test="${requestScope.libro != null }">
+			
+			<c:set var = "en_carrito" scope = "request" value = "${false}"/>
+			<c:forEach var="l" begin="0" items="${sessionScope.carrito}">
+				<c:if test="${l.getTitulo() == libro.getTitulo() }">
+					<c:set var = "en_carrito" scope = "request" value = "${true}"/>
+				</c:if>
+			</c:forEach>
+		
 			<div class="container-fluid">
 				<h2>${libro.getTitulo()}</h2>
 				<hr>
@@ -91,9 +99,21 @@
 						<form id="form-add" action="/libreria-java/prestamos/agregar" method="post">
 							<input type="text" class="form-control" id="inputIDLibro" 
 			   				name="inputIDLibro" required="required" hidden="true" value=${ libro.getId() }>
-			   				<c:if test="${sessionScope.loggedUser != null}">
-			   					<button class="btn btn-primary" type="submit">Agregar al prestamo</button>
-			   				</c:if> 
+			   				<c:choose>
+			   					<c:when test="${sessionScope.loggedUser == null}">
+			   						<button class="btn btn-primary" type="submit" disabled>Agregar al prestamo</button>
+			   						<br>
+			   						<label style="color: red">Debe iniciar sesión para pedir un libro.</label>
+			   					</c:when>
+			   					<c:when test="${en_carrito}">
+			   						<button class="btn btn-primary" type="submit" disabled>Agregar al prestamo</button>
+			   						<br>
+			   						<label style="color: red">Ya tiene este libro en el carrito.</label>
+			   					</c:when>
+			   					<c:when test="${sessionScope.loggedUser != null}">
+			   						<button class="btn btn-primary" type="submit">Agregar al prestamo</button>
+			   					</c:when>
+			   				</c:choose>
 						</form>
 					</div>
 				</div>
