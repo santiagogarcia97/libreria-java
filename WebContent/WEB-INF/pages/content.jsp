@@ -90,8 +90,10 @@
 						<h5>Maximo dias de prestamo: ${libro.getDiasMaxPrestamo()}</h5>
 						<form id="form-add" action="/libreria-java/prestamos/agregar" method="post">
 							<input type="text" class="form-control" id="inputIDLibro" 
-			   				name="inputIDLibro" required="required" hidden="true" value=${ libro.getId() }> 
-							<button class="btn btn-primary" type="submit">Agregar al prestamo</button>
+			   				name="inputIDLibro" required="required" hidden="true" value=${ libro.getId() }>
+			   				<c:if test="${sessionScope.loggedUser != null}">
+			   					<button class="btn btn-primary" type="submit">Agregar al prestamo</button>
+			   				</c:if> 
 						</form>
 					</div>
 				</div>
