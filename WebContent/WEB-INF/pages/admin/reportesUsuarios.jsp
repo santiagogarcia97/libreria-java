@@ -73,7 +73,7 @@
 					Socios:
 				</th>
 			    <td>
-			    	 ${socios} &nbsp  (${Math.round((socio/totalUsuarios)*100)}%)
+			    	 ${socios} &nbsp  (${Math.round((socios/totalUsuarios)*100)}%)
 			    </td>
      	    </tr>
      	    <tr id="row-cat-${cat.getId()}">	      	
