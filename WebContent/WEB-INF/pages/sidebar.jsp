@@ -5,12 +5,14 @@
 <div class="col-lg-3">
 
   <h1 class="my-4">Bienvenido!</h1>
-  <h5>Prestamos</h5>
+  <c:if test="${sessionScope.loggedUser != null}">
+  	<h5>Prestamos</h5>
   <div class="list-group list-group-flush">
     <a href="/libreria-java/prestamos/carrito" class="list-group-item">Carrito</a>
     <a href="/libreria-java/prestamos/prestamos-activos" class="list-group-item">Prestamos Activos</a>
   </div>
   <br>
+  </c:if>
   <h5 class="">Categorias</h5>
   
   <div class="list-group list-group-flush">
