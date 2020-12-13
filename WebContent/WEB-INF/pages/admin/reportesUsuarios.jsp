@@ -59,7 +59,7 @@
 		    </tr>
 		  </thead>
 		  <tbody>
-		  <tr id="row-cat-${cat.getId()}">	      	
+		  <tr>	      	
 				<th scope="row">
 					Usuarios Activos:
 				</th>
@@ -68,7 +68,7 @@
 			    </td>
      	    </tr>
      	    <c:if test="${totalUsuarios > 0 }">
-     	    	<tr id="row-cat-${cat.getId()}">	      	
+     	    	<tr">	      	
 				<th scope="row">
 					Socios:
 				</th>
@@ -76,7 +76,7 @@
 			    	 ${socios} &nbsp  (${Math.round((socios/totalUsuarios)*100)}%)
 			    </td>
      	    </tr>
-     	    <tr id="row-cat-${cat.getId()}">	      	
+     	    <tr">	      	
 				<th scope="row">
 					Administradores:
 				</th>
@@ -84,7 +84,7 @@
 			    	 ${admins}  &nbsp (${Math.round((admins/totalUsuarios)*100)}%)
 			    </td>
      	    </tr>
-     	    <tr id="row-cat-${cat.getId()}">	      	
+     	    <tr">	      	
 				<th scope="row">
 					Usuarios con prestamos activos:
 				</th>
@@ -92,7 +92,7 @@
 			    	 ${activos} &nbsp (${Math.round((activos/totalUsuarios)*100)}%)
 			    </td>
      	    </tr>
-     	    <tr id="row-cat-${cat.getId()}">	      	
+     	    <tr">	      	
 				<th scope="row">
 					Usuarios morosos:
 				</th>
@@ -100,7 +100,7 @@
 			    	 ${morosos} &nbsp (${Math.round((morosos/totalUsuarios)*100)}%)
 			    </td>
      	    </tr>
-     	    <tr id="row-cat-${cat.getId()}">	      	
+     	    <tr">	      	
 				<th scope="row">
 					Usuarios sancionados:
 				</th>
@@ -119,6 +119,5 @@
 	
 
 </div>
-<script src="/libreria-java/resources/js/sanciones.js"></script>
 
 

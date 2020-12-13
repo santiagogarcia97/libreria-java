@@ -128,6 +128,15 @@ public class ServletAdmin extends HttpServlet {
 						request.setAttribute("sanciones", ctrls.getAll());
 						request.setAttribute("adminPage", "reportesUsuarios");
 					}
+					break;
+					case "/reportes-libros":{
+						CtrlLibro ctrl = new CtrlLibro();
+						CtrlPrestamo ctrlp = new CtrlPrestamo();
+						request.setAttribute("libros", ctrl.getAll());
+						request.setAttribute("prestamos", ctrlp.getAll());
+						request.setAttribute("adminPage", "reportesLibros");
+					}
+					break;
 				}
 				
 				request.getRequestDispatcher( "/WEB-INF/pages/admin/adminPanel.jsp" ).forward( request, response );
