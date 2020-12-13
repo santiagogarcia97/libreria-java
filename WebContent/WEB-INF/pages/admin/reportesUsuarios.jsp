@@ -100,7 +100,7 @@
 			    	 ${morosos} &nbsp (${Math.round((morosos/totalUsuarios)*100)}%)
 			    </td>
      	    </tr>
-     	    <tr">	      	
+     	    <tr>	      	
 				<th scope="row">
 					Usuarios sancionados:
 				</th>
