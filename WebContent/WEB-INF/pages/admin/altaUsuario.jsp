@@ -61,7 +61,7 @@
     		<label for="inputTipo" class="col-sm-4 col-form-label">Tipo</label>
    			 <div class="col-sm-8">
    			 	<select  class="form-control" id="inputTipo" name="inputTipo" required="required">
-   			 		<option disabled selected hidden="true"> -- Por favor escoga un tipo de usuario -- </option>
+   			 		<option disabled selected hidden="true"> -- Por favor escoja un tipo de usuario -- </option>
 					<option value="admin"> Administrador </option>
 					<option value="socio"> Socio </option>
    			 	</select>
@@ -82,6 +82,12 @@
 	    </div> 			
 	</form>
 
-
+<c:if test="${sessionScope.errorMsg != null && sessionScope.errorMsg !='' }">
+		<br>
+	    	<div class="text-center text-danger">
+	        	<c:out value="${sessionScope.errorMsg}"></c:out>
+	            <c:set var="errorMsg" value="" scope="session"  />
+	        </div>            
+     </c:if>
 
 </div>

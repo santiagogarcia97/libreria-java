@@ -11,7 +11,7 @@
 	<c:set var = "libroID" scope = "session" value = "<%= request.getParameter(\"id\") %>"/>
 	<select  class="form-control" id="inputLibro" name="inputLibro" onchange="selectLibro()">
 		<c:if test="${requestScope.libros != null && requestScope.libros.size() != 0 }">
-		  <option disabled selected hidden="true"> -- Por favor escoga un libro -- </option>
+		  <option disabled selected hidden="true"> -- Por favor escoja un libro -- </option>
 		  <c:forEach var="libro" begin="0" items="${requestScope.libros}">
 		  		<c:if test="${libroID != null}">
 		  			<c:if test="${libro.getId() == libroID }">
@@ -99,6 +99,13 @@
 
 		</form>
 </c:if>
+<c:if test="${sessionScope.errorMsg != null && sessionScope.errorMsg !='' }">
+		<br>
+	    	<div class="text-center text-danger">
+	        	<c:out value="${sessionScope.errorMsg}"></c:out>
+	            <c:set var="errorMsg" value="" scope="session"  />
+	        </div>            
+     </c:if>
 </div>
 <script src="/libreria-java/resources/js/ejemplares.js"></script>
 

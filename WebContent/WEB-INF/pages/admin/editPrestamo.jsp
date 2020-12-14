@@ -21,13 +21,13 @@
 				   name="inputIDPrestamo" required="required" hidden="true" value=${ prestamo.getId() }>
 		<c:choose>
 			<c:when test="${prestamo.getEstado() == \"preparacion\" }">
-				<button id="btn-alta" class="btn btn-warning">Marcar como preparado</button> 
+				<button id="btn-confirmar" class="btn btn-warning">Marcar como preparado</button> 
 			</c:when>
 			<c:when test="${prestamo.getEstado() == \"retiro\" }">
-				<button id="btn-alta" class="btn btn-warning">Marcar como retirado</button> 
+				<button id="btn-confirmar" class="btn btn-warning">Marcar como retirado</button> 
 			</c:when>
 			<c:when test="${prestamo.getEstado() == \"devolucion\" }">
-				<button id="btn-alta" class="btn btn-warning">Marcar como devuelto</button> 
+				<button id="btn-confirmar" class="btn btn-warning">Marcar como devuelto</button> 
 			</c:when>
 			<c:otherwise>
 				<h5 style="color:red">Error</h5>
@@ -85,7 +85,9 @@
 	</form>
 	
 	<hr>
+		<c:if test="${prestamo.getEstado() != \"devolucion\" }">
 	    <button id="btn-alta" class="btn btn-primary" onClick="toggle_alta_form()">Agregar Linea</button>
+	    </c:if>
 	    <form id="form-baja-p" action="/libreria-java/admin/edit-prestamo/eliminar-prestamo" method="post" style="display: inline">
 	    	<input type="text" class="form-control" id="inputIDPrestamo-del" 
 			   name="inputIDPrestamo" required="required" hidden="true" value=${ prestamo.getId() }>
@@ -101,7 +103,7 @@
    			 <div class="col-sm-8">
 				<select class="form-control" id="inputEjId" name="inputEjId">
 					<c:if test="${requestScope.ejemplares != null}">
-					  <option disabled selected hidden="true"> -- Por favor escoga un ejemplar -- </option>
+					  <option disabled selected hidden="true"> -- Por favor escoja un ejemplar -- </option>
 					  <c:forEach var="ej" begin="0" items="${requestScope.ejemplares}">
    			 		  	<option value="${ej.getId()}"> ${ej.getId()} - ${ej.getLibro().getTitulo()} - ${ej.getLibro().getAutor() } </option>					  	
 				      </c:forEach>	

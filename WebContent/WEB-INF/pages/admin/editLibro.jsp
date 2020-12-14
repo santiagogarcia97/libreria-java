@@ -55,7 +55,7 @@
    			 	<select  class="form-control" id="inputCategoria" name="inputCategoria" required="required">
 
 					<c:if test="${requestScope.categorias != null && requestScope.categorias.size() != 0 }">
-					  <option disabled selected hidden="true"> -- Por favor escoga una categoría -- </option>
+					  <option disabled selected hidden="true"> -- Por favor escoja una categoría -- </option>
 					  <c:forEach var="cat" begin="0" items="${requestScope.categorias}">
 					  	<c:if test="${cat.getId() == libro.getCat().getId()}">
 					  		<option value="${cat.getId()}" selected> ${cat.getDesc()} </option>	
@@ -94,6 +94,12 @@
 	    </div> 			
 	</form>
 
-
+	<c:if test="${sessionScope.errorMsg != null && sessionScope.errorMsg !='' }">
+		<br>
+	    	<div class="text-center text-danger">
+	        	<c:out value="${sessionScope.errorMsg}"></c:out>
+	            <c:set var="errorMsg" value="" scope="session"  />
+	        </div>            
+     </c:if>
 
 </div>

@@ -15,7 +15,12 @@
 	</head>
 	
 	<body>
+		<c:if test="${sessionScope.errorMsg.contains(\"sendRedirect\") }">
+	            <c:set var="errorMsg" value="" scope="session"  />
+     	</c:if>
 		<jsp:include page="/WEB-INF/pages/topbar.jsp" />
+		
+		
 		
 		<c:if test="${requestScope.adminPage == null}" >
 			<c:set scope="request" var="adminPage" value="altaLibro" />
