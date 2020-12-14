@@ -124,7 +124,7 @@ public class ServletUserAuth extends HttpServlet {
 		CtrlUsuario ctrl = new CtrlUsuario();
 
 		if (ctrl.validateLogin(loginUser).getId() == -1) {
-			request.getSession().setAttribute("errorMsg", "El usuario no existe o la contrase�a es incorrecta");
+			request.getSession().setAttribute("errorMsg", "El usuario no existe o la contraseña es incorrecta");
 			response.sendRedirect("login");
 		} else {
 			loginUser = ctrl.getByEmail(loginUser);

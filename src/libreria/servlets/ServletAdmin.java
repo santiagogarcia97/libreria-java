@@ -19,27 +19,27 @@ import java.util.ArrayList;
 @WebServlet("/admin/*")
 public class ServletAdmin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ServletAdmin() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public ServletAdmin() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+
 		if(isAdmin(request)) {
 			try {
 				CtrlPrestamo ctrlPrestamo = new CtrlPrestamo();
 				request.setAttribute("countPreparacion", ctrlPrestamo.countPrestamosPreparacion());
 				request.setAttribute("countRetiro", ctrlPrestamo.countPrestamosRetiro());
 				request.setAttribute("countDevolucion", ctrlPrestamo.countPrestamosDevolucion());
-				
+
 				switch (request.getPathInfo()) {			
 					case "/alta-libro":{
 						request.setAttribute("adminPage", "altaLibro");
@@ -144,9 +144,10 @@ public class ServletAdmin extends HttpServlet {
 					}
 					break;
 				}
-				
+				CtrlCategoria ctrlCat = new CtrlCategoria();
+				request.setAttribute("categorias", ctrlCat.getAll());
 				request.getRequestDispatcher( "/WEB-INF/pages/admin/adminPanel.jsp" ).forward( request, response );
-			
+
 			} catch (CustomException e) {
 				request.getSession().setAttribute("errorMsg", e.getMessage());
 				request.getRequestDispatcher( "/WEB-INF/pages/error.jsp" ).forward( request, response );
@@ -161,9 +162,9 @@ public class ServletAdmin extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+
 		try {
-			
+
 			if(isAdmin(request)) {
 				switch (request.getPathInfo()) {		
 				case "/alta-libro":
@@ -194,12 +195,12 @@ public class ServletAdmin extends HttpServlet {
 					String returnAddr = this.altaEjemplar(request,response);
 					response.sendRedirect(returnAddr);
 					break;
-					}
+				}
 				case "/ejemplares/baja":{
 					String returnAddr = this.bajaEjemplar(request,response);
 					response.sendRedirect(returnAddr);
 					break;
-					}
+				}
 				case "/alta-usuario":
 					this.altaUsuario(request, response);
 					//El redirect se hace en el metodo altaUsuario segun si el email ya estaba tomado o no.
@@ -232,12 +233,12 @@ public class ServletAdmin extends HttpServlet {
 					this.eliminarSancion(request,response);
 					response.sendRedirect("/libreria-java/admin/listado-sanciones");
 					break;
-			}
-				
-				
+				}
+
+
 			} else {
 				response.sendRedirect("/libreria-java/home");
-			
+
 			}
 		} catch (CustomException e) {
 			request.getSession().setAttribute("errorMsg", e.getMessage());
@@ -248,13 +249,13 @@ public class ServletAdmin extends HttpServlet {
 			request.getRequestDispatcher( "/WEB-INF/pages/error.jsp" ).forward( request, response );
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
 	//////////////////////
 	// VALIDAR SESION
 	//////////////////////
@@ -266,99 +267,132 @@ public class ServletAdmin extends HttpServlet {
 		} 
 		return false;
 	}
-	
+
 	//////////////////////
 	// ALTA LIBRO LOGIC
 	//////////////////////
 	private void altaLibro(HttpServletRequest req, HttpServletResponse res) throws CustomException, ServletException, IOException {
-		Libro l = new Libro();
-		
-		l.setAutor(req.getParameter("inputAutor"));
-		l.setTitulo(req.getParameter("inputTitulo"));
-		l.setEdicion(req.getParameter("inputEdicion"));
-		l.setFechaEdicion(Date.valueOf(req.getParameter("inputFechaEdicion")));
-		l.setIsbn(req.getParameter("inputISBN"));
-		l.setDiasMaxPrestamo(Integer.parseInt(req.getParameter("inputMaxDias")));
-		l.setTapa(req.getParameter("inputTapa"));
-		
-		l.setCat(new Categoria());
-		l.getCat().setId(Integer.parseInt(req.getParameter("inputCategoria")));
-		
-		l.setEstado("disponible");
-		
-		CtrlLibro ctrl = new CtrlLibro();
-		l = ctrl.add(l);
-		
+		try {
+			Libro l = new Libro();
+
+			l.setAutor(req.getParameter("inputAutor"));
+			l.setTitulo(req.getParameter("inputTitulo"));
+			l.setEdicion(req.getParameter("inputEdicion"));
+			l.setFechaEdicion(Date.valueOf(req.getParameter("inputFechaEdicion")));
+			l.setIsbn(req.getParameter("inputISBN"));
+			l.setDiasMaxPrestamo(Integer.parseInt(req.getParameter("inputMaxDias")));
+			l.setTapa(req.getParameter("inputTapa"));
+
+			l.setCat(new Categoria());
+			l.getCat().setId(Integer.parseInt(req.getParameter("inputCategoria")));
+
+			l.setEstado("disponible");
+
+			CtrlLibro ctrl = new CtrlLibro();
+			l = ctrl.add(l);
+		} catch (CustomException e) {
+			req.getSession().setAttribute("errorMsg", e.getMessage());
+			req.setAttribute("adminPage", "altaLibro");
+			CtrlCategoria ctrl = new CtrlCategoria();
+			req.setAttribute("categorias", ctrl.getAll());
+			req.getRequestDispatcher( "/WEB-INF/pages/admin/adminPanel.jsp" ).forward( req, res );
+		}
 	}
-	
+
 	//////////////////////
 	// MODIFICAR LIBRO LOGIC
 	//////////////////////
 	private void modificarLibro(HttpServletRequest req, HttpServletResponse res) throws CustomException, ServletException, IOException {
-		Libro l = new Libro();
-		l.setId(Integer.parseInt(req.getParameter("inputID")));
-		l.setAutor(req.getParameter("inputAutor"));
-		l.setTitulo(req.getParameter("inputTitulo"));
-		l.setEdicion(req.getParameter("inputEdicion"));
-		l.setFechaEdicion(Date.valueOf(req.getParameter("inputFechaEdicion")));
-		l.setIsbn(req.getParameter("inputISBN"));
-		l.setDiasMaxPrestamo(Integer.parseInt(req.getParameter("inputMaxDias")));
-		l.setTapa(req.getParameter("inputTapa"));
-		
-		l.setCat(new Categoria());
-		l.getCat().setId(Integer.parseInt(req.getParameter("inputCategoria")));
-	
-		l.setEstado("disponible");
-		//TODO: este set de estado está bien?
-		//TODO: no se establece la desc de la categoría?
-		CtrlLibro ctrl = new CtrlLibro();
-		ctrl.update(l);
-		
+		try {
+			Libro l = new Libro();
+			l.setId(Integer.parseInt(req.getParameter("inputID")));
+			l.setAutor(req.getParameter("inputAutor"));
+			l.setTitulo(req.getParameter("inputTitulo"));
+			l.setEdicion(req.getParameter("inputEdicion"));
+			l.setFechaEdicion(Date.valueOf(req.getParameter("inputFechaEdicion")));
+			l.setIsbn(req.getParameter("inputISBN"));
+			l.setDiasMaxPrestamo(Integer.parseInt(req.getParameter("inputMaxDias")));
+			l.setTapa(req.getParameter("inputTapa"));
+
+			l.setCat(new Categoria());
+			l.getCat().setId(Integer.parseInt(req.getParameter("inputCategoria")));
+
+			l.setEstado("disponible");
+			//TODO: este set de estado está bien?
+			//TODO: no se establece la desc de la categoría?
+			CtrlLibro ctrl = new CtrlLibro();
+			ctrl.update(l);
+		} catch (CustomException e) {
+			req.getSession().setAttribute("errorMsg", e.getMessage());
+			CtrlLibro ctrl = new CtrlLibro();
+			req.setAttribute("libros",ctrl.getAll());
+			CtrlCategoria ctrlCat = new CtrlCategoria();
+			req.setAttribute("categorias", ctrlCat.getAll());
+			req.setAttribute("adminPage", "editLibro");
+			req.getRequestDispatcher( "/WEB-INF/pages/admin/adminPanel.jsp" ).forward( req, res );
+		}
 	}
-	
-	
+
+
 	//////////////////////
 	// ELIMINAR LIBRO LOGIC
 	//////////////////////	
-	private void eliminarLibro(HttpServletRequest req, HttpServletResponse res) {
+	private void eliminarLibro(HttpServletRequest req, HttpServletResponse res) throws CustomException, ServletException, IOException{
 		Libro l = new Libro();
 		l.setId(Integer.parseInt(req.getParameter("inputID")));
 		CtrlLibro ctrl = new CtrlLibro();
 		ctrl.delete(l);
 	}
-	
+
 	//////////////////////
 	// ALTA CATEGORIA LOGIC
 	//////////////////////
-	private void altaCatLibro(HttpServletRequest req, HttpServletResponse res) {
-		Categoria c = new Categoria();
-		
-		c.setDesc(req.getParameter("inputDesc"));
-		c.setEstado("habilitado");
-		
-		CtrlCategoria ctrl = new CtrlCategoria();
-		c = ctrl.add(c);
-		
+	private void altaCatLibro(HttpServletRequest req, HttpServletResponse res) throws CustomException, ServletException, IOException{
+		try {
+			Categoria c = new Categoria();
+
+			c.setDesc(req.getParameter("inputDesc"));
+			c.setEstado("habilitado");
+
+			CtrlCategoria ctrl = new CtrlCategoria();
+			c = ctrl.add(c);
+		} catch (CustomException e) {
+			req.getSession().setAttribute("errorMsg", e.getMessage());
+			CtrlCategoria ctrl = new CtrlCategoria();
+			req.setAttribute("categorias", ctrl.getAll());
+			req.setAttribute("adminPage", "listadoCatLibro");
+			req.getRequestDispatcher( "/WEB-INF/pages/admin/adminPanel.jsp" ).forward( req, res );
+		}
+
 	}
-	
-	
+
+
 	//////////////////////
 	// MODIFICAR CATEGORIA LOGIC
 	//////////////////////	
-	private void modificarCatLibro(HttpServletRequest req, HttpServletResponse res) {
-		CtrlCategoria ctrl = new CtrlCategoria();
-		Categoria c = new Categoria();		
-		c.setId(Integer.parseInt(req.getParameter("inputID")));
-		c.setDesc(req.getParameter("inputDesc"));
-		c.setEstado(req.getParameter("inputEstado"));
-		ctrl.update(c);
-		
+	private void modificarCatLibro(HttpServletRequest req, HttpServletResponse res) throws CustomException, ServletException, IOException{
+		try {
+			CtrlCategoria ctrl = new CtrlCategoria();
+			Categoria c = new Categoria();		
+			c.setId(Integer.parseInt(req.getParameter("inputID")));
+			c.setDesc(req.getParameter("inputDesc"));
+			c.setEstado(req.getParameter("inputEstado"));
+			ctrl.update(c);
+		} catch (CustomException e) {
+			req.getSession().setAttribute("errorMsg", e.getMessage());
+			CtrlCategoria ctrl = new CtrlCategoria();
+			req.setAttribute("categorias", ctrl.getAll());
+			req.setAttribute("adminPage", "listadoCatLibro");
+			req.getRequestDispatcher( "/WEB-INF/pages/admin/adminPanel.jsp" ).forward( req, res );
+
+		}
+
 	}
-	
+
 	//////////////////////
 	// ELIMINAR CATEGORIA LOGIC
 	//////////////////////	
-	private void eliminarCatLibro(HttpServletRequest req, HttpServletResponse res) {
+	private void eliminarCatLibro(HttpServletRequest req, HttpServletResponse res) throws CustomException, ServletException, IOException{
 		CtrlCategoria ctrl = new CtrlCategoria();
 		Categoria c = new Categoria();		
 		c.setId(Integer.parseInt(req.getParameter("inputID")));
@@ -366,14 +400,14 @@ public class ServletAdmin extends HttpServlet {
 		c.setEstado(req.getParameter("inputEstado"));
 		ctrl.delete(c);
 	}
-	
+
 	//////////////////////
 	// ALTA EJEMPLAR LOGIC
 	//////////////////////
-	
-	private String altaEjemplar(HttpServletRequest req, HttpServletResponse res) {
-		int cant = Integer.parseInt(req.getParameter("inputCantEj"));
+
+	private String altaEjemplar(HttpServletRequest req, HttpServletResponse res) throws CustomException, ServletException, IOException{
 		String id = req.getParameter("inputLibroID");
+		int cant = Integer.parseInt(req.getParameter("inputCantEj"));
 		for(int i=0; i<cant; i++) {
 			CtrlEjemplar ctrl = new CtrlEjemplar();
 			Ejemplar e = new Ejemplar();
@@ -388,12 +422,12 @@ public class ServletAdmin extends HttpServlet {
 		}
 		return "/libreria-java/admin/ejemplares?id="+id;
 	}
-	
+
 	//////////////////////
 	// BAJA EJEMPLAR LOGIC
 	//////////////////////
-	
-	private String bajaEjemplar(HttpServletRequest req, HttpServletResponse res) {
+
+	private String bajaEjemplar(HttpServletRequest req, HttpServletResponse res) throws CustomException, ServletException, IOException{
 		String id = req.getParameter("inputLibroID");
 		int id_ej = Integer.parseInt(req.getParameter("inputEjemplar"));
 		CtrlEjemplar ctrl = new CtrlEjemplar();
@@ -407,102 +441,116 @@ public class ServletAdmin extends HttpServlet {
 	//////////////////////
 	// ALTA USUARIO LOGIC
 	//////////////////////
-	private void altaUsuario(HttpServletRequest request, HttpServletResponse response) throws CustomException, IOException {
-	
-		Usuario u = new Usuario();
-		u.setNombre(request.getParameter("inputNombre"));
-		u.setApellido(request.getParameter("inputApellido"));
-		u.setEmail(request.getParameter("inputEmail"));
-		u.setDomicilio(request.getParameter("inputDomicilio"));
-		u.setTelefono(request.getParameter("inputTelefono"));
-		u.setDni(request.getParameter("inputDNI"));
-		u.setPassword(request.getParameter("inputPSWD"));
-		u.setTipoUsuario(request.getParameter("inputTipo"));
-	
-		CtrlUsuario ctrl = new CtrlUsuario();
-	
-		if (ctrl.getByEmail(u) == null) { // El username est� disponible
-	
-			ctrl.add(u);	
-			response.sendRedirect("/libreria-java/admin/listado-usuario");
-		} else {
-			request.getSession().setAttribute("errorMsg", "El nombre de usuario no se encuentra disponible");
-			response.sendRedirect("/libreria-java/admin/alta-usuario");
+	private void altaUsuario(HttpServletRequest request, HttpServletResponse response) throws CustomException, ServletException,IOException {
+		try {
+			Usuario u = new Usuario();
+			u.setNombre(request.getParameter("inputNombre"));
+			u.setApellido(request.getParameter("inputApellido"));
+			u.setEmail(request.getParameter("inputEmail"));
+			u.setDomicilio(request.getParameter("inputDomicilio"));
+			u.setTelefono(request.getParameter("inputTelefono"));
+			u.setDni(request.getParameter("inputDNI"));
+			u.setPassword(request.getParameter("inputPSWD"));
+			u.setTipoUsuario(request.getParameter("inputTipo"));
+
+			CtrlUsuario ctrl = new CtrlUsuario();
+
+			if (ctrl.getByEmail(u) == null) { // El username est� disponible
+
+				ctrl.add(u);	
+				response.sendRedirect("/libreria-java/admin/listado-usuario");
+			} else {
+				request.getSession().setAttribute("errorMsg", "El nombre de usuario no se encuentra disponible");
+				response.sendRedirect("/libreria-java/admin/alta-usuario");
+			}
+		} catch (CustomException e) {
+			request.getSession().setAttribute("errorMsg", e.getMessage());
+			CtrlUsuario ctrl = new CtrlUsuario();
+			request.setAttribute("usuarios",ctrl.getAll());
+			request.setAttribute("adminPage", "altaUsuario");
+			request.getRequestDispatcher( "/WEB-INF/pages/admin/adminPanel.jsp" ).forward( request, response );
 		}
 	}
-	
-	
+
+
 	//////////////////////
 	// MODIFICAR USUARIO LOGIC
 	//////////////////////
-	private void modificarUsuario(HttpServletRequest request, HttpServletResponse response) {
-	
-		Usuario u = new Usuario();
-		u.setId(Integer.parseInt(request.getParameter("inputID")));
-		u.setNombre(request.getParameter("inputNombre"));
-		u.setApellido(request.getParameter("inputApellido"));
-		u.setEmail(request.getParameter("inputEmail"));
-		u.setDomicilio(request.getParameter("inputDomicilio"));
-		u.setTelefono(request.getParameter("inputTelefono"));
-		u.setDni(request.getParameter("inputDNI"));
-		u.setTipoUsuario(request.getParameter("inputTipo"));
-		u.setPassword(request.getParameter("inputPSWD"));
-		u.setEstado("habilitado");
-		CtrlUsuario ctrl = new CtrlUsuario();
-		ctrl.update(u);	
+	private void modificarUsuario(HttpServletRequest request, HttpServletResponse response) throws CustomException, ServletException,IOException{
+		try {
+			Usuario u = new Usuario();
+			u.setId(Integer.parseInt(request.getParameter("inputID")));
+			u.setNombre(request.getParameter("inputNombre"));
+			u.setApellido(request.getParameter("inputApellido"));
+			u.setEmail(request.getParameter("inputEmail"));
+			u.setDomicilio(request.getParameter("inputDomicilio"));
+			u.setTelefono(request.getParameter("inputTelefono"));
+			u.setDni(request.getParameter("inputDNI"));
+			u.setTipoUsuario(request.getParameter("inputTipo"));
+			u.setPassword(request.getParameter("inputPSWD"));
+			u.setEstado("habilitado");
+			CtrlUsuario ctrl = new CtrlUsuario();
+			ctrl.update(u);	
+		} catch (CustomException e) {
+			request.getSession().setAttribute("errorMsg", e.getMessage());
+			CtrlUsuario ctrl = new CtrlUsuario();
+			request.setAttribute("usuarios",ctrl.getAll());
+			request.setAttribute("adminPage", "editUsuario");
+			request.getRequestDispatcher( "/WEB-INF/pages/admin/adminPanel.jsp" ).forward( request, response );
+		}
 
 	}
-	
+
 	//////////////////////
 	// ELIMINAR USUARIO LOGIC
 	//////////////////////	
-	private void eliminarUsuario(HttpServletRequest req, HttpServletResponse res) {
+	private void eliminarUsuario(HttpServletRequest req, HttpServletResponse res) throws CustomException, ServletException,IOException {
 		Usuario u = new Usuario();
 		u.setId(Integer.parseInt(req.getParameter("inputID")));
 		CtrlUsuario ctrl = new CtrlUsuario();
 		ctrl.delete(u);
 	}
-	
+
 	//////////////////////
 	// ELIMINAR LINEA LOGIC
 	//////////////////////	
-	private String eliminarLineaPrestamo(HttpServletRequest req, HttpServletResponse res) {
+	private String eliminarLineaPrestamo(HttpServletRequest req, HttpServletResponse res) throws CustomException, ServletException,IOException {
 		CtrlPrestamo ctrl = new CtrlPrestamo();
 		int id = (Integer.parseInt(req.getParameter("inputID")));
 		ctrl.eliminarLinea(id);
 		return "/libreria-java/admin/edit-prestamo?id="+req.getParameter("inputIDPrestamo");
 	}
-	
+
 	//////////////////////
 	// AGREGAR LINEA LOGIC
 	//////////////////////	
-	private String agregarLineaPrestamo(HttpServletRequest req, HttpServletResponse res) {
+	private String agregarLineaPrestamo(HttpServletRequest req, HttpServletResponse res) throws CustomException, ServletException,IOException{
 		CtrlPrestamo ctrl = new CtrlPrestamo();
 		int id = (Integer.parseInt(req.getParameter("inputEjId")));
 		ctrl.agregarLinea(id,Integer.parseInt(req.getParameter("inputIDPrestamo")));
 		return "/libreria-java/admin/edit-prestamo?id="+req.getParameter("inputIDPrestamo");
 	}
-	
+
 	//////////////////////
 	// ELIMINAR PRESTAMO LOGIC
 	//////////////////////	
-	private void eliminarPrestamo(HttpServletRequest req, HttpServletResponse res) {
+	private void eliminarPrestamo(HttpServletRequest req, HttpServletResponse res) throws CustomException, ServletException,IOException{
 		CtrlPrestamo ctrl = new CtrlPrestamo();
 		int id = (Integer.parseInt(req.getParameter("inputIDPrestamo")));
 		ctrl.delete(id);
 	}
-	
+
 	//////////////////////
 	// CONFIRMAR PRESTAMO LOGIC
 	//////////////////////
-	private String confirmarPrestamo(HttpServletRequest req, HttpServletResponse res) {
+	private String confirmarPrestamo(HttpServletRequest req, HttpServletResponse res) throws CustomException, ServletException,IOException{
 		CtrlPrestamo ctrl = new CtrlPrestamo();
 		String tipo = ctrl.confirmarPrestamo(Integer.parseInt(req.getParameter("inputIDPrestamo")));
 		return "/libreria-java/admin/listado-prestamo?tipo="+tipo;
 	}
-	
-	
-	private void eliminarSancion(HttpServletRequest req, HttpServletResponse res) {
+
+
+	private void eliminarSancion(HttpServletRequest req, HttpServletResponse res) throws CustomException, ServletException,IOException{
 		CtrlSancion ctrl = new CtrlSancion();
 		int id = (Integer.parseInt(req.getParameter("inputID")));
 		Sancion s = new Sancion();
