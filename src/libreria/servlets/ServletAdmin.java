@@ -41,83 +41,108 @@ public class ServletAdmin extends HttpServlet {
 				request.setAttribute("countDevolucion", ctrlPrestamo.countPrestamosDevolucion());
 
 				switch (request.getPathInfo()) {			
-				case "/alta-libro":{
-					request.setAttribute("adminPage", "altaLibro");
-					CtrlCategoria ctrl = new CtrlCategoria();
-					request.setAttribute("categorias", ctrl.getAll());
-				}
-				break;
-				case "/listado-cat-libro":{
-					CtrlCategoria ctrl = new CtrlCategoria();
-					request.setAttribute("categorias", ctrl.getAll());
-					request.setAttribute("adminPage", "listadoCatLibro");
-				}
-				break;
-				case "/listado-libro":{
-					CtrlLibro ctrl = new CtrlLibro();
-					request.setAttribute("libros",ctrl.getAll());
-					request.setAttribute("adminPage", "listadoLibro");
-				}
-				break;
-				case "/edit-libro":{
-					CtrlLibro ctrl = new CtrlLibro();
-					request.setAttribute("libros",ctrl.getAll());
-					CtrlCategoria ctrlCat = new CtrlCategoria();
-					request.setAttribute("categorias", ctrlCat.getAll());
-					request.setAttribute("adminPage", "editLibro");
-				}
-				break;
-				case "/ejemplares":{
-					CtrlLibro ctrl = new CtrlLibro();
-					CtrlEjemplar ctrlEj = new CtrlEjemplar();
-					request.setAttribute("libros",ctrl.getAll());
-					request.setAttribute("ejemplares", ctrlEj.getAll());
-					request.setAttribute("adminPage", "ejemplares");
-				}
-				break;
-				case "/listado-usuario":{
-					CtrlUsuario ctrl = new CtrlUsuario();
-					request.setAttribute("usuarios",ctrl.getAll());
-					request.setAttribute("adminPage", "listadoUsuario");
-				}
-				break;
-				case "/alta-usuario":{
-					CtrlUsuario ctrl = new CtrlUsuario();
-					request.setAttribute("usuarios",ctrl.getAll());
-					request.setAttribute("adminPage", "altaUsuario");
-				}
-				break;
-				case "/edit-usuario":{
-					CtrlUsuario ctrl = new CtrlUsuario();
-					request.setAttribute("usuarios",ctrl.getAll());
-					request.setAttribute("adminPage", "editUsuario");
-				}
-				break;
-				case "/listado-prestamo":{
-					CtrlPrestamo ctrl = new CtrlPrestamo();
-					CtrlUsuario ctrlU = new CtrlUsuario();
-					request.setAttribute("prestamos",ctrl.getAll());
-					request.setAttribute("usuarios",ctrlU.getAll());
-					request.setAttribute("adminPage", "listadoPrestamo");
-				}
-				break;
-				case "/edit-prestamo":{
-					CtrlPrestamo ctrl = new CtrlPrestamo();
-					CtrlUsuario ctrlU = new CtrlUsuario();
-					CtrlEjemplar ctrlE = new CtrlEjemplar();
-					CtrlLibro ctrlL = new CtrlLibro();
-					request.setAttribute("prestamos", ctrl.getAll());
-					request.setAttribute("usuarios", ctrlU.getAll());
-					request.setAttribute("libros", ctrlL.getAll());
-					request.setAttribute("ejemplares", ctrlE.getAll());
-					request.setAttribute("adminPage", "editPrestamo");
-				}
-				break;
-				case "/listado-sanciones":{
-					CtrlSancion ctrl = new CtrlSancion();
-					request.setAttribute("sanciones", ctrl.getAll());
-					request.setAttribute("adminPage", "listadoSanciones");
-				}
+					case "/alta-libro":{
+						request.setAttribute("adminPage", "altaLibro");
+						CtrlCategoria ctrl = new CtrlCategoria();
+						request.setAttribute("categorias", ctrl.getAll());
+						}
+						break;
+					case "/listado-cat-libro":{
+						CtrlCategoria ctrl = new CtrlCategoria();
+						request.setAttribute("categorias", ctrl.getAll());
+						request.setAttribute("adminPage", "listadoCatLibro");
+						}
+						break;
+					case "/listado-libro":{
+						CtrlLibro ctrl = new CtrlLibro();
+						request.setAttribute("libros",ctrl.getAll());
+						request.setAttribute("adminPage", "listadoLibro");
+						}
+						break;
+					case "/edit-libro":{
+						CtrlLibro ctrl = new CtrlLibro();
+						request.setAttribute("libros",ctrl.getAll());
+						CtrlCategoria ctrlCat = new CtrlCategoria();
+						request.setAttribute("categorias", ctrlCat.getAll());
+						request.setAttribute("adminPage", "editLibro");
+						}
+						break;
+					case "/ejemplares":{
+						CtrlLibro ctrl = new CtrlLibro();
+						CtrlEjemplar ctrlEj = new CtrlEjemplar();
+						request.setAttribute("libros",ctrl.getAll());
+						request.setAttribute("ejemplares", ctrlEj.getAll());
+						request.setAttribute("adminPage", "ejemplares");
+						}
+						break;
+					case "/listado-usuario":{
+						CtrlUsuario ctrl = new CtrlUsuario();
+						request.setAttribute("usuarios",ctrl.getAll());
+						request.setAttribute("adminPage", "listadoUsuario");
+						}
+						break;
+					case "/alta-usuario":{
+						CtrlUsuario ctrl = new CtrlUsuario();
+						request.setAttribute("usuarios",ctrl.getAll());
+						request.setAttribute("adminPage", "altaUsuario");
+						}
+						break;
+					case "/edit-usuario":{
+						CtrlUsuario ctrl = new CtrlUsuario();
+						request.setAttribute("usuarios",ctrl.getAll());
+						request.setAttribute("adminPage", "editUsuario");
+						}
+						break;
+					case "/listado-prestamo":{
+						CtrlPrestamo ctrl = new CtrlPrestamo();
+						CtrlUsuario ctrlU = new CtrlUsuario();
+						request.setAttribute("prestamos",ctrl.getAll());
+						request.setAttribute("usuarios",ctrlU.getAll());
+						request.setAttribute("adminPage", "listadoPrestamo");
+						}
+						break;
+					case "/edit-prestamo":{
+						CtrlPrestamo ctrl = new CtrlPrestamo();
+						CtrlUsuario ctrlU = new CtrlUsuario();
+						CtrlEjemplar ctrlE = new CtrlEjemplar();
+						CtrlLibro ctrlL = new CtrlLibro();
+						request.setAttribute("prestamos", ctrl.getAll());
+						request.setAttribute("usuarios", ctrlU.getAll());
+						request.setAttribute("libros", ctrlL.getAll());
+						request.setAttribute("ejemplares", ctrlE.getAll());
+						request.setAttribute("adminPage", "editPrestamo");
+					}
+					break;
+					case "/listado-sanciones":{
+						CtrlSancion ctrl = new CtrlSancion();
+						request.setAttribute("sanciones", ctrl.getAll());
+						request.setAttribute("adminPage", "listadoSanciones");
+					}
+					break;
+					case "/reportes-usuarios":{
+						CtrlUsuario ctrl = new CtrlUsuario();
+						CtrlSancion ctrls = new CtrlSancion();
+						CtrlPrestamo ctrlp = new CtrlPrestamo();
+						request.setAttribute("usuarios", ctrl.getAll());
+						request.setAttribute("prestamos", ctrlp.getAll());
+						request.setAttribute("sanciones", ctrls.getAll());
+						request.setAttribute("adminPage", "reportesUsuarios");
+					}
+					break;
+					case "/reportes-libros":{
+						CtrlLibro ctrl = new CtrlLibro();
+						CtrlPrestamo ctrlp = new CtrlPrestamo();
+						request.setAttribute("libros", ctrl.getAll());
+						request.setAttribute("prestamos", ctrlp.getAll());
+						request.setAttribute("adminPage", "reportesLibros");
+					}
+					break;
+					case "/reportes-prestamos":{
+						CtrlPrestamo ctrlp = new CtrlPrestamo();
+						request.setAttribute("prestamos", ctrlp.getAll());
+						request.setAttribute("adminPage", "reportesPrestamos");
+					}
+					break;
 				}
 				CtrlCategoria ctrlCat = new CtrlCategoria();
 				request.setAttribute("categorias", ctrlCat.getAll());

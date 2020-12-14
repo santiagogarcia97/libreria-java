@@ -60,13 +60,13 @@
         <h5 class="">Reportes</h5>
         <div class="list-group list-group-flush">
           <div class="list-group-item d-flex justify-content-between align-items-center">
-            <a href="#" class="text-dark">Prestamos</a>
+            <a href="/libreria-java/admin/reportes-prestamos" class="text-dark">Prestamos</a>
           </div>    
           <div class="list-group-item d-flex justify-content-between align-items-center">
-            <a href="#" class="text-dark">Libros</a>
+            <a href="/libreria-java/admin/reportes-libros" class="text-dark">Libros</a>
           </div>    
           <div class="list-group-item d-flex justify-content-between align-items-center">
-            <a href="#" class="text-dark">Socios</a>
+            <a href="/libreria-java/admin/reportes-usuarios" class="text-dark">Socios</a>
           </div>                                
         </div>
 
