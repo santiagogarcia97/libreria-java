@@ -11,7 +11,7 @@
 	<c:set var = "libroID" scope = "session" value = "<%= request.getParameter(\"id\") %>"/>
 	<select  class="form-control" id="inputLibro" name="inputLibro" onchange="selectLibro()">
 		<c:if test="${requestScope.libros != null && requestScope.libros.size() != 0 }">
-		  <option disabled selected hidden="true"> -- Por favor escoga un libro -- </option>
+		  <option disabled selected hidden="true"> -- Por favor escoja un libro -- </option>
 		  <c:forEach var="libro" begin="0" items="${requestScope.libros}">
 		  		<c:if test="${libroID != null}">
 		  			<c:if test="${libro.getId() == libroID }">

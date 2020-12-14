@@ -40,7 +40,7 @@
    			 	<select  class="form-control" id="inputCategoria" name="inputCategoria" required="required">
 
 					<c:if test="${requestScope.categorias != null && requestScope.categorias.size() != 0 }">
-					  <option disabled selected hidden="true"> -- Por favor escoga una categoría -- </option>
+					  <option disabled selected hidden="true"> -- Por favor escoja una categoría -- </option>
 					  <c:forEach var="cat" begin="0" items="${requestScope.categorias}">
    			 			<option value="${cat.getId()}"> ${cat.getDesc()} </option>					  	
 				       </c:forEach>	
