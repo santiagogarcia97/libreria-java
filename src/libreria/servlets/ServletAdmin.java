@@ -348,22 +348,11 @@ public class ServletAdmin extends HttpServlet {
 	// ALTA CATEGORIA LOGIC
 	//////////////////////
 	private void altaCatLibro(HttpServletRequest req, HttpServletResponse res) throws CustomException, ServletException, IOException{
-		try {
 			Categoria c = new Categoria();
-
 			c.setDesc(req.getParameter("inputDesc"));
 			c.setEstado("habilitado");
-
 			CtrlCategoria ctrl = new CtrlCategoria();
 			c = ctrl.add(c);
-		} catch (CustomException e) {
-			req.getSession().setAttribute("errorMsg", e.getMessage());
-			CtrlCategoria ctrl = new CtrlCategoria();
-			req.setAttribute("categorias", ctrl.getAll());
-			req.setAttribute("adminPage", "listadoCatLibro");
-			req.getRequestDispatcher( "/WEB-INF/pages/admin/adminPanel.jsp" ).forward( req, res );
-		}
-
 	}
 
 
@@ -371,22 +360,12 @@ public class ServletAdmin extends HttpServlet {
 	// MODIFICAR CATEGORIA LOGIC
 	//////////////////////	
 	private void modificarCatLibro(HttpServletRequest req, HttpServletResponse res) throws CustomException, ServletException, IOException{
-		try {
 			CtrlCategoria ctrl = new CtrlCategoria();
 			Categoria c = new Categoria();		
 			c.setId(Integer.parseInt(req.getParameter("inputID")));
 			c.setDesc(req.getParameter("inputDesc"));
 			c.setEstado(req.getParameter("inputEstado"));
 			ctrl.update(c);
-		} catch (CustomException e) {
-			req.getSession().setAttribute("errorMsg", e.getMessage());
-			CtrlCategoria ctrl = new CtrlCategoria();
-			req.setAttribute("categorias", ctrl.getAll());
-			req.setAttribute("adminPage", "listadoCatLibro");
-			req.getRequestDispatcher( "/WEB-INF/pages/admin/adminPanel.jsp" ).forward( req, res );
-
-		}
-
 	}
 
 	//////////////////////
