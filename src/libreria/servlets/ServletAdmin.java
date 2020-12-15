@@ -272,7 +272,6 @@ public class ServletAdmin extends HttpServlet {
 	// ALTA LIBRO LOGIC
 	//////////////////////
 	private void altaLibro(HttpServletRequest req, HttpServletResponse res) throws CustomException, ServletException, IOException {
-		try {
 			Libro l = new Libro();
 
 			l.setAutor(req.getParameter("inputAutor"));
@@ -290,20 +289,12 @@ public class ServletAdmin extends HttpServlet {
 
 			CtrlLibro ctrl = new CtrlLibro();
 			l = ctrl.add(l);
-		} catch (CustomException e) {
-			req.getSession().setAttribute("errorMsg", e.getMessage());
-			req.setAttribute("adminPage", "altaLibro");
-			CtrlCategoria ctrl = new CtrlCategoria();
-			req.setAttribute("categorias", ctrl.getAll());
-			req.getRequestDispatcher( "/WEB-INF/pages/admin/adminPanel.jsp" ).forward( req, res );
-		}
 	}
 
 	//////////////////////
 	// MODIFICAR LIBRO LOGIC
 	//////////////////////
 	private void modificarLibro(HttpServletRequest req, HttpServletResponse res) throws CustomException, ServletException, IOException {
-		try {
 			Libro l = new Libro();
 			l.setId(Integer.parseInt(req.getParameter("inputID")));
 			l.setAutor(req.getParameter("inputAutor"));
@@ -322,15 +313,6 @@ public class ServletAdmin extends HttpServlet {
 			//TODO: no se establece la desc de la categoría?
 			CtrlLibro ctrl = new CtrlLibro();
 			ctrl.update(l);
-		} catch (CustomException e) {
-			req.getSession().setAttribute("errorMsg", e.getMessage());
-			CtrlLibro ctrl = new CtrlLibro();
-			req.setAttribute("libros",ctrl.getAll());
-			CtrlCategoria ctrlCat = new CtrlCategoria();
-			req.setAttribute("categorias", ctrlCat.getAll());
-			req.setAttribute("adminPage", "editLibro");
-			req.getRequestDispatcher( "/WEB-INF/pages/admin/adminPanel.jsp" ).forward( req, res );
-		}
 	}
 
 

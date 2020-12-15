@@ -41,21 +41,17 @@ public class DataCategoria {
 					c = cargar_datos_a_entidad(c,rs);
 					categorias.add(c);
 				}
-			}			
-		} catch (SQLException e) {
+			}				
+		} catch (Exception e) {
 			throw new CustomException("Error al ejecutar getAll()", "DataCategoria", e);		
-		} catch (CustomException e) {
-			throw e;					
 		} finally{
 			try {
 				if(rs!=null)rs.close();
 				if(stmt!=null)stmt.close();
 				FactoryConexion.getInstancia().releaseConn();
-			} catch (SQLException e) {
+			} catch (Exception e) {
 				throw new CustomException("Error al ejecutar getAll()", "DataCategoria", e);
-			} catch (CustomException e) {
-				throw e;					
-			} 
+			}
 		}
 		return categorias;
 	}
@@ -75,21 +71,17 @@ public class DataCategoria {
 			if(rs!=null && rs.next()){
 					c = new Categoria();
 					c = cargar_datos_a_entidad(c,rs);
-			}			
-		} catch (SQLException e) {
-			throw new CustomException("Error al ejecutar getById()", "DataCategoria", e);		
-		} catch (CustomException e) {
-			throw e;					
+			}				
+		} catch (Exception e) {
+			throw new CustomException("Error al ejecutar getById()", "DataCategoria", e);	
 		} finally{
 			try {
 				if(rs!=null)rs.close();
 				if(stmt!=null)stmt.close();
 				FactoryConexion.getInstancia().releaseConn();
-			} catch (SQLException e) {
+			} catch (Exception e) {
 				throw new CustomException("Error al ejecutar getById()", "DataCategoria", e);
-			} catch (CustomException e) {
-				throw e;					
-			} 
+			}
 		}
 		return c;
 	}
@@ -111,18 +103,17 @@ public class DataCategoria {
 			if(keyResultSet!=null && keyResultSet.next()){
 				c.setId(keyResultSet.getInt(1));
 			}
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CustomException("Error al ejecutar add()", "DataCategoria", e);	
+		} finally {
+			try {
+				if(keyResultSet!=null)keyResultSet.close();
+				if(stmt!=null)stmt.close();
+				FactoryConexion.getInstancia().releaseConn();
+			} catch (Exception e) {
+				throw new CustomException("Error al ejecutar add()", "DataCategoria", e);
+			} 
 		}
-		try {
-			if(keyResultSet!=null)keyResultSet.close();
-			if(stmt!=null)stmt.close();
-			FactoryConexion.getInstancia().releaseConn();
-		} catch (SQLException e) {
-			throw new CustomException("Error al ejecutar add()", "DataCategoria", e);
-		} catch (CustomException e) {
-			throw e;					
-		} 
 		return c;
 	}
 	
@@ -138,15 +129,14 @@ public class DataCategoria {
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			throw new CustomException("Error al ejecutar delete()", "DataCategoria", e);	
+		} finally {
+			try {
+				if(stmt!=null)stmt.close();
+				FactoryConexion.getInstancia().releaseConn();
+			} catch (Exception e) {
+				throw new CustomException("Error al ejecutar delete()", "DataCategoria", e);
+			}
 		}
-		try {
-			if(stmt!=null)stmt.close();
-			FactoryConexion.getInstancia().releaseConn();
-		} catch (SQLException e) {
-			throw new CustomException("Error al ejecutar delete()", "DataCategoria", e);
-		} catch (CustomException e) {
-			throw e;					
-		} 
 	}
 	
 	///////////////
@@ -163,15 +153,14 @@ public class DataCategoria {
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			throw new CustomException("Error al ejecutar update()", "DataCategoria", e);	
+		} finally {
+			try {
+				if(stmt!=null)stmt.close();
+				FactoryConexion.getInstancia().releaseConn();
+			} catch (Exception e) {
+				throw new CustomException("Error al ejecutar update()", "DataCategoria", e);
+			}
 		}
-		try {
-			if(stmt!=null)stmt.close();
-			FactoryConexion.getInstancia().releaseConn();
-		} catch (SQLException e) {
-			throw new CustomException("Error al ejecutar update()", "DataCategoria", e);
-		} catch (CustomException e) {
-			throw e;					
-		} 
 	}
 	
 	public Categoria cargar_datos_a_entidad(Categoria c, ResultSet rs) {
@@ -180,11 +169,9 @@ public class DataCategoria {
 			c.setDesc(rs.getString("descripcion"));
 			c.setEstado(rs.getString("estado"));
 		}
-		catch (SQLException e) {
+		catch (Exception e) {
 			throw new CustomException("Error al ejecutar recuperar datos.", "DataCategoria", e);		
-		} catch (CustomException e) {
-			throw e;								
-		}
+		} 
 		return c;
 	}
 	
