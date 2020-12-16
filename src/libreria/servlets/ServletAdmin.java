@@ -330,10 +330,8 @@ public class ServletAdmin extends HttpServlet {
 	//////////////////////
 	private void altaCatLibro(HttpServletRequest req, HttpServletResponse res) throws CustomException, ServletException, IOException{
 			Categoria c = new Categoria();
-
 			c.setDesc(req.getParameter("inputDesc"));
 			c.setEstado("habilitado");
-
 			CtrlCategoria ctrl = new CtrlCategoria();
 			c = ctrl.add(c);
 	}

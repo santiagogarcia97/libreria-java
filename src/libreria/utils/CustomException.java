@@ -4,21 +4,13 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class CustomException extends RuntimeException{
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private String accion = "";
 	private String origen = "";
 	private Exception excepcionOriginal = null;
 	
 	
-	/***
-	 * Constructor base para las excepciones encapsuladas
-	 * @param mensaje: Mensaje personalizado sobre la excepcion.
-	 * @param origen: Clase en donde se origino la excepcion.
-	 * @param ex: Referencia a la excepcion original lanzada por el programa
-	 */
 	public CustomException(String accion, String origen, Exception ex){
 		this.accion = accion;
 		this.origen = origen;
