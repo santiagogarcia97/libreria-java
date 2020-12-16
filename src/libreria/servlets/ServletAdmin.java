@@ -242,11 +242,11 @@ public class ServletAdmin extends HttpServlet {
 			}
 		} catch (CustomException e) {
 			request.getSession().setAttribute("errorMsg", e.getMessage());
-			request.getRequestDispatcher( "/WEB-INF/pages/admin/adminPanel.jsp" ).forward( request, response );
+			request.getRequestDispatcher( "/WEB-INF/pages/error.jsp" ).forward( request, response );
 		} catch (Exception ex) {
 			CustomException e = new CustomException("Error desconocido", "ServletAdmin", ex);
 			request.getSession().setAttribute("errorMsg", e.getMessage());
-			request.getRequestDispatcher( "/WEB-INF/pages/admin/adminPanel.jsp" ).forward( request, response );
+			request.getRequestDispatcher( "/WEB-INF/pages/error.jsp" ).forward( request, response );
 		}
 	}
 

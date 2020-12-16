@@ -61,10 +61,12 @@
 								<c:out value="${sessionScope.loggedUser.getApellido()}"></c:out>
 						</a>
 							<div class="dropdown-menu dropdown-menu-right">
+								<!--
 								<a class="dropdown-item" href="#">Perfil</a>
 								<div class="dropdown-divider"></div>
+								-->
 								<form action="/libreria-java/auth/logout" method="post">
-									<button type="submit" class="dropdown-item">Log Out</button>
+									<button type="submit" class="dropdown-item">Cerrar sesión</button>
 								</form>
 							</div></li>
 					</ul>

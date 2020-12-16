@@ -100,6 +100,14 @@
 		</form>
 </c:if>
 
+	<c:if test="${sessionScope.errorMsg != null && sessionScope.errorMsg !='' }">
+		<br>
+	    	<div class="text-center text-danger">
+	        	<c:out value="${sessionScope.errorMsg}"></c:out>
+	            <c:set var="errorMsg" value="" scope="session"  />
+	        </div>            
+     </c:if>
+
 </div>
 <script src="/libreria-java/resources/js/ejemplares.js"></script>
 

@@ -3,7 +3,7 @@
 	pageEncoding="utf-8"%>
 
 <div class="col-lg-9">
-
+<!-- 
 	<div id="carouselExampleIndicators" class="carousel slide my-4"
 		data-ride="carousel">
 		<ol class="carousel-indicators">
@@ -38,12 +38,12 @@
 	</div>
 
 
-
+ -->
 	<c:choose>
 		<c:when
 			test="${requestScope.libros != null && requestScope.libros.size() !=0}">
-			<div class="form-group">
-				<h2>Libros</h2>
+			<div class="px-4 pt-4">
+				<h2 class="m-0">Libros</h2>
 			</div>
 			<hr>
 			<div class="row">

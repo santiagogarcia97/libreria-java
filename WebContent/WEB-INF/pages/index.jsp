@@ -10,6 +10,7 @@
         
         <link href="/libreria-java/resources/css/bootstrap/bootstrap.min.css" rel="stylesheet">
         <link href="/libreria-java/resources/css/template.css" rel="stylesheet">
+        <link href="/libreria-java/resources/css/error-page.css" rel="stylesheet">
 
 	</head>
 	
@@ -19,13 +20,9 @@
 		<div class="container">
 			<div class="row">
 				
-				<c:if test="${sessionScope.errorMsg == null}">
-					<jsp:include page="sidebar.jsp" />
-					<jsp:include page="content.jsp" />
-				</c:if>
-				<c:if test="${sessionScope.errorMsg != null}">
-					<jsp:include page="error.jsp" />
-				</c:if>
+				<jsp:include page="sidebar.jsp" />
+
+				<jsp:include page="content.jsp" />
 			</div>
 		</div>
 
