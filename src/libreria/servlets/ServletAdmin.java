@@ -242,11 +242,11 @@ public class ServletAdmin extends HttpServlet {
 			}
 		} catch (CustomException e) {
 			request.getSession().setAttribute("errorMsg", e.getMessage());
-			request.getRequestDispatcher( "/WEB-INF/pages/error.jsp" ).forward( request, response );
+			request.getRequestDispatcher( "/WEB-INF/pages/admin/adminPanel.jsp" ).forward( request, response );
 		} catch (Exception ex) {
 			CustomException e = new CustomException("Error desconocido", "ServletAdmin", ex);
 			request.getSession().setAttribute("errorMsg", e.getMessage());
-			request.getRequestDispatcher( "/WEB-INF/pages/error.jsp" ).forward( request, response );
+			request.getRequestDispatcher( "/WEB-INF/pages/admin/adminPanel.jsp" ).forward( request, response );
 		}
 	}
 
@@ -272,7 +272,6 @@ public class ServletAdmin extends HttpServlet {
 	// ALTA LIBRO LOGIC
 	//////////////////////
 	private void altaLibro(HttpServletRequest req, HttpServletResponse res) throws CustomException, ServletException, IOException {
-		try {
 			Libro l = new Libro();
 
 			l.setAutor(req.getParameter("inputAutor"));
@@ -290,20 +289,12 @@ public class ServletAdmin extends HttpServlet {
 
 			CtrlLibro ctrl = new CtrlLibro();
 			l = ctrl.add(l);
-		} catch (CustomException e) {
-			req.getSession().setAttribute("errorMsg", e.getMessage());
-			req.setAttribute("adminPage", "altaLibro");
-			CtrlCategoria ctrl = new CtrlCategoria();
-			req.setAttribute("categorias", ctrl.getAll());
-			req.getRequestDispatcher( "/WEB-INF/pages/admin/adminPanel.jsp" ).forward( req, res );
-		}
 	}
 
 	//////////////////////
 	// MODIFICAR LIBRO LOGIC
 	//////////////////////
 	private void modificarLibro(HttpServletRequest req, HttpServletResponse res) throws CustomException, ServletException, IOException {
-		try {
 			Libro l = new Libro();
 			l.setId(Integer.parseInt(req.getParameter("inputID")));
 			l.setAutor(req.getParameter("inputAutor"));
@@ -319,18 +310,8 @@ public class ServletAdmin extends HttpServlet {
 
 			l.setEstado("disponible");
 			//TODO: este set de estado está bien?
-			//TODO: no se establece la desc de la categoría?
 			CtrlLibro ctrl = new CtrlLibro();
 			ctrl.update(l);
-		} catch (CustomException e) {
-			req.getSession().setAttribute("errorMsg", e.getMessage());
-			CtrlLibro ctrl = new CtrlLibro();
-			req.setAttribute("libros",ctrl.getAll());
-			CtrlCategoria ctrlCat = new CtrlCategoria();
-			req.setAttribute("categorias", ctrlCat.getAll());
-			req.setAttribute("adminPage", "editLibro");
-			req.getRequestDispatcher( "/WEB-INF/pages/admin/adminPanel.jsp" ).forward( req, res );
-		}
 	}
 
 
@@ -348,7 +329,6 @@ public class ServletAdmin extends HttpServlet {
 	// ALTA CATEGORIA LOGIC
 	//////////////////////
 	private void altaCatLibro(HttpServletRequest req, HttpServletResponse res) throws CustomException, ServletException, IOException{
-		try {
 			Categoria c = new Categoria();
 
 			c.setDesc(req.getParameter("inputDesc"));
@@ -356,14 +336,6 @@ public class ServletAdmin extends HttpServlet {
 
 			CtrlCategoria ctrl = new CtrlCategoria();
 			c = ctrl.add(c);
-		} catch (CustomException e) {
-			req.getSession().setAttribute("errorMsg", e.getMessage());
-			CtrlCategoria ctrl = new CtrlCategoria();
-			req.setAttribute("categorias", ctrl.getAll());
-			req.setAttribute("adminPage", "listadoCatLibro");
-			req.getRequestDispatcher( "/WEB-INF/pages/admin/adminPanel.jsp" ).forward( req, res );
-		}
-
 	}
 
 
@@ -371,22 +343,12 @@ public class ServletAdmin extends HttpServlet {
 	// MODIFICAR CATEGORIA LOGIC
 	//////////////////////	
 	private void modificarCatLibro(HttpServletRequest req, HttpServletResponse res) throws CustomException, ServletException, IOException{
-		try {
 			CtrlCategoria ctrl = new CtrlCategoria();
 			Categoria c = new Categoria();		
 			c.setId(Integer.parseInt(req.getParameter("inputID")));
 			c.setDesc(req.getParameter("inputDesc"));
 			c.setEstado(req.getParameter("inputEstado"));
 			ctrl.update(c);
-		} catch (CustomException e) {
-			req.getSession().setAttribute("errorMsg", e.getMessage());
-			CtrlCategoria ctrl = new CtrlCategoria();
-			req.setAttribute("categorias", ctrl.getAll());
-			req.setAttribute("adminPage", "listadoCatLibro");
-			req.getRequestDispatcher( "/WEB-INF/pages/admin/adminPanel.jsp" ).forward( req, res );
-
-		}
-
 	}
 
 	//////////////////////
@@ -442,7 +404,6 @@ public class ServletAdmin extends HttpServlet {
 	// ALTA USUARIO LOGIC
 	//////////////////////
 	private void altaUsuario(HttpServletRequest request, HttpServletResponse response) throws CustomException, ServletException,IOException {
-		try {
 			Usuario u = new Usuario();
 			u.setNombre(request.getParameter("inputNombre"));
 			u.setApellido(request.getParameter("inputApellido"));
@@ -463,21 +424,13 @@ public class ServletAdmin extends HttpServlet {
 				request.getSession().setAttribute("errorMsg", "El nombre de usuario no se encuentra disponible");
 				response.sendRedirect("/libreria-java/admin/alta-usuario");
 			}
-		} catch (CustomException e) {
-			request.getSession().setAttribute("errorMsg", e.getMessage());
-			CtrlUsuario ctrl = new CtrlUsuario();
-			request.setAttribute("usuarios",ctrl.getAll());
-			request.setAttribute("adminPage", "altaUsuario");
-			request.getRequestDispatcher( "/WEB-INF/pages/admin/adminPanel.jsp" ).forward( request, response );
 		}
-	}
 
 
 	//////////////////////
 	// MODIFICAR USUARIO LOGIC
 	//////////////////////
 	private void modificarUsuario(HttpServletRequest request, HttpServletResponse response) throws CustomException, ServletException,IOException{
-		try {
 			Usuario u = new Usuario();
 			u.setId(Integer.parseInt(request.getParameter("inputID")));
 			u.setNombre(request.getParameter("inputNombre"));
@@ -490,15 +443,7 @@ public class ServletAdmin extends HttpServlet {
 			u.setPassword(request.getParameter("inputPSWD"));
 			u.setEstado("habilitado");
 			CtrlUsuario ctrl = new CtrlUsuario();
-			ctrl.update(u);	
-		} catch (CustomException e) {
-			request.getSession().setAttribute("errorMsg", e.getMessage());
-			CtrlUsuario ctrl = new CtrlUsuario();
-			request.setAttribute("usuarios",ctrl.getAll());
-			request.setAttribute("adminPage", "editUsuario");
-			request.getRequestDispatcher( "/WEB-INF/pages/admin/adminPanel.jsp" ).forward( request, response );
-		}
-
+			ctrl.update(u);		
 	}
 
 	//////////////////////

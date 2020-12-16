@@ -35,37 +35,37 @@
 		<div class="form-group row">
     		<label for="inputNombre" class="col-sm-4 col-form-label">Nombre</label>
    			 <div class="col-sm-8">
-      			<input type="text" class="form-control" id="inputNombre" name="inputNombre" placeholder="Nombre" required="required" value="${usuario.getNombre() }">
+      			<input type="text" class="form-control" id="inputNombre" name="inputNombre" placeholder="Nombre" required="required" value="${usuario.getNombre() }" maxlength=120>
     		</div>
   		</div>			
 		<div class="form-group row">
     		<label for="inputApellido" class="col-sm-4 col-form-label">Apellido</label>
    			 <div class="col-sm-8">
-      			<input type="text" class="form-control" id="inputApellido" name="inputApellido" placeholder="Apellido" required="required" value="${usuario.getApellido() }">
+      			<input type="text" class="form-control" id="inputApellido" name="inputApellido" placeholder="Apellido" required="required" value="${usuario.getApellido() }" maxlength=120>
     		</div>
   		</div>		
 		<div class="form-group row">
     		<label for="inputDNI" class="col-sm-4 col-form-label">DNI</label>
    			 <div class="col-sm-8">
-      			<input type="text" class="form-control" id="inputDNI" name="inputDNI" placeholder="DNI" required="required" value="${usuario.getDni() }">
+      			<input type="text" class="form-control" id="inputDNI" name="inputDNI" placeholder="DNI" required="required" value="${usuario.getDni() }" maxlength=120>
     		</div>
   		</div>
   		<div class="form-group row">
     		<label for="inputDomicilio" class="col-sm-4 col-form-label">Domicilio</label>
    			 <div class="col-sm-8">
-      			<input type="text" class="form-control" id="inputDomicilio" name="inputDomicilio" placeholder="Domicilio" required="required" value="${usuario.getDomicilio() }">
+      			<input type="text" class="form-control" id="inputDomicilio" name="inputDomicilio" placeholder="Domicilio" required="required" value="${usuario.getDomicilio() }" maxlength=120>
     		</div>
   		</div>			
 		<div class="form-group row">
     		<label for="inputEmail" class="col-sm-4 col-form-label">Email</label>
    			 <div class="col-sm-8">
-      			<input type="text" class="form-control" id="inputEmail" name="inputEmail" placeholder="Email" required="required" readonly value="${usuario.getEmail() }">
+      			<input type="text" class="form-control" id="inputEmail" name="inputEmail" placeholder="Email" required="required" readonly value="${usuario.getEmail() }" maxlength=120>
     		</div>
   		</div>		
 		<div class="form-group row">
     		<label for="inputTelefono" class="col-sm-4 col-form-label">Teléfono</label>
    			 <div class="col-sm-8">
-      			<input type="text" class="form-control" id="inputTelefono" name="inputTelefono" placeholder="Telefono" required="required" value="${usuario.getTelefono() }">
+      			<input type="text" class="form-control" id="inputTelefono" name="inputTelefono" placeholder="Telefono" required="required" value="${usuario.getTelefono() }" maxlength=120>
     		</div>
   		</div>
   		
@@ -100,12 +100,5 @@
 	    </div> 			
 	</form>
 
-<c:if test="${sessionScope.errorMsg != null && sessionScope.errorMsg !='' }">
-		<br>
-	    	<div class="text-center text-danger">
-	        	<c:out value="${sessionScope.errorMsg}"></c:out>
-	            <c:set var="errorMsg" value="" scope="session"  />
-	        </div>            
-     </c:if>
 
 </div>

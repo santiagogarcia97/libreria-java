@@ -18,9 +18,14 @@
 		
 		<div class="container">
 			<div class="row">
-				<jsp:include page="sidebar.jsp" />
 				
-				<jsp:include page="content.jsp" />
+				<c:if test="${sessionScope.errorMsg == null}">
+					<jsp:include page="sidebar.jsp" />
+					<jsp:include page="content.jsp" />
+				</c:if>
+				<c:if test="${sessionScope.errorMsg != null}">
+					<jsp:include page="error.jsp" />
+				</c:if>
 			</div>
 		</div>
 

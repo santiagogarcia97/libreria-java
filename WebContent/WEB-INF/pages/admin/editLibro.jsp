@@ -28,19 +28,19 @@
 		<div class="form-group row">
     		<label for="inputTitulo" class="col-sm-4 col-form-label">Titulo</label>
    			 <div class="col-sm-8">
-      			<input type="text" class="form-control" id="inputTitulo" name="inputTitulo" placeholder="Titulo" required="required" value="${libro.getTitulo() }">
+      			<input type="text" class="form-control" id="inputTitulo" name="inputTitulo" placeholder="Titulo" required="required" value="${libro.getTitulo()}" maxlength=120>
     		</div>
   		</div>			
 		<div class="form-group row">
     		<label for="inputAutor" class="col-sm-4 col-form-label">Autor</label>
    			 <div class="col-sm-8">
-      			<input type="text" class="form-control" id="inputAutor" name="inputAutor" placeholder="Autor" required="required" value="${libro.getAutor() }">
+      			<input type="text" class="form-control" id="inputAutor" name="inputAutor" placeholder="Autor" required="required" value="${libro.getAutor() }" maxlength=120>
     		</div>
   		</div>		
 		<div class="form-group row">
     		<label for="inputEdicion" class="col-sm-4 col-form-label">Edicion</label>
    			 <div class="col-sm-8">
-      			<input type="text" class="form-control" id="inputEdicion" name="inputEdicion" placeholder="Edicion" required="required" value="${libro.getEdicion() }">
+      			<input type="text" class="form-control" id="inputEdicion" name="inputEdicion" placeholder="Edicion" required="required" value="${libro.getEdicion() }" maxlength=120>
     		</div>
   		</div>		  		  		
 		<div class="form-group row">
@@ -72,7 +72,7 @@
 		<div class="form-group row">
     		<label for="inputISBN" class="col-sm-4 col-form-label">ISBN</label>
    			 <div class="col-sm-8">
-      			<input type="text" class="form-control" id="inputISBN" name="inputISBN" placeholder="ISBN" required="required" value="${libro.getIsbn() }">
+      			<input type="text" class="form-control" id="inputISBN" name="inputISBN" placeholder="ISBN" required="required" value="${libro.getIsbn() }" maxlength=120>
     		</div>
   		</div>
  		<div class="form-group row">
@@ -84,7 +84,7 @@
 		<div class="form-group row">
     		<label for="inputTapa" class="col-sm-4 col-form-label">Imagen de Tapa</label>
    			 <div class="col-sm-8">
-      			<input type="text" class="form-control" id="inputTapa" name="inputTapa" placeholder="URL de la imagen" required="required" value="${libro.getTapa() }">
+      			<input type="text" class="form-control" id="inputTapa" name="inputTapa" placeholder="URL de la imagen" required="required" value="${libro.getTapa()}" maxlength=120>
     		</div>
   		</div>  				
   	    <div class="form-group row">
@@ -94,12 +94,5 @@
 	    </div> 			
 	</form>
 
-	<c:if test="${sessionScope.errorMsg != null && sessionScope.errorMsg !='' }">
-		<br>
-	    	<div class="text-center text-danger">
-	        	<c:out value="${sessionScope.errorMsg}"></c:out>
-	            <c:set var="errorMsg" value="" scope="session"  />
-	        </div>            
-     </c:if>
 
 </div>

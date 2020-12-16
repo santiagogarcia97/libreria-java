@@ -25,8 +25,7 @@
 					<c:when
 						test="${sessionScope.loggedUser.getTipoUsuario() eq 'socio'}">
 						<li class="nav-item"><a class="nav-link"
-							href="/libreria-java/prestamos">Mis Prestamos <span
-								class="badge badge-light">${sessionScope.prestamoActual.size()}</span></a>
+							href="/libreria-java/prestamos/prestamos-activos">Mis Prestamos</a>
 						</li>
 					</c:when>
 				</c:choose>

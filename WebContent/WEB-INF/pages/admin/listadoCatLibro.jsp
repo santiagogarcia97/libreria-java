@@ -46,7 +46,8 @@
       							   name="inputDesc" 
       							   required="required"
       							   hidden="true"
-      							   disabled>
+      							   disabled
+      							   maxlength=120>
 				      	</td>
 				      
 				      	<td>
@@ -57,7 +58,8 @@
       							   name="inputEstado" 
       							   required="required"
       							   hidden="true"
-      							   disabled>
+      							   disabled
+      							   maxlength=120>
 				      	</td>
 				      	
 				      	<td> <button id="mod-btn-${cat.getId()}" 
@@ -92,7 +94,7 @@
 		<div class="form-group row">
     		<label for="inputDesc" class="col-sm-3 col-form-label">Descripción</label>
    			 <div class="col-sm-9">
-      			<input type="text" class="form-control" id="inputDesc" name="inputDesc" placeholder="Descripción" required="required">
+      			<input type="text" class="form-control" id="inputDesc" name="inputDesc" placeholder="Descripción" required="required" maxlength=120>
     		</div>
   		</div>				
   	    <div class="form-group row">
@@ -101,13 +103,6 @@
 	      </div>
 	    </div> 	
 	</form>
-<c:if test="${sessionScope.errorMsg != null && sessionScope.errorMsg !='' }">
-		<br>
-	    	<div class="text-center text-danger">
-	        	<c:out value="${sessionScope.errorMsg}"></c:out>
-	            <c:set var="errorMsg" value="" scope="session"  />
-	        </div>            
-     </c:if>
 </div>
 <script src="/libreria-java/resources/js/categorias.js"></script>
 

@@ -29,7 +29,13 @@
 		<div class="container h-100">
 			<div class="row h-100">
 				<jsp:include page="/WEB-INF/pages/admin/adminSidebar.jsp" />
-				<jsp:include page="/WEB-INF/pages/admin/${requestScope.adminPage}.jsp" />
+				<c:if test="${sessionScope.errorMsg == null}">
+					<jsp:include page="/WEB-INF/pages/admin/${requestScope.adminPage}.jsp" />
+				</c:if>
+				<c:if test="${sessionScope.errorMsg != null}">
+					<jsp:include page="/WEB-INF/pages/error.jsp" />
+				</c:if>
+				
 			</div>
 		</div>
 
