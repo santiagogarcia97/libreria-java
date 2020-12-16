@@ -45,7 +45,7 @@ public class FactoryConexion {
 				String password = Configuracion.getInstancia().getDbPassword();
 				String db = Configuracion.getInstancia().getDbName();
 				
-				String connString = "jdbc:mysql://"+host+":"+port+"/"+db+"?user="+user+"&password="+password;
+				String connString = "jdbc:mysql://"+host+":"+port+"/"+db+"?user="+user+"&password="+password+"&autoReconnect=true";
 				
 				conn = DriverManager.getConnection(connString);
 			}
