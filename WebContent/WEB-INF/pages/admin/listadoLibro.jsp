@@ -9,6 +9,12 @@
 	
 	<br>
 	
+	<c:if test="${sessionScope.errorMsg != null && sessionScope.errorMsg !='' }">
+    	<div class="text-danger mb-3">
+        	<c:out value="${sessionScope.errorMsg}"></c:out>
+            <c:set var="errorMsg" value="" scope="session"  />
+        </div>            
+	</c:if>
 	
 	<table class="table">
 	  <thead>

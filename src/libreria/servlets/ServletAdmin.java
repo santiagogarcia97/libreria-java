@@ -322,7 +322,12 @@ public class ServletAdmin extends HttpServlet {
 		Libro l = new Libro();
 		l.setId(Integer.parseInt(req.getParameter("inputID")));
 		CtrlLibro ctrl = new CtrlLibro();
-		ctrl.delete(l);
+		
+		if(ctrl.countPrestamosActivos(l) == 0) {
+			ctrl.delete(l);	
+		} else {
+			req.getSession().setAttribute("errorMsg", "No se ha podido eliminar el libro. Está presente en al menos un prestamo activo!");
+		}
 	}
 
 	//////////////////////

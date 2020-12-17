@@ -22,6 +22,10 @@ public class DataLibro {
 	
 	private final String _UPDATE = 	"update libros set isbn=?, titulo=?,autor=?, edicion=?,"
 									+ "fecha_edicion=?, cant_dias_max=?, estado=?, id_categoria=?, imagen_tapa=? where id=?"; 
+	
+	private final String _PRESTAMOS_ACTIVOS = "select count(*) from libros l inner join ejemplares e on l.id=e.id_libro "
+			+ "inner join lineas_prestamo lp on e.id=lp.id_ejemplar inner join prestamos p on lp.id_prestamo=p.id "
+			+ "where p.estado!='eliminado' and p.fecha_hora_devolucion is NULL and l.id=?"; 
 		
 	///////////////
 	// GET ALL
@@ -194,6 +198,39 @@ public class DataLibro {
 				throw new CustomException("Error al actualizar Libro", "DataLibro", e);			
 			} 
 		}
+	}
+	
+	//////////////////////////////
+	// CONTADOR PRESTAMOS ACTIVOS
+	/////////////////////////////
+	public int countPrestamosActivos(Libro l) throws CustomException{
+		PreparedStatement stmt=null;
+		ResultSet rs = null;
+		int counter = 0;
+
+		try {
+			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(_PRESTAMOS_ACTIVOS);
+			stmt.setInt(1, l.getId());
+			rs = stmt.executeQuery();
+			
+			while (rs.next()) {
+				counter = rs.getInt(1);
+			}
+			 
+		} catch (Exception e) {
+			throw new CustomException("Error al obtener prestamos activo para el libro", "DataLibro", e);	
+		} finally {
+			// cerrar la conexion
+			try {
+				if(rs!=null) { rs.close(); }
+				if(stmt!=null) { stmt.close();}
+				FactoryConexion.getInstancia().releaseConn();
+			} catch (Exception e) {
+				throw new CustomException("Error al obtener prestamos activo para el libro", "DataLibro", e);
+			}
+		}
+
+		return counter;
 	}
 	
 	public Libro cargar_datos_a_entidad(Libro l, ResultSet rs) {

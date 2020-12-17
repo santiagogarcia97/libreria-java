@@ -35,5 +35,8 @@ public class CtrlLibro {
 	public void delete(Libro l) throws CustomException{
 		this.dataLibro.delete(l);
 	}
+	public int countPrestamosActivos(Libro l) throws CustomException{
+		return this.dataLibro.countPrestamosActivos(l);
+	}
 
 }
