@@ -50,19 +50,15 @@ public class DataPrestamo {
 					prestamos.add(p);
 				}
 			}			
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CustomException("Error al ejecutar getAll()", "DataPrestamo", e);		
-		} catch (CustomException e) {
-			throw e;					
 		} finally{
 			try {
 				if(rs!=null)rs.close();
 				if(stmt!=null)stmt.close();
 				FactoryConexion.getInstancia().releaseConn();
-			} catch (SQLException e) {
+			} catch (Exception e) {
 				throw new CustomException("Error al ejecutar getAll()", "DataPrestamo", e);
-			} catch (CustomException e) {
-				throw e;					
 			} 
 		}
 		return prestamos;
@@ -84,19 +80,15 @@ public class DataPrestamo {
 				p = new Prestamo();
 				p = cargar_datos_a_entidad(p,rs);
 			}			
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CustomException("Error al obtener Prestamo por id", "DataPrestamo", e);		
-		} catch (CustomException e) {
-			throw e;					
 		} finally{
 			try {
 				if(rs!=null)rs.close();
 				if(stmt!=null)stmt.close();
 				FactoryConexion.getInstancia().releaseConn();
-			} catch (SQLException e) {
+			} catch (Exception e) {
 				throw new CustomException("Error al obtener Prestamo por id", "DataPrestamo", e);
-			} catch (CustomException e) {
-				throw e;					
 			} 
 		}
 		return p;
@@ -117,17 +109,15 @@ public class DataPrestamo {
 			if(keyResultSet!=null && keyResultSet.next()){
 				p.setId(keyResultSet.getInt(1));
 			}
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CustomException("Error al insertar Prestamo", "DataPrestamo", e);	
 		}
 		try {
 			if(keyResultSet!=null)keyResultSet.close();
 			if(stmt!=null)stmt.close();
 			FactoryConexion.getInstancia().releaseConn();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CustomException("Error al insertar Prestamo", "DataPrestamo", e);
-		} catch (CustomException e) {
-			throw e;					
 		} 
 		return p;
 	}
@@ -142,16 +132,14 @@ public class DataPrestamo {
 			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(_DELETE);
 			stmt.setInt(1, p.getId());
 			stmt.executeUpdate();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CustomException("Error al eliminar Prestamo", "DataPrestamo", e);	
 		}
 		try {
 			if(stmt!=null)stmt.close();
 			FactoryConexion.getInstancia().releaseConn();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CustomException("Error al eliminar Prestamo", "DataPrestamo", e);
-		} catch (CustomException e) {
-			throw e;					
 		} 
 	}
 	
@@ -165,16 +153,14 @@ public class DataPrestamo {
 			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(_UPDATE);
 			stmt = cargar_datos_a_bd(p, stmt, "update");
 			stmt.executeUpdate();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CustomException("Error al actualizar Prestamo", "DataPrestamo", e);	
 		}
 		try {
 			if(stmt!=null)stmt.close();
 			FactoryConexion.getInstancia().releaseConn();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CustomException("Error al actualizar Prestamo", "DataPrestamo", e);
-		} catch (CustomException e) {
-			throw e;					
 		} 
 	}
 	
@@ -195,7 +181,7 @@ public class DataPrestamo {
 				counter = rs.getInt(1);
 			}
 			 
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CustomException("Error al obtener datos", "DataPrestamo", e);	
 		} finally {
 			// cerrar la conexion
@@ -203,7 +189,7 @@ public class DataPrestamo {
 				if(rs!=null) { rs.close(); }
 				if(stmt!=null) { stmt.close();}
 				FactoryConexion.getInstancia().releaseConn();
-			} catch (SQLException e) {
+			} catch (Exception e) {
 				throw new CustomException("Error al obtener datos", "DataPrestamo", e);
 			}
 		}
@@ -223,7 +209,7 @@ public class DataPrestamo {
 				counter = rs.getInt(1);
 			}
 			 
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CustomException("Error al obtener datos", "DataPrestamo", e);	
 		} finally {
 			// cerrar la conexion
@@ -231,7 +217,7 @@ public class DataPrestamo {
 				if(rs!=null) { rs.close(); }
 				if(stmt!=null) { stmt.close();}
 				FactoryConexion.getInstancia().releaseConn();
-			} catch (SQLException e) {
+			} catch (Exception e) {
 				throw new CustomException("Error al obtener datos", "DataPrestamo", e);
 			}
 		}
@@ -251,7 +237,7 @@ public class DataPrestamo {
 				counter = rs.getInt(1);
 			}
 			 
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CustomException("Error al obtener datos", "DataPrestamo", e);	
 		} finally {
 			// cerrar la conexion
@@ -259,7 +245,7 @@ public class DataPrestamo {
 				if(rs!=null) { rs.close(); }
 				if(stmt!=null) { stmt.close();}
 				FactoryConexion.getInstancia().releaseConn();
-			} catch (SQLException e) {
+			} catch (Exception e) {
 				throw new CustomException("Error al obtener datos", "DataPrestamo", e);
 			}
 		}
@@ -284,11 +270,9 @@ public class DataPrestamo {
 			p.setEstado(rs.getString("estado"));
 			p = cargarLineas(p);
 		}
-		catch (SQLException ex) {
+		catch (Exception ex) {
 			throw new CustomException("Error al ejecutar recuperar datos.", "DataPrestamo", ex);		
-		} catch (CustomException ex) {
-			throw ex;								
-		}
+		} 
 		return p;
 	}
 	
@@ -323,19 +307,15 @@ public class DataPrestamo {
 					p.addLinea(lp);
 				}
 			}			
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CustomException("Error al ejecutar cargarLineas()", "DataPrestamo", e);		
-		} catch (CustomException e) {
-			throw e;					
 		} finally{
 			try {
 				if(rs!=null)rs.close();
 				if(stmt!=null)stmt.close();
 				FactoryConexion.getInstancia().releaseConn();
-			} catch (SQLException e) {
+			} catch (Exception e) {
 				throw new CustomException("Error al ejecutar cargarLineas()", "DataPrestamo", e);
-			} catch (CustomException e) {
-				throw e;					
 			} 
 		}
 		return p;

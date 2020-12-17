@@ -83,7 +83,9 @@
 			</c:forEach>
 		
 			<div class="container-fluid">
-				<h2>${libro.getTitulo()}</h2>
+				<div class="px-4 pt-4">
+					<h2 class="m-0">${libro.getTitulo()}</h2>
+				</div>
 				<hr>
 				<div class="row">
 					<div class="col-md-auto">

@@ -43,19 +43,15 @@ public class DataSancion {
 					Sancions.add(s);
 				}
 			}			
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CustomException("Error al ejecutar getAll()", "DataSancion", e);		
-		} catch (CustomException e) {
-			throw e;					
 		} finally{
 			try {
 				if(rs!=null)rs.close();
 				if(stmt!=null)stmt.close();
 				FactoryConexion.getInstancia().releaseConn();
-			} catch (SQLException e) {
+			} catch (Exception e) {
 				throw new CustomException("Error al ejecutar getAll()", "DataSancion", e);
-			} catch (CustomException e) {
-				throw e;					
 			} 
 		}
 		return Sancions;
@@ -82,19 +78,15 @@ public class DataSancion {
 					Sancions.add(s);
 				}
 			}			
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CustomException("Error al ejecutar getAll()", "DataSancion", e);		
-		} catch (CustomException e) {
-			throw e;					
 		} finally{
 			try {
 				if(rs!=null)rs.close();
 				if(stmt!=null)stmt.close();
 				FactoryConexion.getInstancia().releaseConn();
-			} catch (SQLException e) {
+			} catch (Exception e) {
 				throw new CustomException("Error al ejecutar getAll()", "DataSancion", e);
-			} catch (CustomException e) {
-				throw e;					
 			} 
 		}
 		return Sancions;
@@ -116,19 +108,15 @@ public class DataSancion {
 				s = new Sancion();
 				s = cargar_datos_a_entidad(s,rs);
 			}			
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CustomException("Error al ejecutar getById()", "DataSancion", e);		
-		} catch (CustomException e) {
-			throw e;					
 		} finally{
 			try {
 				if(rs!=null)rs.close();
 				if(stmt!=null)stmt.close();
 				FactoryConexion.getInstancia().releaseConn();
-			} catch (SQLException e) {
+			} catch (Exception e) {
 				throw new CustomException("Error al ejecutar getById()", "DataSancion", e);
-			} catch (CustomException e) {
-				throw e;					
 			} 
 		}
 		return s;
@@ -151,17 +139,15 @@ public class DataSancion {
 			if(keyResultSet!=null && keyResultSet.next()){
 				s.setId(keyResultSet.getInt(1));
 			}
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CustomException("Error al ejecutar add()", "DataSancion", e);	
 		}
 		try {
 			if(keyResultSet!=null)keyResultSet.close();
 			if(stmt!=null)stmt.close();
 			FactoryConexion.getInstancia().releaseConn();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CustomException("Error al ejecutar add()", "DataSancion", e);
-		} catch (CustomException e) {
-			throw e;					
 		} 
 		return s;
 	}
@@ -176,17 +162,15 @@ public class DataSancion {
 			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(_DELETE);
 			stmt.setInt(1, s.getId());
 			stmt.executeUpdate();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CustomException("Error al ejecutar delete()", "DataSancion", e);	
 		}
 		try {
 			if(stmt!=null)stmt.close();
 			FactoryConexion.getInstancia().releaseConn();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CustomException("Error al ejecutar delete()", "DataSancion", e);
-		} catch (CustomException e) {
-			throw e;					
-		} 
+		}
 	}
 
 	///////////////
@@ -201,16 +185,14 @@ public class DataSancion {
 			stmt.setInt(3, s.getId());
 
 			stmt.executeUpdate();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CustomException("Error al ejecutar update()", "DataSancion", e);	
 		}
 		try {
 			if(stmt!=null)stmt.close();
 			FactoryConexion.getInstancia().releaseConn();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CustomException("Error al ejecutar update()", "DataSancion", e);
-		} catch (CustomException e) {
-			throw e;					
 		} 
 	}
 
@@ -222,11 +204,9 @@ public class DataSancion {
 			s.setIdUsuario(rs.getInt("id_usuario"));
 			s.setEstado(rs.getString("estado"));
 		}
-		catch (SQLException e) {
+		catch (Exception e) {
 			throw new CustomException("Error al ejecutar recuperar datos.", "DataSancion", e);		
-		} catch (CustomException e) {
-			throw e;								
-		}
+		} 
 		return s;
 	}
 

@@ -51,7 +51,11 @@
     						<td><label id="dias-lbl-${prestamo.getId()}">-</label></td>
     					</c:otherwise>
 			      	</c:choose>			      	
-			      	<td><label id="estado-lbl-${prestamo.getId()}">${prestamo.getEstado()}</label></td>
+			      	<td>
+			      		<label id="estado-lbl-${prestamo.getId()}" style="text-transform: capitalize">
+			      			${prestamo.getEstado()}
+			      		</label>
+			      	</td>
 			      	
 			      	
 		      	</tr>

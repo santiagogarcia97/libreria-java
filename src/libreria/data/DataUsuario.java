@@ -44,19 +44,15 @@ public class DataUsuario {
 					usuarios.add(u);
 				}
 			}			
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CustomException("Error al ejecutar getAll()", "DataUsuario", e);		
-		} catch (CustomException e) {
-			throw e;					
 		} finally{
 			try {
 				if(rs!=null)rs.close();
 				if(stmt!=null)stmt.close();
 				FactoryConexion.getInstancia().releaseConn();
-			} catch (SQLException e) {
+			} catch (Exception e) {
 				throw new CustomException("Error al ejecutar getAll()", "DataUsuario", e);
-			} catch (CustomException e) {
-				throw e;					
 			} 
 		}
 		return usuarios;
@@ -78,19 +74,15 @@ public class DataUsuario {
 					u=new Usuario();
 					u = cargar_datos_a_entidad(u, rs);
 			}			
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CustomException("Error al obtener Usuario por id", "DataUsuario", e);		
-		} catch (CustomException e) {
-			throw e;					
 		} finally{
 			try {
 				if(rs!=null)rs.close();
 				if(stmt!=null)stmt.close();
 				FactoryConexion.getInstancia().releaseConn();
-			} catch (SQLException e) {
+			} catch (Exception e) {
 				throw new CustomException("Error al obtener Usuario por id", "DataUsuario", e);
-			} catch (CustomException e) {
-				throw e;					
 			} 
 		}
 		return u;
@@ -112,20 +104,16 @@ public class DataUsuario {
 					u = new Usuario();
 					u = cargar_datos_a_entidad(u,rs);
 			}			
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CustomException("Error al obtener Usuario por email", "DataUsuario", e);		
-		} catch (CustomException e) {
-			throw e;					
 		} finally{
 			try {
 				if(rs!=null)rs.close();
 				if(stmt!=null)stmt.close();
 				FactoryConexion.getInstancia().releaseConn();
-			} catch (SQLException e) {
+			} catch (Exception e) {
 				throw new CustomException("Error al obtener Usuario por email", "DataUsuario", e);
-			} catch (CustomException e) {
-				throw e;					
-			} 
+			}
 		}
 		return u;
 	}
@@ -144,17 +132,15 @@ public class DataUsuario {
 			if(keyResultSet!=null && keyResultSet.next()){
 				u.setId(keyResultSet.getInt(1));
 			}
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CustomException("Error al insertar Usuario", "DataUsuario", e);	
 		}
 		try {
 			if(keyResultSet!=null)keyResultSet.close();
 			if(stmt!=null)stmt.close();
 			FactoryConexion.getInstancia().releaseConn();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CustomException("Error al insertar Usuario", "DataUsuario", e);
-		} catch (CustomException e) {
-			throw e;					
 		} 
 		return u;
 	}
@@ -169,16 +155,14 @@ public class DataUsuario {
 			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(_DELETE);
 			stmt.setInt(1, u.getId());
 			stmt.executeUpdate();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CustomException("Error al eliminar Usuario", "DataUsuario", e);	
 		}
 		try {
 			if(stmt!=null)stmt.close();
 			FactoryConexion.getInstancia().releaseConn();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CustomException("Error al eliminar Usuario", "DataUsuario", e);
-		} catch (CustomException e) {
-			throw e;					
 		} 
 	}
 	
@@ -192,16 +176,14 @@ public class DataUsuario {
 			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(_UPDATE);
 			stmt = cargar_datos_a_bd(u, stmt, "update");
 			stmt.executeUpdate();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CustomException("Error al actualizar Usuario", "DataUsuario", e);	
 		}
 		try {
 			if(stmt!=null)stmt.close();
 			FactoryConexion.getInstancia().releaseConn();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CustomException("Error al actualizar Usuario", "DataUsuario", e);
-		} catch (CustomException e) {
-			throw e;					
 		} 
 	}
 	
@@ -219,11 +201,9 @@ public class DataUsuario {
 			u.setEstado(rs.getString("estado"));
 			
 		}
-		catch (SQLException e) {
+		catch (Exception e) {
 			throw new CustomException("Error al ejecutar recuperar datos.", "DataUsuario", e);		
-		} catch (CustomException e) {
-			throw e;								
-		}
+		} 
 		return u;
 	}
 

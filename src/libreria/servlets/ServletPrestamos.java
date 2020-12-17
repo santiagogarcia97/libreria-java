@@ -18,6 +18,7 @@ import libreria.entities.Libro;
 import libreria.entities.LineaDePrestamo;
 import libreria.entities.Prestamo;
 import libreria.entities.Usuario;
+import libreria.utils.CustomException;
 
 /**
  * Servlet implementation class ServletPrestamos
@@ -36,39 +37,58 @@ public class ServletPrestamos extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		switch (request.getPathInfo()) {
-		case "/carrito":
-			request.setAttribute("nroEjemplares", this.consultarCantEjemplares(request,response));
-			Usuario u = (Usuario) request.getSession().getAttribute("loggedUser");
-			request.setAttribute("sancionado", u.getSancionado());
-			request.setAttribute("moroso", u.getMoroso());
-			request.setAttribute("prestamosPage", "carrito");
-			break;
-		case "/prestamos-activos":
-			CtrlPrestamo ctrl = new CtrlPrestamo();
-			request.setAttribute("prestamos", ctrl.getAll());
-			request.setAttribute("prestamosPage", "prestamosActivos");
+		try {
+			switch (request.getPathInfo()) {
+			case "/carrito":
+				request.setAttribute("nroEjemplares", this.consultarCantEjemplares(request,response));
+				Usuario u = (Usuario) request.getSession().getAttribute("loggedUser");
+				request.setAttribute("sancionado", u.getSancionado());
+				request.setAttribute("moroso", u.getMoroso());
+				request.setAttribute("prestamosPage", "carrito");
+				break;
+			case "/prestamos-activos":
+				CtrlPrestamo ctrl = new CtrlPrestamo();
+				request.setAttribute("prestamos", ctrl.getAll());
+				request.setAttribute("prestamosPage", "prestamosActivos");
+			}
+			request.getRequestDispatcher( "/WEB-INF/pages/prestamos.jsp" ).forward( request, response );
 		}
-		
-			
-		request.getRequestDispatcher( "/WEB-INF/pages/prestamos.jsp" ).forward( request, response );
+		catch(CustomException e) {
+			request.getSession().setAttribute("errorMsg", e.getMessage());
+			request.getRequestDispatcher( "/WEB-INF/pages/error.jsp" ).forward( request, response );
+		}
+		catch(Exception ex) {
+			CustomException e = new CustomException("Error desconocido", "ServletPlestamos", ex);
+			request.getSession().setAttribute("errorMsg", e.getMessage());
+			request.getRequestDispatcher( "/WEB-INF/pages/error.jsp" ).forward( request, response );
+		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		switch(request.getPathInfo()) {
-		case "/agregar":
-			this.add(request, response);
-			response.sendRedirect("/libreria-java/prestamos/carrito");
-			break;
-		case "/carrito/eliminar":
-			this.remove(request,response);
-			response.sendRedirect("/libreria-java/prestamos/carrito");
-			break;
-		case "/carrito/confirmar":
-			this.registrarPrestamo(request,response);
-			response.sendRedirect("/libreria-java/home");
+		try {
+			switch(request.getPathInfo()) {
+			case "/agregar":
+				this.add(request, response);
+				response.sendRedirect("/libreria-java/prestamos/carrito");
+				break;
+			case "/carrito/eliminar":
+				this.remove(request,response);
+				response.sendRedirect("/libreria-java/prestamos/carrito");
+				break;
+			case "/carrito/confirmar":
+				this.registrarPrestamo(request,response);
+				response.sendRedirect("/libreria-java/home");
+			}
+		}
+		catch(CustomException e) {
+			request.getSession().setAttribute("errorMsg", e.getMessage());
+			request.getRequestDispatcher( "/WEB-INF/pages/error.jsp" ).forward( request, response );
+		}
+		catch(Exception ex) {
+			CustomException e = new CustomException("Error desconocido", "ServletPlestamos", ex);
+			request.getSession().setAttribute("errorMsg", e.getMessage());
+			request.getRequestDispatcher( "/WEB-INF/pages/error.jsp" ).forward( request, response );
 		}
 	}
 
@@ -76,7 +96,8 @@ public class ServletPrestamos extends HttpServlet {
 	// AGREGAR LIBRO AL PRESTAMO ACTUAL
 	/////////////////////////////////////
 	@SuppressWarnings("unchecked")
-	private void add(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	private void add(HttpServletRequest request, HttpServletResponse response) 
+			throws IOException, CustomException {
 		if (request.getParameter("inputIDLibro") != null) {
 			ArrayList<Libro> carrito;
 			if (request.getSession().getAttribute("carrito") != null) {
@@ -97,7 +118,8 @@ public class ServletPrestamos extends HttpServlet {
 	// ELIMINAR LIBRO DEL PRESTAMO ACTUAL
 	/////////////////////////////////////
 	@SuppressWarnings("unchecked")
-	private void remove(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	private void remove(HttpServletRequest request, HttpServletResponse response) 
+			throws IOException, CustomException{
 		if (request.getParameter("index") != null) {
 			if (request.getSession().getAttribute("carrito") != null) {
 				ArrayList<Libro> carrito = (ArrayList<Libro>) request.getSession()
@@ -113,7 +135,8 @@ public class ServletPrestamos extends HttpServlet {
 	// CONSULTAR DISPONIBILIDAD DE EJEMPLARES
 	/////////////////////////////////////
 	@SuppressWarnings("unchecked")
-	private ArrayList<Integer> consultarCantEjemplares(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	private ArrayList<Integer> consultarCantEjemplares(HttpServletRequest request, HttpServletResponse response) 
+			throws IOException, CustomException {
 		ArrayList<Integer> nroEjemplares = new ArrayList<Integer>();
 		if (request.getSession().getAttribute("carrito") != null) {
 			ArrayList<Libro> carrito = (ArrayList<Libro>) request.getSession().getAttribute("carrito");
@@ -135,7 +158,8 @@ public class ServletPrestamos extends HttpServlet {
 	// REGISTRAR PRESTAMO
 	/////////////////////////////////////	
 	@SuppressWarnings("unchecked")
-	Prestamo registrarPrestamo(HttpServletRequest request, HttpServletResponse response) {
+	Prestamo registrarPrestamo(HttpServletRequest request, HttpServletResponse response) 
+			throws IOException, CustomException {
 		Prestamo prestamo = new Prestamo();		
 		Usuario u = (Usuario)request.getSession().getAttribute("loggedUser");
 		prestamo.setSocioId(u.getId());

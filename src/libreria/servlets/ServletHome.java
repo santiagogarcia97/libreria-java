@@ -65,6 +65,11 @@ public class ServletHome extends HttpServlet {
 			request.getSession().setAttribute("errorMsg", e.getMessage());
 			request.getRequestDispatcher( "/WEB-INF/pages/error.jsp" ).forward( request, response );
 		}
+		catch(Exception ex) {
+			CustomException e = new CustomException("Error desconocido", "ServletHome", ex);
+			request.getSession().setAttribute("errorMsg", e.getMessage());
+			request.getRequestDispatcher( "/WEB-INF/pages/error.jsp" ).forward( request, response );
+		}
 	}
 
 

@@ -49,19 +49,15 @@ public class DataLineaDePrestamo {
 					lineas.add(lp);
 				}
 			}			
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CustomException("Error al ejecutar getAll()", "DataLineaDePrestamo", e);		
-		} catch (CustomException e) {
-			throw e;					
 		} finally{
 			try {
 				if(rs!=null)rs.close();
 				if(stmt!=null)stmt.close();
 				FactoryConexion.getInstancia().releaseConn();
-			} catch (SQLException e) {
+			} catch (Exception e) {
 				throw new CustomException("Error al ejecutar getAll()", "DataLineaDePrestamo", e);
-			} catch (CustomException e) {
-				throw e;					
 			} 
 		}
 		return lineas;
@@ -83,19 +79,15 @@ public class DataLineaDePrestamo {
 				lp = new LineaDePrestamo();
 				lp = cargar_datos_a_entidad(lp,rs);
 			}			
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CustomException("Error al obtener Linea por id", "DataLineaDePrestamo", e);		
-		} catch (CustomException e) {
-			throw e;					
 		} finally{
 			try {
 				if(rs!=null)rs.close();
 				if(stmt!=null)stmt.close();
 				FactoryConexion.getInstancia().releaseConn();
-			} catch (SQLException e) {
+			} catch (Exception e) {
 				throw new CustomException("Error al obtener Linea por id", "DataLineaDePrestamo", e);
-			} catch (CustomException e) {
-				throw e;					
 			} 
 		}
 		return lp;
@@ -116,18 +108,16 @@ public class DataLineaDePrestamo {
 			if(keyResultSet!=null && keyResultSet.next()){
 				lp.setId(keyResultSet.getInt(1));
 			}
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CustomException("Error al insertar Linea", "DataLineaDePrestamo", e);	
 		}
 		try {
 			if(keyResultSet!=null)keyResultSet.close();
 			if(stmt!=null)stmt.close();
 			FactoryConexion.getInstancia().releaseConn();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CustomException("Error al insertar Linea", "DataLineaDePrestamo", e);
-		} catch (CustomException e) {
-			throw e;					
-		} 
+		}  
 		return lp;
 	}
 	
@@ -141,16 +131,14 @@ public class DataLineaDePrestamo {
 			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(_DELETE);
 			stmt.setInt(1, lp.getId());
 			stmt.executeUpdate();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CustomException("Error al eliminar Linea", "DataLineaDePrestamo", e);	
 		}
 		try {
 			if(stmt!=null)stmt.close();
 			FactoryConexion.getInstancia().releaseConn();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CustomException("Error al eliminar Linea", "DataLineaDePrestamo", e);
-		} catch (CustomException e) {
-			throw e;					
 		} 
 	}
 	
@@ -164,17 +152,15 @@ public class DataLineaDePrestamo {
 			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(_UPDATE);
 			stmt = cargar_datos_a_bd(lp, stmt, "update");
 			stmt.executeUpdate();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CustomException("Error al actualizar Linea", "DataLineaDePrestamo", e);	
 		}
 		try {
 			if(stmt!=null)stmt.close();
 			FactoryConexion.getInstancia().releaseConn();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CustomException("Error al actualizar Linea", "DataLineaDePrestamo", e);
-		} catch (CustomException e) {
-			throw e;					
-		} 
+		}
 	}
 	
 	public LineaDePrestamo cargar_datos_a_entidad(LineaDePrestamo lp, ResultSet rs) {
@@ -205,11 +191,9 @@ public class DataLineaDePrestamo {
 			lp.setEstado(rs.getString("estado"));
 			lp.setEjemplar(e);
 		}
-		catch (SQLException ex) {
+		catch (Exception ex) {
 			throw new CustomException("Error al ejecutar recuperar datos.", "DataLineaDePrestamo", ex);		
-		} catch (CustomException ex) {
-			throw ex;								
-		}
+		} 
 		return lp;
 	}
 	

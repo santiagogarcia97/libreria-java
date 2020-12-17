@@ -32,7 +32,7 @@
 			      	
 			      	<td><label id="nombre-lbl-${usuario.getId()}">${usuario.getNombre()} ${usuario.getApellido()}</label></td>
 			      
-			      	<td><label id="tipo-lbl-${usuario.getId()}">${usuario.getTipoUsuario()}</label></td>
+			      	<td><label id="tipo-lbl-${usuario.getId()}" style="text-transform: capitalize">${usuario.getTipoUsuario()}</label></td>
 			      	
 			      	<td><label id="sancionado-lbl-${usuario.getId()}">${usuario.getMoroso()}</label></td>
 			      	

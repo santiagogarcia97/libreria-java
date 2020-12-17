@@ -57,6 +57,11 @@ public class ServletUserAuth extends HttpServlet {
 			request.getSession().setAttribute("errorMsg", e.getMessage());
 			request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
 		}
+		catch(Exception ex) {
+			CustomException e = new CustomException("Error desconocido", "ServletAuth", ex);
+			request.getSession().setAttribute("errorMsg", e.getMessage());
+			request.getRequestDispatcher( "/WEB-INF/pages/error.jsp" ).forward( request, response );
+		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -82,6 +87,11 @@ public class ServletUserAuth extends HttpServlet {
 		} catch (CustomException e) {
 			request.getSession().setAttribute("errorMsg", e.getMessage());
 			request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
+		}
+		catch(Exception ex) {
+			CustomException e = new CustomException("Error desconocido", "ServletAuth", ex);
+			request.getSession().setAttribute("errorMsg", e.getMessage());
+			request.getRequestDispatcher( "/WEB-INF/pages/error.jsp" ).forward( request, response );
 		}
 	}
 

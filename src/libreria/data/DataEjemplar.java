@@ -51,20 +51,16 @@ public class DataEjemplar {
 					ejemplares.add(e);
 				}
 			}			
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CustomException("Error al ejecutar getAll()", "DataEjemplar", e);		
-		} catch (CustomException e) {
-			throw e;					
 		} finally{
 			try {
 				if(rs!=null)rs.close();
 				if(stmt!=null)stmt.close();
 				FactoryConexion.getInstancia().releaseConn();
-			} catch (SQLException e) {
+			} catch (Exception e) {
 				throw new CustomException("Error al ejecutar getAll()", "DataEjemplar", e);
-			} catch (CustomException e) {
-				throw e;					
-			} 
+			}
 		}
 		return ejemplares;
 	}
@@ -90,19 +86,15 @@ public class DataEjemplar {
 				e.setLibro(l);
 				e.setEstado(rs.getString("estado"));
 			}			
-		} catch (SQLException ex) {
+		} catch (Exception ex) {
 			throw new CustomException("Error al obtener Ejemplar por id", "DataEjemplar", ex);		
-		} catch (CustomException ex) {
-			throw ex;					
 		} finally{
 			try {
 				if(rs!=null)rs.close();
 				if(stmt!=null)stmt.close();
 				FactoryConexion.getInstancia().releaseConn();
-			} catch (SQLException ex) {
+			} catch (Exception ex) {
 				throw new CustomException("Error al obtener Ejemplar por id", "DataEjemplar", ex);
-			} catch (CustomException ex) {
-				throw ex;					
 			} 
 		}
 		return e;
@@ -127,19 +119,15 @@ public class DataEjemplar {
 					total = rs.getInt("total");
 				}
 			}			
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			throw new CustomException("Error al ejecutar getCountByLibro()", "DataEjemplar", e);		
-		} catch (CustomException e) {
-			throw e;					
 		} finally{
 			try {
 				if(rs!=null)rs.close();
 				if(stmt!=null)stmt.close();
 				FactoryConexion.getInstancia().releaseConn();
-			} catch (SQLException e) {
+			} catch (Exception e) {
 				throw new CustomException("Error al ejecutar getCountByLibro()", "DataEjemplar", e);
-			} catch (CustomException e) {
-				throw e;					
 			} 
 		}
 		return total;
@@ -163,19 +151,15 @@ public class DataEjemplar {
 				e.setLibro(l);
 				e.setEstado(rs.getString("estado"));
 			}			
-		} catch (SQLException ex) {
+		} catch (Exception ex) {
 			throw new CustomException("Error al obtener Ejemplar por Libro", "DataEjemplar", ex);		
-		} catch (CustomException ex) {
-			throw ex;					
 		} finally{
 			try {
 				if(rs!=null)rs.close();
 				if(stmt!=null)stmt.close();
 				FactoryConexion.getInstancia().releaseConn();
-			} catch (SQLException ex) {
+			} catch (Exception ex) {
 				throw new CustomException("Error al obtener Ejemplar por Libro", "DataEjemplar", ex);
-			} catch (CustomException ex) {
-				throw ex;					
 			} 
 		}
 		return e;
@@ -195,18 +179,16 @@ public class DataEjemplar {
 			if(keyResultSet!=null && keyResultSet.next()){
 				e.setId(keyResultSet.getInt(1));
 			}
-		} catch (SQLException ex) {
+		} catch (Exception ex) {
 			throw new CustomException("Error al insertar Ejemplar", "DataEjemplar", ex);	
 		}
 		try {
 			if(keyResultSet!=null)keyResultSet.close();
 			if(stmt!=null)stmt.close();
 			FactoryConexion.getInstancia().releaseConn();
-		} catch (SQLException ex) {
+		} catch (Exception ex) {
 			throw new CustomException("Error al insertar Ejemplar", "DataEjemplar", ex);
-		} catch (CustomException ex) {
-			throw ex;					
-		}
+		} 
 		return e;
 	}
 	
@@ -220,17 +202,15 @@ public class DataEjemplar {
 			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(_DELETE);
 			stmt.setInt(1, e.getId());
 			stmt.executeUpdate();
-		} catch (SQLException ex) {
+		} catch (Exception ex) {
 			throw new CustomException("Error al eliminar Ejemplar", "DataEjemplar", ex);	
 		}
 		try {
 			if(stmt!=null)stmt.close();
 			FactoryConexion.getInstancia().releaseConn();
-		} catch (SQLException ex) {
+		} catch (Exception ex) {
 			throw new CustomException("Error al eliminar Ejemplar", "DataEjemplar", ex);
-		} catch (CustomException ex) {
-			throw ex;					
-		} 
+		}
 	}
 	
 	///////////////
@@ -244,23 +224,21 @@ public class DataEjemplar {
 			stmt = cargar_datos_a_bd(e,stmt,"update");
 			stmt.executeUpdate();
 			
-		} catch (SQLException ex) {
+		} catch (Exception ex) {
 			throw new CustomException("Error al actualizar Ejemplar", "DataEjemplar", ex);	
 		}
 		try {
 			if(stmt!=null)stmt.close();
 			FactoryConexion.getInstancia().releaseConn();
-		} catch (SQLException ex) {
+		} catch (Exception ex) {
 			throw new CustomException("Error al actualizar Ejemplar", "DataEjemplar", ex);
-		} catch (CustomException ex) {
-			throw ex;					
 		} 
 	}
 		
 	
-		public Ejemplar cargar_datos_a_entidad(Ejemplar e, ResultSet rs) {
-			Libro l = new Libro();
-			Categoria cat = new Categoria();
+	public Ejemplar cargar_datos_a_entidad(Ejemplar e, ResultSet rs) {
+		Libro l = new Libro();
+		Categoria cat = new Categoria();
 		try {
 			e.setId(rs.getInt("id"));
 
@@ -278,10 +256,8 @@ public class DataEjemplar {
 			cat.setDesc(rs.getString("descripcion"));
 			l.setCat(cat);
 		}
-		catch (SQLException ex) {
+		catch (Exception ex) {
 			throw new CustomException("Error al ejecutar recuperar datos.", "DataEjemplar", ex);		
-		} catch (CustomException ex) {
-			throw ex;								
 		}
 		e.setLibro(l);
 		return e;
